@@ -1,11 +1,11 @@
-# Project Plan — [App Name]
+# Project Plan — Nudge
 
 ## Planning Phases
 
-- [ ] Phase 2 — Screen Specs + Figma Make Brief
-- [ ] Figma Make — Human builds prototype, copies code to `src/make-import/`
-- [ ] Phase 4 — Tech Spec (schema from Make mock data)
-- [ ] Setup
+- [x] Phase 2 — Screen Specs + Figma Make Brief
+- [x] Figma Make — Human builds prototype, copies code to `src/make-import/`
+- [x] Phase 4 — Tech Spec (schema from Make mock data + northstar)
+- [ ] Setup (`/setup`)
 
 ## Foundation
 
@@ -15,8 +15,12 @@
 ## Feature Workstreams
 
 | Feature | Wave | Backend | Frontend | QA | Commit |
-|---|---|---|---|---|---|
-| — | — | — | — | — | — |
+| --- | --- | --- | --- | --- | --- |
+| Auth + profile | 1 | profiles RLS, Google linkage | Landing, auth nudges | — | — |
+| Tasks + LLM | 1 | tasks, llm-engine Edge | DoNextScreen | — | — |
+| Calendar + morning plan | 2 | calendar-approve, Google | MorningPlan, interstitial | — | — |
+| Billing | 2 | stripe-webhook, checkout | Upgrade, Settings | — | — |
+| Retention | 3 | push, send-email cron | Weekly review, notifications | — | — |
 
 ## Post-Build
 
@@ -27,3 +31,8 @@
 
 See `artifacts/issues/`
 BLOCKING: 0 | NON-BLOCKING: 0
+
+## References
+
+- `artifacts/docs/tech-spec.md` — v1.0 technical source of truth
+- `artifacts/docs/screen-specs-nudge-v1.md`
