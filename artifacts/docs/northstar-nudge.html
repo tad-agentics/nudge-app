@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nudge — Northstar</title>
+  <style>
+    body { font-family: 'DM Sans', system-ui, sans-serif; max-width: 720px; margin: 0 auto; padding: 2rem; line-height: 1.6; color: #2C1810; background: #F2E8DA; }
+    h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.25rem; color: #1A1A1A; }
+    h2 { font-size: 1.125rem; font-weight: 600; margin-top: 2.5rem; color: #6B3A2E; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid #DDD4C8; padding-bottom: 0.25rem; }
+    h3 { font-size: 1rem; font-weight: 600; margin-top: 1.5rem; color: #8B7E74; }
+    p { margin: 0.5rem 0 1rem; }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    th, td { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 1px solid #DDD4C8; font-size: 0.9rem; }
+    th { font-weight: 600; background: #EDE4D8; }
+    ul { margin: 0.5rem 0 1rem; padding-left: 1.5rem; }
+    li { margin-bottom: 0.4rem; }
+    .meta { color: #8B7E74; font-size: 0.875rem; margin-bottom: 2rem; }
+    .value-prop { font-size: 1.125rem; font-style: italic; padding: 1rem; background: #EDE4D8; border-left: 3px solid #1A1A1A; margin: 1rem 0; border-radius: 0 16px 16px 0; }
+    code { background: #EDE4D8; padding: 0.1rem 0.3rem; border-radius: 3px; font-size: 0.85rem; color: #6B3A2E; }
+    .scenario { background: #EDE4D8; padding: 1rem 1.25rem; border-left: 4px solid; border-image: linear-gradient(to bottom, #D4763C, #C44B3F, #6B3A2E) 1; margin: 1rem 0; font-size: 0.9rem; border-radius: 0 16px 16px 0; }
+    .scenario p { margin: 0.25rem 0; }
+    .scenario h3 { margin-top: 0; color: #2C1810; }
+    .callout { background: #EDE4D8; padding: 0.75rem 1rem; border-left: 3px solid #D4763C; margin: 1rem 0; font-size: 0.9rem; border-radius: 0 16px 16px 0; }
+  </style>
+</head>
+<body>
+
+  <h1>Nudge</h1>
+  <p class="meta">Northstar v4.0 — March 29, 2026</p>
+
+  <!-- ================================================================ -->
+  <h2>1. The Problem</h2>
+  <!-- ================================================================ -->
+  <p>
+    Mike has 14 things he needs to do this week. He knows what they are. He even wrote some of them down — in Apple Notes, in a text message to himself, in an email he starred and forgot. The problem isn't awareness. It's the moment between looking at the list and doing something on it. In that moment, three invisible failures compound: he can't tell which task matters most (judgment failure), he defaults to whatever feels easiest or most recent instead of what's actually important (framework failure), and the tasks he's anxious about — a difficult phone call, an overdue email, a form he doesn't understand — silently slide to the bottom of the stack day after day (avoidance failure). He doesn't notice the avoidance. He just feels a growing background dread that something important is slipping. By Thursday, the avoided task has become urgent. By Friday, it's a crisis. He handles it in a panic and thinks "why didn't I just do this on Monday?" — but next week, the same pattern repeats. He doesn't lack discipline. He lacks a system that sees his blind spots and intervenes before the slide becomes a crisis. No app he's tried does this. They all assume the hard part is writing the task down. The hard part is doing it — especially the ones he doesn't want to do.
+  </p>
+
+  <!-- ================================================================ -->
+  <h2>2. Primary User</h2>
+  <!-- ================================================================ -->
+  <p>
+    <strong>Mike, 31, account coordinator at a mid-size logistics company in Chicago.</strong> His job is a mix of internal coordination and client management — tracking shipments, chasing vendor invoices, keeping three account managers updated. His personal life generates its own task load — apartment lease renewal, car registration, dentist appointment he keeps rescheduling, buying his sister's birthday gift, following up on an insurance claim. He's competent and responsible; people at work rely on him. His self-image is "the person who handles things." When his task list piles up, it doesn't just stress him — it threatens his identity. He feels like he's failing at the thing he's supposed to be good at.
+  </p>
+  <p>
+    Mike's worst moment is Sunday evening around 9pm. He's mentally scanning the week ahead and realizes he forgot to follow up on three things from last week. The dentist appointment he's been rescheduling for six weeks. The proposal he owes a freelance client. The car registration renewal that has a deadline he can't remember. He opens his Notes app and stares at a flat list. Everything looks equally important. Nothing looks easy. He closes the app and opens Instagram.
+  </p>
+  <p>
+    His second trigger moment is between meetings on weekdays — 10–15 minute gaps where he has enough energy to do something but not enough time to figure out what. In those gaps, he defaults to checking email (feels productive, usually isn't) instead of doing the thing that would actually move his week forward.
+  </p>
+  <p>
+    Mike doesn't know what an Eisenhower matrix is. He's never heard of "dependency mapping." But he intuitively understands "this one first because the other things can't happen until it's done" — he just can't generate that reasoning reliably for himself under the weight of 14 competing tasks. He needs the reasoning done for him, delivered in language that sounds like a sharp colleague — not a productivity coach.
+  </p>
+
+  <h3>Secondary User Segment: ADHD / Neurodivergent Adults</h3>
+  <p>
+    15.5 million US adults have ADHD. In a survey of 1,859 ADHD adults, 56.6% reported struggling with procrastinating important tasks and 31.4% cannot accurately estimate task duration. These are not productivity enthusiasts who need a better tool — they are people whose brains structurally resist the exact skills Nudge replaces: prioritization, time estimation, avoidance recognition, and activation energy management. No major productivity app addresses these needs directly. Motion, Todoist, Reclaim, and Sunsama all assume the user can self-assess priority, estimate duration, and follow through when reminded. Nudge's AI reasoning engine, avoidance detection, step decomposition, and energy-aware scheduling are purpose-built for this audience — even though the product is designed for everyone, it disproportionately serves people who need the most help with executive function.
+  </p>
+  <p>
+    This segment is not a secondary market — it's a distribution wedge. ADHD communities on Reddit (r/ADHD: 2M+ members), TikTok (#ADHDtok: billions of views), and Twitter are the highest-engagement productivity audiences on the internet. A product that genuinely helps with procrastination and avoidance will generate organic word-of-mouth in these communities at a rate no paid campaign can match. The procrastination type quiz (§7c) is designed to capture this audience.
+  </p>
+
+  <!-- ================================================================ -->
+  <h2>3. The Solution</h2>
+  <!-- ================================================================ -->
+  <p>
+    Nudge is a PWA (Progressive Web App) that launches at app.nudge.app — no app store download required. Native iOS and Android apps follow in Phase 2. One screen matters. Mike dumps every task into a single inbox — typing or pasting (voice capture ships in Phase 2 native). The AI instantly structures each input into a task with an action type (email, call, browse, book, buy, fill form, decide), a semantic category (health, financial, admin, family, work, social), estimated effort, and deadline if detectable.
+  </p>
+  <p>
+    Then Nudge does the thing no other app does: <strong>it thinks about Mike's tasks the way a smart colleague would.</strong>
+  </p>
+  <p>
+    Every todo app can sort by deadline or let Mike drag tasks into priority order. Nudge doesn't sort — it <em>reasons</em>. The AI reasoning engine looks at Mike's entire task list at once and applies nine mental models simultaneously, the same frameworks a competent chief of staff would use if they could see Mike's full picture:
+  </p>
+  <ul>
+    <li><strong>Deadline urgency</strong> — "Reply to landlord" is due tomorrow. It moves to the top regardless of everything else.</li>
+    <li><strong>Dependency mapping</strong> — "Get deposit refund" can't happen until "Reply to landlord" is done. The AI sees this even though Mike never linked them.</li>
+    <li><strong>Avoidance detection</strong> — "Call insurance company" has been skipped 4 times this week. Mike doesn't realize he's avoiding it. The AI does.</li>
+    <li><strong>Cost of delay</strong> — "Renew car registration" has no hard deadline today, but the late fee kicks in Friday. Every day Mike waits, the cost goes up.</li>
+    <li><strong>Effort-to-impact ratio</strong> — "Submit expense report" takes 5 minutes and gets Mike reimbursed $340. High payoff, low effort. The AI inserts it as a quick win between two hard tasks to build momentum.</li>
+    <li><strong>Energy matching</strong> — It's 4pm on a Thursday. Mike has had 3 meetings since lunch. The AI surfaces a low-effort task ("order birthday gift online") instead of the hard one ("research health insurance plans") because Mike's energy is depleted.</li>
+    <li><strong>Commitment escalation</strong> — Mike already booked the restaurant for his sister's birthday. "Text the family the details" should happen now — otherwise the prior effort is wasted.</li>
+    <li><strong>Emotional weight</strong> — "Buy sister birthday gift" has no hard deadline and scores low on every other model. But it's emotionally important. A pure algorithm would bury it below "research laptops." The AI doesn't.</li>
+    <li><strong>Decision fatigue prevention</strong> — Mike just completed three tasks that required judgment (choosing an insurance plan, writing a proposal, picking a gift). The next task should be mechanical. "Renew car registration — straightforward, no decisions needed."</li>
+  </ul>
+  <p>
+    The engine also applies two behavioral rules drawn from modern productivity research:
+  </p>
+  <ul>
+    <li><strong>The 2-minute rule</strong> — If a task takes 5 minutes or less and nothing urgent is blocking its slot, the AI leans into immediacy: "Confirm dentist appointment — 2 min, just do it now." The friction of deciding whether to do a trivial task costs more than doing it. Don't overthink near-zero-effort tasks.</li>
+    <li><strong>Deep work protection</strong> — When the calendar shows a 90+ minute open block with no meetings on either side, the AI assigns ONE high-effort task to that block instead of filling it with quick wins. "Research health insurance plans — you have a clear 2 hours. Good time for the hard one." Long uninterrupted blocks are rare and valuable — quick wins go in the 15-minute gaps between meetings.</li>
+  </ul>
+  <p>
+    The output is not a ranked list with scores. It's a single directive with a one-line rationale: <em>"Reply to landlord — this unblocks your deposit refund. 10 min."</em> The rationale sounds like a reason, not a score explanation. Mike doesn't see "priority 8.3 based on dependency and deadline factors." He sees why this task matters right now, in words that make sense. This is what no competitor offers — not Motion ($550M valuation, zero rationale), not Todoist (47M users, zero reasoning), not Reclaim (acquired by Dropbox, zero mental models). Every competitor schedules or lists tasks. None tells you <em>why this one first</em>.
+  </p>
+  <p>
+    Here's what makes Nudge different from every other todo app: when the AI reasons about and prioritizes tasks, it also <strong>proposes a scheduled day on Mike's calendar</strong>. During onboarding, Mike connects Google Calendar (the only provider at PWA launch; Apple Calendar ships with native iOS). Each morning, Nudge reads his existing events, finds open slots, and generates a proposed daily plan: tasks time-blocked around his meetings, with hard tasks in peak energy windows and quick wins filling gaps. Mike previews the plan — a simple daily timeline showing task blocks in Burnt Orange alongside his gray meeting blocks — and taps "Approve" to write it to his calendar. He can drag to adjust any block before approving. Nothing touches his calendar without his permission.
+  </p>
+  <p>
+    This "AI proposes, you approve" approach is deliberate. Research shows that fully autonomous scheduling (Motion's approach) creates what users call "AI Calendar Anxiety" — schedules reshuffling 10+ times per day, leaving users uncertain what they should be working on. Nudge avoids this with a <strong>stability-first scheduling philosophy</strong>: once approved, the day's plan is locked. New tasks added mid-day go into a "Coming up" queue and are proposed in tomorrow's plan — they don't cascade through today's schedule. If Mike completes a task early, the slot opens up and the next unscheduled task from the queue is offered for that slot — but only if Mike taps "Fill this slot." The calendar stays stable unless Mike explicitly changes it.
+  </p>
+  <p>
+    After approval, the calendar becomes the execution trigger. Each calendar event includes the task title, the rationale, and a deep link back to Nudge — so when the calendar notification fires, Mike taps it, Nudge opens with the task as "Do now," and "Start" launches the action. Tasks that live only in a list are suggestions. Tasks on the calendar are commitments.
+  </p>
+  <p>
+    Every task also has a "Start" button. Tapping it opens the right context: a compose window for email tasks, the browser for URL-based tasks, the phone dialer for calls (on mobile; "Copy number" on desktop). The app is a launchpad — it puts Mike inside the action environment within one tap, then gets out of the way.
+  </p>
+  <p>
+    When Mike finishes, he taps "Done." The app acknowledges the completion, removes the calendar event, and surfaces the next task. If Mike taps "Skip," the task reschedules to the next available slot, drops one position, and gains a skip count. After three skips, the app changes approach: it surfaces the task with an empathetic escalation ("Day 6 with this one — start with just finding the phone number?") and schedules it into a shorter, lower-friction time block. This avoidance detection system is the core differentiator — Nudge doesn't just organize tasks, it catches the ones silently sliding into crisis.
+  </p>
+  <p>
+    For multi-step tasks ("Plan sister's birthday party"), when the AI detects complexity, it offers: "This looks like a few steps. Break it down?" If Mike confirms, the AI decomposes into discrete actions, sequences them with dependency links, and schedules each step into separate calendar slots respecting the dependency order. For recurring needs ("Submit expense report every Friday"), the app creates a recurring calendar event and regenerates the task on schedule. The user never manages a system. They dump, the app schedules, they do, they done.
+  </p>
+  <p>
+    Once a week, Nudge surfaces a 60-second review: tasks completed, average time-to-action, and one behavioral insight ("You complete emails in under an hour but phone calls take an average of 4.3 days — try starting tomorrow with the call to the clinic"). Over time, the app learns Mike's specific avoidance triggers, energy patterns, and completion speeds — using this data to schedule smarter: hard tasks in his peak energy windows, avoided tasks in short blocks with low activation energy, quick wins in the gaps between meetings. The emotional outcome after 30 days: Mike opens his calendar and sees his tasks already time-blocked alongside his meetings — the hard things scheduled early, the easy things filling gaps, and the avoided things given short, approachable slots that make starting feel effortless.
+  </p>
+
+  <!-- ================================================================ -->
+  <h3>3b. AI Reasoning Engine (Core Intelligence)</h3>
+  <!-- ================================================================ -->
+  <div class="callout">
+    <strong>Design philosophy: Nudge doesn't need a complete task list to be valuable. It needs to re-rank correctly when the list changes.</strong> The user's task list is always incomplete — they'll remember things at 2pm Tuesday, at dinner, in the shower. That's fine. Every time a task is added, the reasoning engine re-evaluates ALL active tasks and produces a new ranked list with updated rationales. A task remembered late gets correctly prioritized against everything already there — including inferring new dependencies ("oh, this new task actually blocks the one I was about to do"). The system is designed for continuous, imperfect input. Not a complete brain dump. Capture is the user's job. Reasoning is Nudge's job.
+  </div>
+  <p>The reasoning engine is Nudge's core product — the thing that justifies the subscription, earns trust, and creates the moat. It is not a rules engine with templates bolted on. It is an AI that sees all of the user's tasks at once, applies multiple mental models simultaneously, reasons about tradeoffs between competing priorities, and produces a ranked list with a specific, context-aware rationale for each task. The user experiences this as: "The app just knows what I should do first, and the reason always makes sense."</p>
+
+  <h3>Architecture: Batch Reasoning + Validation Gate</h3>
+  <p>The engine operates in two layers:</p>
+  <ul>
+    <li><strong>Layer 1 — AI Reasoning (LLM):</strong> Receives ALL active tasks in a single batch call. Applies mental models holistically — seeing cross-task relationships, user behavioral patterns, and calendar context that no per-task rule can see. Outputs a ranked list with rationale and metadata per task.</li>
+    <li><strong>Layer 2 — Validation Gate (deterministic, zero LLM):</strong> Enforces hard safety constraints the LLM cannot override. Catches edge cases. Provides template-based fallback for low-confidence outputs. This layer exists to prevent trust-breaking failures, not to make decisions.</li>
+  </ul>
+
+  <h3>Layer 1 — AI Reasoning Call</h3>
+  <p><strong>Trigger events:</strong> A reasoning call fires when the task list changes state: new task added (debounced — multiple additions within 2 minutes batch into one call), task completed, task skipped, morning re-rank (daily at user's wake time), calendar change detected (new meeting added/removed). Estimated frequency: ~150–250 calls/month per user.</p>
+
+  <p><strong>Input context (sent to LLM):</strong></p>
+  <table>
+    <tr><th>Input</th><th>Content</th><th>Why It Matters</th></tr>
+    <tr>
+      <td>Active tasks</td>
+      <td>All tasks with status = active. For each: title, action_type, category, effort_estimate_minutes, deadline (if any), deadline_confidence, skip_count, days_since_created, depends_on (if any), recurrence_rule (if any), raw_input (for context the AI may not have extracted fully during structuring).</td>
+      <td>The AI needs the full task landscape to reason about relative priority. A task's importance depends on what else is on the list.</td>
+    </tr>
+    <tr>
+      <td>User behavioral profile</td>
+      <td>Top 3 avoidance categories (by average days-to-complete), top 3 high-performance categories, peak productivity windows (day + time), average completion rate by day-of-week, rationale types that correlate with highest completion rate, tasks completed in last 7 days (titles only — for recency context).</td>
+      <td>The AI uses this to personalize: schedule avoided task types during peak windows, use rationale language that works for this specific user, recognize patterns the user doesn't see.</td>
+    </tr>
+    <tr>
+      <td>Calendar context</td>
+      <td>Today's and tomorrow's meeting schedule (start/end times only — no meeting titles or attendees for privacy). Available time slots. Current time and day of week.</td>
+      <td>The AI can reason about energy: "Mike has 3 back-to-back meetings this afternoon, so the hard task should go in the morning gap" or "It's 4pm Friday — only schedule low-effort tasks."</td>
+    </tr>
+  </table>
+
+  <p><strong>Mental models the AI applies:</strong></p>
+  <p>The system prompt instructs the LLM to consider these mental models when reasoning about task priority. The AI doesn't apply them as sequential rules — it weighs them holistically, exactly as a competent human chief of staff would.</p>
+
+  <table>
+    <tr><th>Mental Model</th><th>What It Asks</th><th>How It Affects Ranking</th><th>How It Affects Rationale</th></tr>
+    <tr>
+      <td><strong>Deadline Urgency</strong></td>
+      <td>Does this task have a deadline? How close? What happens if it's missed?</td>
+      <td>Tasks with deadlines within 48 hours should rank near the top. Tasks with deadlines within 7 days get progressive urgency. Tasks with no deadline are ranked by other models.</td>
+      <td>"Due Thursday." / "Due in 3 days — easier now than later." / "Deadline tomorrow. {{effort}} to finish."</td>
+    </tr>
+    <tr>
+      <td><strong>Dependency Mapping</strong></td>
+      <td>Does completing this task unblock other tasks? Are there semantic relationships between tasks even if the user didn't explicitly link them?</td>
+      <td>Tasks that unblock downstream work rank higher. The AI can infer dependencies the user didn't state — "reply to landlord" and "get deposit refund" are related even if the user never said so.</td>
+      <td>"This unblocks your deposit refund." / "Dave needs this before he can send the invoice."</td>
+    </tr>
+    <tr>
+      <td><strong>Avoidance Detection</strong></td>
+      <td>Has this task been skipped repeatedly? Is there a pattern — is the user avoiding a category of tasks (calls, financial decisions, confrontations)?</td>
+      <td>Tasks skipped 3+ times get priority boosts with escalating intervention. The AI also detects cross-task avoidance patterns — "3 financial tasks have been skipped this week, not just this one."</td>
+      <td>L1: "This keeps sliding. {{effort}} and it's off your plate." · L2: "Day {{days_old}} with this one. Start with just {{first_step}}?" · L3: "Financial tasks are piling up — this one's the easiest. 5 min."</td>
+    </tr>
+    <tr>
+      <td><strong>Cost of Delay</strong></td>
+      <td>Does the cost or difficulty of this task increase over time? Is there a late fee, a relationship at risk, a window closing?</td>
+      <td>Tasks with escalating consequences rank higher even without hard deadlines. "Respond to client who emailed 3 days ago" has implicit cost of delay the AI should recognize.</td>
+      <td>"This gets harder the longer it sits." / "The client has been waiting 3 days." / "Late fee applies after Friday."</td>
+    </tr>
+    <tr>
+      <td><strong>Effort-to-Impact Ratio</strong></td>
+      <td>What's the ratio of time invested to value delivered? Are there quick wins that build momentum?</td>
+      <td>The AI balances hard tasks with quick wins. After 2–3 high-effort tasks in a row, it inserts a quick win to maintain momentum. It never lets the list become all hard tasks (triggers avoidance of the entire app) or all easy tasks (feels productive but isn't).</td>
+      <td>"5 min — quick one." / "10 min and it's off your plate." / "Low effort, high payoff."</td>
+    </tr>
+    <tr>
+      <td><strong>Energy Matching</strong></td>
+      <td>Given the current time of day, day of week, and the user's calendar, what kind of task fits this moment?</td>
+      <td>High-effort tasks rank higher in morning slots when the user has energy. Low-effort tasks rank higher in afternoon, evening, or between meetings. The AI uses the user's historical completion data to personalize — not just population defaults.</td>
+      <td>"Needs focus — good time for it." / "Light task — fits right now." / "You do calls best before 10am."</td>
+    </tr>
+    <tr>
+      <td><strong>Commitment Escalation</strong></td>
+      <td>Has the user already invested time or effort in related tasks? Will not completing this task waste prior work?</td>
+      <td>If Mike already booked a restaurant for the birthday party, "Text family the details" should rank higher than an unrelated task — abandoning the sequence wastes the prior decision.</td>
+      <td>"You already booked the restaurant — send the details while it's fresh."</td>
+    </tr>
+    <tr>
+      <td><strong>Emotional Weight</strong></td>
+      <td>Is this task emotionally significant to the user, even if it's low-effort or has no deadline? Family obligations, personal health, relationship maintenance.</td>
+      <td>The AI infers emotional weight from category and context. "Buy sister birthday gift" is emotionally important even though it's categorized as "buy" with no hard deadline. The AI doesn't rank it below "research new laptop" just because laptops have more explicit search intent.</td>
+      <td>"Her birthday is in 4 days." / "This one matters to you."</td>
+    </tr>
+    <tr>
+      <td><strong>Decision Fatigue Prevention</strong></td>
+      <td>Has the user already made several high-cognitive-load decisions today? Should the next task be a low-decision task?</td>
+      <td>If Mike just completed 3 tasks that required judgment calls (deciding on an insurance plan, writing a proposal, choosing a gift), the next task should be something mechanical (submit expense report, renew registration). The AI reads the user's recent completion log to assess cognitive load.</td>
+      <td>"Simple one — no decisions needed." / "Straightforward — just submit it."</td>
+    </tr>
+  </table>
+
+  <p><strong>Output format (structured JSON per task):</strong></p>
+  <pre><code>{
+  "task_id": "abc123",
+  "priority_rank": 1,
+  "primary_model": "avoidance",
+  "secondary_model": "cost_of_delay",
+  "rationale": "Day 5 — the claim deadline is next week and you've been avoiding calls all month. 15 min.",
+  "confidence": 0.88,
+  "scheduling_hint": "morning_high_energy",
+  "decomposition_suggested": false
+}</code></pre>
+
+  <p>The AI outputs this for every active task in a single response. The response is parsed as structured JSON — not free-form text.</p>
+
+  <h3>Layer 2 — Validation Gate</h3>
+  <p>The validation gate is a deterministic post-processing layer. It exists to catch errors the LLM might make and enforce constraints that should never be violated, regardless of what the AI reasons.</p>
+
+  <table>
+    <tr><th>Gate Rule</th><th>What It Checks</th><th>Action on Failure</th></tr>
+    <tr>
+      <td><strong>Hard Deadline Safety Net</strong></td>
+      <td>Any task with a deadline within 48 hours (deadline_confidence &gt; 0.8) MUST be in the top 3.</td>
+      <td>If the AI ranked it lower, force it to position 1. Override the AI's judgment — missing a hard deadline is catastrophic for trust.</td>
+    </tr>
+    <tr>
+      <td><strong>Quick Win Rhythm</strong></td>
+      <td>No more than 3 consecutive tasks with effort &gt; 20 minutes.</td>
+      <td>If the AI ranked 4+ hard tasks in a row, insert the highest-ranked task with effort ≤ 15 min after position 3.</td>
+    </tr>
+    <tr>
+      <td><strong>Rationale Confidence</strong></td>
+      <td>Rationale confidence score must be ≥ 0.6.</td>
+      <td>If below 0.6, replace with a safe template fallback: "{{effort}} — good one to tackle next." The rank stays as the AI set it; only the rationale is replaced.</td>
+    </tr>
+    <tr>
+      <td><strong>Rationale Length</strong></td>
+      <td>Rationale must be ≤ 15 words.</td>
+      <td>Truncate at the nearest sentence boundary before the 15-word limit. If no clean boundary, fall back to template.</td>
+    </tr>
+    <tr>
+      <td><strong>Forbidden Words</strong></td>
+      <td>Rationale must not contain any word from the EDS Forbidden Words list.</td>
+      <td>Replace with template fallback. Log the violation for prompt tuning.</td>
+    </tr>
+    <tr>
+      <td><strong>Tone Check</strong></td>
+      <td>Rationale must not contain guilt language ("you still haven't", "overdue", "you need to"), exclamation marks, or emoji.</td>
+      <td>Replace with template fallback. Log for prompt tuning.</td>
+    </tr>
+    <tr>
+      <td><strong>Hallucination Guard</strong></td>
+      <td>Rationale must not reference information not present in the task data. If the rationale mentions a person, deadline, or consequence not in the task text or user context, it's hallucinated.</td>
+      <td>Replace with template fallback. This is the most critical gate — a hallucinated rationale ("Call your mom — she's worried") when the user never mentioned their mom will destroy trust permanently.</td>
+    </tr>
+  </table>
+
+  <h3>Template Fallback Library</h3>
+  <p>When the validation gate rejects an AI-generated rationale, it falls back to a template selected by the <code>primary_model</code> field from the AI's output. These templates are the safety net — functional, specific enough to be useful, but not as rich as AI-generated rationales.</p>
+  <table>
+    <tr><th>Primary Model</th><th>Fallback Template</th></tr>
+    <tr><td>hard_deadline</td><td>"Due {{when}}. {{effort}} to finish."</td></tr>
+    <tr><td>dependency</td><td>"This unblocks {{blocked_count}} other things."</td></tr>
+    <tr><td>avoidance</td><td>"This keeps sliding. {{effort}} and it's off your plate."</td></tr>
+    <tr><td>cost_of_delay</td><td>"Due in {{days_until}} days — easier now than later."</td></tr>
+    <tr><td>effort_to_impact</td><td>"{{effort}} — quick one."</td></tr>
+    <tr><td>energy_match</td><td>"Good time for this one."</td></tr>
+    <tr><td>commitment</td><td>"You already started this sequence — keep going."</td></tr>
+    <tr><td>emotional_weight</td><td>"This one matters."</td></tr>
+    <tr><td>decision_fatigue</td><td>"Simple one — no decisions needed."</td></tr>
+    <tr><td>(unknown / no model)</td><td>"{{effort}} — good one to tackle next."</td></tr>
+  </table>
+
+  <h3>System Prompt Design Principles</h3>
+  <p>The system prompt for the reasoning call is a critical product artifact. It must be tuned, versioned, and tested. Key principles:</p>
+  <ul>
+    <li><strong>Think like a chief of staff, not an optimizer.</strong> The AI should reason about what a competent human would do with this information, not solve a mathematical optimization problem. "Mike has a hard call to make and a quick email — do the email first to build momentum, then tackle the call" is chief-of-staff reasoning. "Task A scores 8.3, Task B scores 7.1" is optimizer reasoning.</li>
+    <li><strong>Show your work in the rationale, not in the ranking.</strong> The user never sees the ranking logic. They see the rationale. The rationale must feel like a reason, not a score explanation. "Dave's been waiting 3 days and this unblocks the invoice" is a reason. "High priority due to dependency and cost of delay factors" is a score explanation.</li>
+    <li><strong>Err toward safe, defensible recommendations.</strong> If two tasks are close in priority, choose the one that's harder to argue against. "Reply to the client who's been waiting" is always defensible. "Research new laptops" before "reply to client" requires a specific, visible justification.</li>
+    <li><strong>Surface avoidance patterns, not individual skips.</strong> Saying "you skipped this 4 times" is useful. Saying "you've been avoiding financial tasks all month — this is the easiest one, start here" is transformative. The AI should always look for the pattern behind the skip count.</li>
+    <li><strong>Respect emotional weight without being presumptuous.</strong> Family tasks, health tasks, and relationship tasks carry emotional significance. The AI should rank them appropriately — not lower than admin tasks just because they lack deadlines. But the rationale should never presume to know the user's feelings: "This one matters to you" is acceptable; "I know family is important to you" is presumptuous.</li>
+    <li><strong>Never explain the engine.</strong> The rationale is the user-facing output. It must never reference models, scoring, algorithms, or the reasoning process. "I used the cost-of-delay model to determine..." is a failure. "The client's been waiting 3 days" is the correct output.</li>
+    <li><strong>Apply the 2-minute rule aggressively.</strong> If a task has effort_estimate ≤ 5 minutes, no dependencies blocking it, and no higher-urgency task competing for the slot — the rationale should lean into immediacy: "2 minutes — just do it now" or "5 min and it's off your plate." Don't overthink low-effort tasks. The friction of deciding whether to do a 2-minute task costs more than doing it. This is James Clear / David Allen GTD logic embedded as a behavioral instruction, not a separate model — it's a flavor of Effort-to-Impact that fires when effort is near-zero.</li>
+    <li><strong>Protect deep work blocks in scheduling hints.</strong> When the AI sees that the user has a 90+ minute open block with no meetings on either side, the <code>scheduling_hint</code> for the highest-effort task should be <code>deep_work_block</code> — signaling the calendar engine to place ONE hard task in that block rather than filling it with 4 quick wins. The rationale for that task should acknowledge the opportunity: "You have a clear 2 hours — good time for the hard one." Quick wins go in the 15–30 minute gaps between meetings. Long open blocks are rare and valuable — don't waste them on admin. This is Cal Newport's Deep Work principle translated into a scheduling instruction.</li>
+  </ul>
+
+  <h3>Full System Prompt (v1)</h3>
+  <div class="callout">
+    <strong>This is the production system prompt.</strong> It is sent with every batch reasoning call. It is the single most important product artifact in the entire codebase — the quality of prioritization and rationale depends entirely on this text. It must be versioned, A/B tested, and tuned based on validation gate rejection logs and task completion rate data. Changes to this prompt are product decisions, not engineering decisions.
+  </div>
+  <pre><code>You are the reasoning engine for a task execution app. You receive a user's
+complete active task list, their behavioral profile, and today's calendar
+context. You return a ranked list of all tasks with a rationale and metadata
+for each.
+
+THINK LIKE A CHIEF OF STAFF — NOT AN OPTIMIZER.
+
+You are a competent, calm colleague who sees the user's full picture — their
+deadlines, their patterns, their blind spots, their energy. You make judgment
+calls the way a trusted human would: weighing tradeoffs, reading context,
+and deciding what matters most RIGHT NOW. You do not solve a constraint
+optimization problem. You reason.
+
+═══════════════════════════════════════════════════════════
+MENTAL MODELS — Apply all of these simultaneously, not sequentially.
+Weigh them against each other for the full task list.
+═══════════════════════════════════════════════════════════
+
+1. DEADLINE URGENCY
+   - Tasks due within 48 hours MUST rank in the top 3.
+   - Tasks due within 7 days get progressive urgency — 2 days > 5 days.
+   - Tasks with no deadline are ranked by other models.
+   - If deadline_confidence < 0.6, treat deadline as soft (may be inferred,
+     not stated). Still factor it but don't force to top 3.
+
+2. DEPENDENCY MAPPING
+   - Does completing this task unblock one or more other tasks?
+   - Look for SEMANTIC relationships even if depends_on is empty.
+     "Reply to landlord" and "get deposit refund" are related.
+     "Send proposal to Dave" and "invoice Dave" are related.
+   - A task that unblocks 2+ downstream tasks ranks higher than one
+     that unblocks 1.
+   - Never hallucinate dependencies. If you aren't confident two tasks
+     are related, don't claim they are in the rationale.
+
+3. AVOIDANCE DETECTION
+   - Check skip_count for each task. If ≥ 3, this task is being avoided.
+   - CRITICAL: Look ACROSS tasks for category-level patterns.
+     If 3 tasks in the "financial" category have been skipped this week,
+     the insight is "financial tasks are piling up" — not just
+     "you skipped this one 3 times."
+   - For avoided tasks, the rationale should reframe, not guilt:
+     skip 3–4: reframe with effort ("This keeps sliding. 10 min.")
+     skip 5+: offer the smallest first step ("Start with just finding
+     the phone number?")
+   - Never say "you keep avoiding this" or "you need to do this."
+     Say "Day 6 with this one" or "This keeps sliding."
+
+4. COST OF DELAY
+   - Does the cost or difficulty of this task increase over time?
+   - A client email unanswered for 3 days has implicit cost even
+     without a hard deadline.
+   - Late fees, expiring offers, relationship erosion, compounding
+     complexity — all count.
+   - Look at days_since_created. A task sitting for 10+ days with no
+     deadline still has mounting psychological cost.
+
+5. EFFORT-TO-IMPACT RATIO
+   - Balance hard tasks with quick wins to maintain momentum.
+   - After 2–3 high-effort tasks in a row, insert a task with
+     effort ≤ 15 min.
+   - Never let the ranked list become ALL hard tasks (triggers
+     avoidance of the entire app) or ALL easy tasks (feels productive
+     but isn't).
+   - THE 2-MINUTE RULE: If effort_estimate ≤ 5 min AND no deadline-
+     urgent task is competing AND no dependency blocks it — lean into
+     immediacy. Rationale: "2 min — just do it now" or "5 min and
+     it's off your plate." The friction of deciding costs more than
+     doing it.
+
+6. ENERGY MATCHING
+   - Use time_of_day and calendar_context to match task difficulty
+     to the user's current energy state.
+   - Morning with open calendar → high-effort tasks.
+   - After back-to-back meetings → low-effort tasks.
+   - Evening (after 6pm) → only low-effort or personal tasks.
+   - If behavioral_profile.peak_hours is available, use it. It
+     overrides population defaults.
+   - DEEP WORK PROTECTION: If the calendar shows a 90+ minute open
+     block with no meetings on either side, set scheduling_hint to
+     "deep_work_block" for the highest-effort task. Don't waste rare
+     long blocks on quick wins. Rationale: "You have a clear 2 hours
+     — good time for the hard one."
+
+7. COMMITMENT ESCALATION
+   - If the user completed a related task recently (booked restaurant
+     → "text family the details"), surface the follow-through.
+   - Abandoning a sequence wastes prior effort. The rationale should
+     reference the prior action: "You already booked the restaurant
+     — send the details while it's fresh."
+   - Check recent_completions for semantic connections to active tasks.
+
+8. EMOTIONAL WEIGHT
+   - Family, health, relationship, and personal-growth tasks carry
+     emotional significance beyond their deadline/effort score.
+   - "Buy sister birthday gift" is emotionally important even without
+     a hard deadline. Don't bury it below "research laptops."
+   - The rationale should acknowledge significance without presuming
+     feelings: "Her birthday is in 4 days" is good.
+     "I know family is important to you" is presumptuous. Don't.
+
+9. DECISION FATIGUE PREVENTION
+   - Check recent_completions. If the user just completed 3+ tasks
+     that required judgment calls (decide action_type, complex
+     categories like financial/health/work), the next task should
+     be mechanical.
+   - Rationale: "Simple one — no decisions needed" or
+     "Straightforward — just submit it."
+   - This model is reactive (triggered by recent activity), not
+     proactive. Don't apply it if recent_completions is empty or
+     contains only quick wins.
+
+═══════════════════════════════════════════════════════════
+OUTPUT FORMAT — Return this JSON array for EVERY active task.
+═══════════════════════════════════════════════════════════
+
+[
+  {
+    "task_id": "uuid",
+    "priority_rank": 1,
+    "primary_model": "avoidance",
+    "secondary_model": "cost_of_delay",
+    "rationale": "Day 5 — the claim deadline is next week. 15 min.",
+    "confidence": 0.88,
+    "scheduling_hint": "morning_high_energy",
+    "decomposition_suggested": false
+  },
+  ...
+]
+
+FIELD DEFINITIONS:
+- priority_rank: Integer, 1 = highest priority. No ties.
+- primary_model: The single model that most influenced this task's rank.
+  Enum: hard_deadline | dependency | avoidance | cost_of_delay |
+  effort_to_impact | energy_match | commitment | emotional_weight |
+  decision_fatigue
+- secondary_model: The second most influential model, or null.
+- rationale: The user-facing explanation. SEE RULES BELOW.
+- confidence: Float 0–1. How confident you are in both the rank AND the
+  rationale. Below 0.6 triggers template fallback (you won't see this —
+  the validation gate handles it).
+- scheduling_hint: Suggested time slot type for the calendar engine.
+  Enum: morning_high_energy | midday_moderate | afternoon_low_effort |
+  evening_personal | deep_work_block | any
+- decomposition_suggested: Boolean. True if this task appears complex
+  enough to benefit from breaking into subtasks. The app will offer
+  decomposition to the user — it is never automatic.
+
+═══════════════════════════════════════════════════════════
+RATIONALE RULES — These are non-negotiable.
+═══════════════════════════════════════════════════════════
+
+LENGTH: Maximum 15 words. No exceptions. If you can't express it in
+15 words, simplify until you can.
+
+VOICE: You are a calm, sharp colleague. Not a coach ("You've got this!").
+Not a parent ("Don't forget to..."). Not a chatbot ("I'd recommend...").
+Not a wellness app ("Take a moment to..."). A colleague who says
+"do this one first — here's why" and moves on.
+
+WHAT TO REFERENCE — always one of these:
+- Time/effort: "5 min" / "Quick one" / "30 min, needs focus"
+- Dependency: "This unblocks your deposit refund"
+- Deadline: "Due Thursday" / "Due in 3 days"
+- Avoidance: "Day 6 with this one" / "This keeps sliding"
+- Cost: "The client's been waiting 3 days"
+- Energy: "Good time for it" / "Light task — fits right now"
+- Commitment: "You already booked the restaurant — send the details"
+- Emotional: "Her birthday is in 4 days"
+- Fatigue: "Simple one — no decisions needed"
+- Immediacy: "2 min — just do it now"
+- Deep work: "You have a clear 2 hours — good time for the hard one"
+
+WHAT TO NEVER SAY:
+- "High priority" / "Important" / "Urgent" (generic labels)
+- "I recommend" / "You should" / "I suggest" (chatbot voice)
+- "Based on analysis" / "According to the model" (engine-explaining)
+- "Don't forget" / "Remember to" / "Make sure to" (parent voice)
+- "Great job" / "You've got this" / "Keep it up" (coach voice)
+- "You keep avoiding this" / "You need to do this" (guilt)
+- "Overdue!" / "ASAP!" / "Critical!" (alarm language)
+- Any exclamation marks except in "just do it now" context
+- Any emoji
+- Any reference to the app's name, the AI, or the reasoning process
+
+COMBINING MODELS IN RATIONALE:
+When multiple models apply strongly to one task, the rationale should
+combine them naturally. Examples:
+- Deadline + avoidance: "Due in 3 days and you've skipped it 4 times. 15 min."
+- Dependency + effort: "Unblocks your deposit refund. 10 min."
+- Energy + effort: "Light task — fits right now. 5 min."
+- Avoidance + decomposition: "Day 8. Start with just finding the number?"
+DO NOT combine more than 2 models — it becomes too long and too complex.
+Pick the two most compelling reasons.
+
+═══════════════════════════════════════════════════════════
+RANKING PRINCIPLES — How to make judgment calls.
+═══════════════════════════════════════════════════════════
+
+WHEN TWO TASKS ARE CLOSE IN PRIORITY:
+- Choose the one that's harder to argue against. "Reply to client
+  who's been waiting" is always defensible. "Research laptops"
+  before "reply to client" requires visible justification.
+
+WHEN DEADLINE AND AVOIDANCE CONFLICT:
+- A task due in 48 hours outranks a task skipped 5 times but with
+  no deadline. Deadlines within 48 hours always win.
+- A task skipped 5 times WITH a deadline in 7 days outranks a
+  non-avoided task with the same deadline. The avoidance makes it
+  more likely to become a crisis.
+
+WHEN EFFORT-TO-IMPACT AND ENERGY CONFLICT:
+- If the user has high energy (morning, open calendar), surface the
+  high-effort/high-impact task — not the quick win.
+- If the user has low energy (post-meetings, evening), surface the
+  quick win — even if a higher-impact task exists.
+- Energy match overrides effort-to-impact when energy is depleted.
+
+WHEN EMOTIONAL WEIGHT HAS NO OTHER SIGNAL:
+- A family/health/relationship task with no deadline, no avoidance,
+  and no dependency should still rank in the top half of the list —
+  never dead last. If all other models say it should be last, move
+  it to the midpoint. The user will feel the ranking is "wrong" if
+  "buy sister's birthday gift" is below "organize desktop files."
+
+MOMENTUM MANAGEMENT:
+- The ideal ranked list alternates between hard and easy tasks:
+  hard → quick win → hard → quick win → moderate.
+- Never 3+ hard tasks in a row. Never 3+ quick wins in a row.
+- If the list is all hard tasks, insert the easiest one at position 3.
+- If the list is all easy tasks, surface the most impactful one first.
+
+═══════════════════════════════════════════════════════════
+FEW-SHOT EXAMPLES
+═══════════════════════════════════════════════════════════
+
+EXAMPLE INPUT (5 tasks, Tuesday 9:15am, user has a 10am standup
+and 1pm client call, no meetings after 2pm):
+
+Tasks:
+1. "Reply to landlord about lease renewal" — email, effort: 10min,
+   deadline: tomorrow, skip_count: 0, days_since_created: 2
+2. "Call insurance about claim" — call, effort: 15min, deadline: none,
+   skip_count: 4, days_since_created: 8, category: financial
+3. "Submit expense report" — form, effort: 5min, deadline: Friday,
+   skip_count: 0, days_since_created: 1
+4. "Buy sister birthday gift" — buy, effort: 20min, deadline: none,
+   days_since_created: 5, category: family
+   (behavioral_profile: sister's birthday is in 4 days)
+5. "Research new laptop" — browse, effort: 45min, deadline: none,
+   skip_count: 0, days_since_created: 3
+
+Calendar: 9:15–10:00 free, 10:00–10:30 standup, 10:30–1:00 free,
+1:00–1:45 client call, 2:00–6:00 free (large open block)
+
+EXAMPLE OUTPUT:
+
+[
+  {
+    "task_id": "1",
+    "priority_rank": 1,
+    "primary_model": "hard_deadline",
+    "secondary_model": "dependency",
+    "rationale": "Due tomorrow — reply now, 10 min.",
+    "confidence": 0.95,
+    "scheduling_hint": "morning_high_energy",
+    "decomposition_suggested": false
+  },
+  {
+    "task_id": "3",
+    "priority_rank": 2,
+    "primary_model": "effort_to_impact",
+    "secondary_model": null,
+    "rationale": "5 min and it's off your plate.",
+    "confidence": 0.90,
+    "scheduling_hint": "any",
+    "decomposition_suggested": false
+  },
+  {
+    "task_id": "2",
+    "priority_rank": 3,
+    "primary_model": "avoidance",
+    "secondary_model": "cost_of_delay",
+    "rationale": "Day 8. Start with just finding the number?",
+    "confidence": 0.85,
+    "scheduling_hint": "morning_high_energy",
+    "decomposition_suggested": true
+  },
+  {
+    "task_id": "4",
+    "priority_rank": 4,
+    "primary_model": "emotional_weight",
+    "secondary_model": null,
+    "rationale": "Her birthday is in 4 days.",
+    "confidence": 0.82,
+    "scheduling_hint": "afternoon_low_effort",
+    "decomposition_suggested": false
+  },
+  {
+    "task_id": "5",
+    "priority_rank": 5,
+    "primary_model": "energy_match",
+    "secondary_model": null,
+    "rationale": "You have a clear afternoon — good time for research.",
+    "confidence": 0.75,
+    "scheduling_hint": "deep_work_block",
+    "decomposition_suggested": false
+  }
+]
+
+WHY THIS RANKING WORKS:
+- Task 1 ranks first: hard deadline (tomorrow) overrides everything.
+- Task 3 ranks second: 5-min quick win after the hard deadline task
+  builds momentum before the next hard one.
+- Task 2 ranks third: 4 skips + 8 days old = clear avoidance. The
+  decomposition_suggested flag offers a smaller first step. Scheduled
+  in morning when the user has energy for calls.
+- Task 4 ranks fourth: emotional weight (birthday in 4 days) keeps it
+  from being buried below a generic browse task. Afternoon slot because
+  online shopping doesn't need peak focus.
+- Task 5 ranks last: no deadline, no avoidance, no emotional weight.
+  But it gets the deep_work_block hint because the 2:00–6:00 open block
+  is a rare opportunity for a 45-min focused task.
+
+═══════════════════════════════════════════════════════════
+FINAL REMINDERS
+═══════════════════════════════════════════════════════════
+
+- You are ranking ALL active tasks, not just picking the top one.
+  Every task gets a rank, rationale, and metadata.
+- Respond ONLY with the JSON array. No preamble, no explanation,
+  no markdown fences. Raw JSON only.
+- If you are uncertain about a rationale, set confidence below 0.6
+  and the system will substitute a safe template. Don't force a
+  bad rationale — a low-confidence signal is always better.
+- The user never sees your output directly. A validation gate checks
+  your rationale for forbidden words, length, hallucinations, and
+  tone before it reaches the user. Write well and the gate is
+  invisible. Write poorly and the gate replaces your work.
+- Your primary goal is to make Mike feel like a competent colleague
+  just looked at his full task list and said "do this one first —
+  here's why." That feeling is the entire product.</code></pre>
+
+  <h3>What Batch Reasoning Enables (vs. Rule-Based Cascade)</h3>
+  <p>The previous architecture used a deterministic cascade — 6 rules applied sequentially per task. The AI reasoning engine replaces this with holistic reasoning across the entire task list. Here's what that unlocks:</p>
+  <ul>
+    <li><strong>Cross-task inference.</strong> The AI sees "reply to landlord" and "get deposit refund" in the same list and infers the dependency — even if the user never stated it. A cascade can only see dependencies that are explicitly stored in the schema.</li>
+    <li><strong>Pattern-level avoidance detection.</strong> The AI sees that 3 financial tasks have been skipped this week, not just that one task has skip_count = 3. It can surface the category-level pattern in its rationale: "Financial tasks are piling up — this is the quickest one." A cascade only evaluates skip counts per task.</li>
+    <li><strong>Context-aware rationales.</strong> The AI knows Mike just completed 3 hard tasks and can say "Simple one — no decisions needed" for the next task. A template can only reference the individual task's properties, not the user's recent activity.</li>
+    <li><strong>Adaptive momentum management.</strong> The AI can decide that after 2 avoidance-escalated tasks, Mike needs a quick win before another hard one — even if the cascade rules would have ranked another hard task next.</li>
+    <li><strong>Nuanced scheduling hints.</strong> The AI outputs <code>scheduling_hint</code> per task, which the calendar engine uses for slot assignment. Instead of a binary "morning = hard, afternoon = easy," the AI reasons: "This specific task is a call, Mike does calls best on Thursday mornings, schedule it there."</li>
+  </ul>
+
+  <!-- ================================================================ -->
+  <h3>3e. Calendar Scheduling Engine</h3>
+  <!-- ================================================================ -->
+  <p>The scheduling engine is the bridge between "what to do" (priority engine) and "when to do it" (the user's actual day). It reads the user's calendar, identifies open slots, and assigns each task a time block. This is what elevates Nudge from a smart list to an execution system.</p>
+
+  <h3>Calendar Provider Selection</h3>
+  <p>During onboarding (after auth), the user connects their calendar:</p>
+  <ul>
+    <li><strong>Google Calendar (Phase 1 — PWA launch)</strong> — via Google OAuth. Scopes: <code>calendar.events</code> (read/write events), <code>calendar.readonly</code> (read existing schedule). Works in PWA, iOS, and Android. The only calendar provider at launch.</li>
+    <li><strong>Apple Calendar (Phase 2 — native iOS)</strong> — via iOS EventKit framework. Uses native on-device calendar access. No OAuth required — iOS permission prompt only. Works on iOS only. Events sync via iCloud to all Apple devices. Added when native iOS ships.</li>
+  </ul>
+  <p>In Phase 1 (PWA), there is no provider selection screen — Google Calendar is the only option. In Phase 2 (native), Apple Calendar is added as a second option. Nudge connects to one calendar provider at a time — no merging logic.</p>
+
+  <h3>Scheduling Logic: Preview → Approve → Stable Day</h3>
+  <div class="callout">
+    <strong>Stability-first philosophy.</strong> Motion recalculates hundreds of times daily, creating "AI Calendar Anxiety" — users report 10+ reschedules in a single day. Nudge takes the opposite approach: the AI proposes a plan once each morning. The user previews, adjusts, and approves it. Once approved, the day is locked. Mid-day changes go to tomorrow's plan, not today's. This is Morgen's "AI suggests, you decide" philosophy combined with Reclaim's graduated-defense stability — the hybrid approach that user research shows generates the highest satisfaction.
+  </div>
+  <table>
+    <tr><th>Step</th><th>What Happens</th><th>Details</th></tr>
+    <tr>
+      <td>1. Morning plan generation</td>
+      <td>At the user's wake time (default 7am, adjustable), generate today's proposed plan</td>
+      <td>Reads calendar for today's meetings. Builds time map of open slots. Uses AI reasoning engine's ranked list + scheduling_hints to assign tasks to slots. Output: a preview card showing today's task blocks alongside meetings. Push notification: "Your day is planned. 5 tasks scheduled — review and approve."</td>
+    </tr>
+    <tr>
+      <td>2. Preview and adjust</td>
+      <td>User sees a simple daily timeline: Burnt Orange task blocks + gray meeting blocks</td>
+      <td>User can: drag a task block to a different slot, swap two tasks, remove a task from today's plan (returns to queue), or add a task from the queue. This takes 10–30 seconds for most users. The preview is NOT a full calendar view — it's a vertical day strip specific to Nudge's proposed plan.</td>
+    </tr>
+    <tr>
+      <td>3. Approve → write to calendar</td>
+      <td>User taps "Approve" → events are written to connected calendar</td>
+      <td>Events created on the dedicated "Nudge" sub-calendar. Nothing touches the user's calendar until they approve. If the user doesn't approve by 9am, a gentle reminder: "Your plan is ready to approve." If still not approved by 10am, the app shows the "Do next" list view instead (non-calendar mode for the day).</td>
+    </tr>
+    <tr>
+      <td>4. Locked day execution</td>
+      <td>Once approved, today's plan doesn't change unless the user explicitly changes it</td>
+      <td>Calendar notifications fire at scheduled times. User taps → Nudge opens with task → "Start" → action. Task completed → calendar event deleted, slot freed. Task skipped → event stays on calendar, skip_count incremented. The task is NOT automatically rescheduled to a different time today — it stays in its slot as a visual reminder. Tomorrow's plan will re-prioritize and reschedule it.</td>
+    </tr>
+    <tr>
+      <td>5. Mid-day new tasks</td>
+      <td>Tasks added during the day are re-ranked against the full list — but don't disrupt the calendar</td>
+      <td>New tasks are AI-structured and immediately re-ranked against all active tasks (including today's scheduled ones). The calendar stays locked — no events are moved or created. But the <strong>"Do next" view updates in real-time to show the highest-ranked task from the full re-ranked list</strong>, even if that task isn't on today's calendar. If Mike adds "Reply to client who just called" at 2pm and the engine ranks it #1 (above the scheduled 2:30pm task), "Do next" immediately shows the new task with its rationale: "The client just called — respond while it's fresh. 5 min." Mike can tap "Start" and do it now, or ignore it and follow the calendar. The AI reasons correctly; Mike decides. When Mike finishes all scheduled tasks early, Nudge offers: "You've got {{minutes}} free. Want to tackle {{next_queued_task}}?" One-tap to add it to the freed slot.</td>
+    </tr>
+    <tr>
+      <td>6. Exception: urgent tasks</td>
+      <td>Tasks with deadlines TODAY are the one exception to stability</td>
+      <td>If a new task is added with a deadline that falls today (or the AI detects today-urgency from the task text), it surfaces immediately with a prompt: "This is due today. Add it to your schedule?" User confirms → the task inserts into the next available slot, shifting one lower-priority task to tomorrow. This is the only scenario where today's approved plan changes without the user initiating it — and even then, it requires user confirmation.</td>
+    </tr>
+  </table>
+
+  <h3>Scheduling Rules</h3>
+  <ul>
+    <li><strong>Max tasks per day:</strong> 5 scheduled blocks (default, adjustable 3–8). This prevents calendar overload and matches the research finding that overloaded schedules trigger avoidance of the entire app.</li>
+    <li><strong>Minimum gap between task blocks:</strong> 5 minutes.</li>
+    <li><strong>Unscheduled overflow:</strong> Tasks beyond the daily max remain in the "Coming up" queue. Rationale: "Not scheduled yet — your calendar is full today."</li>
+    <li><strong>Look-ahead planning:</strong> The morning plan generates today only. Future days are planned each morning, not in advance. This prevents the cascading-reschedule problem that plagues Motion.</li>
+    <li><strong>No-schedule preference:</strong> Users can toggle "Don't schedule my tasks" in settings. In this mode, Nudge works as a priority-only "Do next" list with no calendar events. Calendar scheduling is the paid tier's hero feature but not mandatory.</li>
+    <li><strong>Avoidance-aware scheduling:</strong> Tasks skipped 3+ times get scheduled in shorter blocks at high-energy times. A 30-min phone call the user keeps avoiding → 10-min block: "Find the insurance company phone number" (decomposed first step) at 9am Tuesday.</li>
+    <li><strong>Recurring task scheduling:</strong> Recurring tasks create recurring calendar events. "Submit expense report every Friday" → recurring Friday 9am block.</li>
+    <li><strong>User-moved events:</strong> If Mike drags a Nudge event in his calendar app (Google Calendar or Apple Calendar), Nudge respects the new time — the user's calendar is the source of truth for timing once written.</li>
+    <li><strong>Deep work protection:</strong> When the scheduling engine finds a 90+ minute open block with no meetings on either side, it assigns ONE high-effort task (the one with <code>scheduling_hint: deep_work_block</code> from the AI reasoning engine) rather than filling it with multiple quick wins. Quick wins go in the 15–30 minute gaps between meetings. Long uninterrupted blocks are rare — don't waste them on admin. If no task has the <code>deep_work_block</code> hint, the engine defaults to the highest-effort task available.</li>
+  </ul>
+
+  <h3>What Nudge Writes to the Calendar</h3>
+  <p>Each Nudge calendar event contains:</p>
+  <ul>
+    <li><strong>Title:</strong> Task title (e.g., "Reply to landlord about lease")</li>
+    <li><strong>Duration:</strong> effort_estimate_minutes</li>
+    <li><strong>Description:</strong> Rationale text + "Open in Nudge" deep link</li>
+    <li><strong>Calendar:</strong> A dedicated sub-calendar, auto-created on first sync. Default color: Burnt Orange (#D4763C) — warm and distinctive, visually separates task blocks from meetings. User can change color or hide this sub-calendar in their calendar app.</li>
+    <li><strong>Reminders:</strong> 5-minute reminder before the scheduled time (uses native calendar notification). This means the user gets a calendar notification even when Nudge isn't open — the calendar becomes the trigger surface.</li>
+    <li><strong>Status:</strong> "Free" (not "Busy") — so Nudge tasks don't block the user's availability for real meetings.</li>
+  </ul>
+
+  <div class="callout">
+    <strong>Why a sub-calendar, not the main calendar:</strong> Mixing Nudge task blocks with real meetings creates visual clutter and makes the user feel over-scheduled. A dedicated sub-calendar lets the user see their Nudge tasks alongside meetings but also toggle them off when sharing their calendar or joining a meeting. The sub-calendar events are marked "Free" so colleagues don't see the user as unavailable during task blocks.
+  </div>
+
+  <!-- ================================================================ -->
+  <h3>3c. "Start" Action Specification</h3>
+  <!-- ================================================================ -->
+  <p>Every task is assigned an <code>action_type</code> during AI structuring. Each action type has a defined "Start" behavior and a fallback when context is insufficient.</p>
+
+  <table>
+    <tr><th>Action Type</th><th>"Start" Behavior</th><th>Pre-fill Conditions</th><th>Fallback (insufficient context)</th></tr>
+    <tr>
+      <td><code>email</code></td>
+      <td>Opens device email composer (mailto: link on iOS, Gmail compose intent if Gmail connected via Google OAuth)</td>
+      <td>Recipient pre-filled if task text contains an email address or an @-mentioned name that the AI matched with &gt;90% confidence to a prior task containing that person's email. Subject pre-filled from task title.</td>
+      <td>Opens blank compose window with subject line from task title. No recipient. User fills in manually. This is the common case — most users type "email Sarah" not "email sarah@company.com."</td>
+    </tr>
+    <tr>
+      <td><code>call</code></td>
+      <td>Opens phone dialer with number pre-filled (<code>tel:</code> link — works on mobile browsers and native; on desktop PWA, falls back to "Copy number" button)</td>
+      <td>Phone number pre-filled only if task text contains a recognizable phone number.</td>
+      <td>Opens browser search: "{{entity}} phone number". The avoidance escalation for call tasks specifically uses "Start with just finding the number?" — which opens this search.</td>
+    </tr>
+    <tr>
+      <td><code>browse</code></td>
+      <td>Opens device browser to the extracted URL</td>
+      <td>URL pre-filled if task text contains a valid URL (http/https).</td>
+      <td>Opens browser search: "{{task_title}}". Weakest action type — essentially a Google search. Acceptable.</td>
+    </tr>
+    <tr>
+      <td><code>book</code></td>
+      <td>Opens the user's connected calendar app to create an <em>appointment</em> event (distinct from Nudge's task scheduling — the scheduling engine assigns a time slot to DO the booking; the "Start" button opens the calendar to create the actual appointment)</td>
+      <td>Date and time pre-filled if extractable from task text ("Thursday at 3pm", "next Saturday"). Title pre-filled from task title. Example: "Book dentist for Thursday 2pm" → Nudge schedules a 10-min task block at 10:30am to do the booking; tapping "Start" at 10:30am opens Calendar with a new event pre-filled for Thursday 2pm.</td>
+      <td>Opens calendar app with title pre-filled, date/time blank. User fills in manually.</td>
+    </tr>
+    <tr>
+      <td><code>buy</code></td>
+      <td>Opens browser search for the item</td>
+      <td>Search query: "buy {{item}} near me" or "{{item}} online" based on item type heuristic.</td>
+      <td>Opens browser search: "buy {{task_title}}". Intentionally thin.</td>
+    </tr>
+    <tr>
+      <td><code>form</code></td>
+      <td>Opens browser to the URL if provided</td>
+      <td>URL pre-filled if task text contains a link to a form or portal.</td>
+      <td>Opens browser search: "{{entity}} {{form_type}} form online".</td>
+    </tr>
+    <tr>
+      <td><code>decide</code></td>
+      <td>No external app — offers decomposition: "This looks like a few steps. Break it down?"</td>
+      <td>AI decomposes the decision into 2–4 comparison tasks on user confirmation.</td>
+      <td>Shows task with rationale and "Done" button only. No "Start" deep-link.</td>
+    </tr>
+    <tr>
+      <td><code>generic</code></td>
+      <td>No external app — task appears with rationale and "Done" button only</td>
+      <td>N/A — catch-all for tasks the AI can't classify into a specific action type.</td>
+      <td>N/A — this IS the fallback.</td>
+    </tr>
+  </table>
+
+  <div class="callout">
+    <strong>Honesty about "Start" quality:</strong> The email and call action types are genuinely useful only ~30% of the time (when the user provides enough context in the task text). The other 70%, "Start" is a slightly-better-than-manual shortcut. The product's real value is in the prioritization + rationale + avoidance detection, not in the "Start" button. The avoidance catch is the hero feature. Don't over-sell the deep link in marketing.
+  </div>
+
+  <!-- ================================================================ -->
+  <h3>3d. Task Data Schema</h3>
+  <!-- ================================================================ -->
+  <p>Every task has the following fields. This schema is the foundation for the priority engine, rationale generation, avoidance detection, and behavioral analytics.</p>
+
+  <table>
+    <tr><th>Field</th><th>Type</th><th>Source</th><th>Used By</th></tr>
+    <tr><td><code>id</code></td><td>UUID</td><td>System-generated</td><td>All</td></tr>
+    <tr><td><code>user_id</code></td><td>UUID (nullable for anon)</td><td>Auth system</td><td>All</td></tr>
+    <tr><td><code>raw_input</code></td><td>Text</td><td>User input (verbatim)</td><td>Audit trail, re-structuring</td></tr>
+    <tr><td><code>title</code></td><td>Text (≤120 chars)</td><td>AI-extracted from raw_input</td><td>UI display</td></tr>
+    <tr><td><code>action_type</code></td><td>Enum: email, call, browse, book, buy, form, decide, generic</td><td>AI-classified</td><td>Start button behavior</td></tr>
+    <tr><td><code>action_target</code></td><td>Text (nullable) — URL, email, phone number, or search query</td><td>AI-extracted from raw_input</td><td>Start button deep-link</td></tr>
+    <tr><td><code>action_target_confidence</code></td><td>Float 0–1</td><td>AI confidence score</td><td>Determines pre-fill vs. fallback</td></tr>
+    <tr><td><code>category</code></td><td>Text (nullable) — AI-assigned semantic label: health, financial, admin, family, work, social, errands, learning</td><td>AI-classified during structuring</td><td>Avoidance pattern detection (by category), weekly/monthly review insights. Only used for insights when 5+ tasks exist in a category — prevents misclassification noise.</td></tr>
+    <tr><td><code>effort_estimate_minutes</code></td><td>Integer</td><td>AI-estimated (calibrated by user's historical data over time)</td><td>Rationale, energy matching, quick-win detection</td></tr>
+    <tr><td><code>deadline</code></td><td>DateTime (nullable)</td><td>AI-extracted from raw_input or user-edited</td><td>Hard deadline rule, cost of delay</td></tr>
+    <tr><td><code>deadline_confidence</code></td><td>Float 0–1</td><td>AI confidence score</td><td>Hard deadline rule requires &gt;0.8. Cost of delay requires &gt;0.6.</td></tr>
+    <tr><td><code>depends_on</code></td><td>Array of task IDs (nullable)</td><td>AI-inferred from task text or decomposition</td><td>Dependency model</td></tr>
+    <tr><td><code>parent_task_id</code></td><td>UUID (nullable)</td><td>Set when task is created via decomposition</td><td>Links subtasks to parent</td></tr>
+    <tr><td><code>recurrence_rule</code></td><td>Text (nullable) — iCal RRULE format</td><td>AI-extracted from raw_input</td><td>Recurring task regeneration</td></tr>
+    <tr><td><code>priority_score</code></td><td>Float (computed)</td><td>AI reasoning engine output (priority_rank converted to score)</td><td>Task ordering, calendar scheduling</td></tr>
+    <tr><td><code>rationale_text</code></td><td>Text</td><td>AI-generated or template fallback</td><td>UI display, calendar event description</td></tr>
+    <tr><td><code>rationale_tier</code></td><td>Enum: ai_generated, template_fallback</td><td>System — set by validation gate</td><td>Quality monitoring, prompt tuning</td></tr>
+    <tr><td><code>rationale_model</code></td><td>Enum: hard_deadline, dependency, avoidance, cost_of_delay, effort_to_impact, energy_match, commitment, emotional_weight, decision_fatigue, llm_custom</td><td>AI-assigned (primary_model field from reasoning output)</td><td>Rationale effectiveness tracking, template fallback selection</td></tr>
+    <tr><td><code>status</code></td><td>Enum: active, completed, skipped_now, archived</td><td>User action</td><td>All</td></tr>
+    <tr><td><code>skip_count</code></td><td>Integer (default 0)</td><td>Incremented on each "Skip" tap</td><td>Avoidance detection</td></tr>
+    <tr><td><code>created_at</code></td><td>DateTime</td><td>System</td><td>Task age calculation</td></tr>
+    <tr><td><code>completed_at</code></td><td>DateTime (nullable)</td><td>Set on "Done" tap</td><td>Time-to-complete analytics</td></tr>
+    <tr><td><code>time_to_complete_minutes</code></td><td>Integer (nullable, computed)</td><td>completed_at − last_surfaced_at</td><td>Effort calibration, behavioral analytics</td></tr>
+    <tr><td><code>last_surfaced_at</code></td><td>DateTime</td><td>Updated each time task appears as "Do next"</td><td>Time-to-complete calculation</td></tr>
+    <tr><td><code>is_save_moment</code></td><td>Boolean (computed)</td><td>True if: completed within 72h of deadline AND skip_count ≥ 2</td><td>Weekly review, share card, retention</td></tr>
+    <tr><td><code>scheduled_at</code></td><td>DateTime (nullable)</td><td>Set by calendar scheduling engine</td><td>Calendar event creation, "Do now" trigger when time arrives</td></tr>
+    <tr><td><code>calendar_event_id</code></td><td>Text (nullable)</td><td>Google Calendar event ID or Apple EventKit event identifier</td><td>Event updates (reschedule, delete on completion)</td></tr>
+    <tr><td><code>calendar_provider</code></td><td>Enum: google, apple, none</td><td>From user settings</td><td>Determines which API to call for event CRUD</td></tr>
+  </table>
+
+  <p><strong>Behavioral event log (separate table):</strong> Every user interaction generates an event: <code>task_created</code>, <code>task_surfaced</code>, <code>task_started</code>, <code>task_completed</code>, <code>task_skipped</code>, <code>task_decomposed</code>, <code>task_edited</code>, <code>review_opened</code>, <code>share_tapped</code>. Each event carries a timestamp, the task's current priority_score, rationale_model, and category. This event log is the raw material for the behavioral moat.</p>
+
+  <!-- ================================================================ -->
+  <h2>4. Revenue Model</h2>
+  <!-- ================================================================ -->
+  <p><strong>Model:</strong> Freemium with 14-day full-feature trial on signup</p>
+  <p><strong>Price point:</strong> $6.99/month or $49.99/year ($4.17/month effective)</p>
+  <p><strong>Target market:</strong> English-speaking global market (US, UK, Canada, Australia primary). Pricing indexed to US consumer willingness-to-pay for productivity tools.</p>
+
+  <h3>Why Freemium (Changed from Trial-Only)</h3>
+  <p>
+    Competitive research shows free tiers are now table stakes — Reclaim, Trevor AI ($5/month Pro, free plan), Todoist, and TickTick all offer meaningful free plans. Motion's no-free-plan approach works at $550M valuation with heavy paid advertising, but generates significant acquisition friction and Trustpilot complaints. Nudge targets average people, not power users willing to pay $29/month sight-unseen. A free tier that delivers real value builds the behavioral data moat (every free user's skip/complete patterns train the avoidance model) while creating natural upgrade pressure through feature gates.
+  </p>
+
+  <p><strong>Free tier (permanent, no time limit):</strong></p>
+  <ul>
+    <li>Task capture (text + paste, no voice)</li>
+    <li>AI structuring + prioritization with rationale ("Do next" view)</li>
+    <li>Manual "Done" / "Skip"</li>
+    <li>"Start" button (browser links + tel: on mobile, "Copy number" on desktop)</li>
+    <li>Avoidance detection (skip counter + escalation copy)</li>
+    <li>5 active tasks max (completed tasks don't count — this limits list size, not throughput)</li>
+    <li><strong>No calendar scheduling</strong> — the free tier is the smart list experience</li>
+    <li><strong>No Gmail integration</strong> — email "Start" uses mailto: only</li>
+    <li><strong>No weekly review</strong></li>
+  </ul>
+
+  <p><strong>Paid tier ($6.99/month or $49.99/year):</strong></p>
+  <ul>
+    <li>Everything in free, plus:</li>
+    <li>Unlimited active tasks</li>
+    <li>Voice capture</li>
+    <li>Calendar scheduling (Google Calendar or Apple Calendar — the hero feature)</li>
+    <li>Gmail integration ("Start" creates drafts)</li>
+    <li>Weekly review with behavioral insights</li>
+    <li>Task decomposition</li>
+    <li>Recurring tasks</li>
+    <li>Natural language editing</li>
+  </ul>
+
+  <p><strong>Upgrade trigger:</strong> The free tier is designed so the user experiences the core value (AI prioritization + rationale + avoidance detection) within 5 tasks. The upgrade prompt appears when: (a) user hits the 5-task active limit — "Unlock unlimited tasks + calendar scheduling — $6.99/month", (b) user taps "Start" on an email task — "Connect Gmail to draft emails automatically", or (c) after 7 days of usage — "You've completed {{count}} tasks. Schedule them on your calendar?"</p>
+
+  <p><strong>Why calendar scheduling is the paid gate:</strong> Calendar scheduling is the highest-value feature and the most expensive to deliver (calendar API calls + scheduling computation). It's also the feature with the clearest before/after: free users see a smart list; paid users see their day planned on their calendar. The research shows $19/month is the psychological ceiling for individual productivity tools. At $6.99/month, Nudge is priced below every major competitor: Motion ($29–49), Sunsama ($16), Morgen ($15), Akiflow ($15–25), Reclaim ($10–22). Only Trevor AI ($5) and TickTick ($3) are cheaper, and neither offers AI reasoning or calendar scheduling.</p>
+
+  <p><strong>Revenue math:</strong> 30,000 paying subscribers × $6.99/month = $209,700/month. At 5% free-to-paid conversion (conservative — industry avg for productivity freemium is 3–7%), this requires 600,000 free users. Free users cost ~$0.15/month each (AI structuring for 5 tasks, no calendar, no voice, no Gmail). 600K free users × $0.15 = $90K/month — offset by the behavioral data they generate for the moat. At 10% conversion (achievable once calendar scheduling proves its value), only 300,000 free users needed.</p>
+
+  <h3>Unit Economics</h3>
+  <table>
+    <tr><th>Line Item</th><th>Phase 1 — PWA (Stripe)</th><th>Phase 2 — Native (iOS IAP)</th><th>Notes</th></tr>
+    <tr><td>Revenue</td><td>$6.99</td><td>$6.99</td><td>Monthly subscription</td></tr>
+    <tr><td>Platform fee</td><td>−$0.50 (Stripe 2.9%+$0.30)</td><td>−$1.05 (Apple 15%)</td><td>PWA has no platform fee beyond Stripe. Native: Apple Small Business Program (15% first $1M). Google Play: 15% first $1M.</td></tr>
+    <tr><td>AI inference — task structuring</td><td>−$0.25</td><td>−$0.25</td><td>Per-task structuring call on input. ~300 calls/month. Haiku 4.5.</td></tr>
+    <tr><td>AI inference — batch reasoning</td><td>−$0.50</td><td>−$0.50</td><td>Full-list reasoning call: priority ranking + rationale + scheduling hints. ~200 calls/month at ~2,500 tokens/call. Core product intelligence.</td></tr>
+    <tr><td>AI inference — decomposition + insights</td><td>−$0.10</td><td>−$0.10</td><td>Task decomposition (~5 calls/month), weekly review insights (~4 calls/month).</td></tr>
+    <tr><td>Infrastructure</td><td>−$0.35</td><td>−$0.35</td><td>Supabase/PlanetScale + Vercel/Fly</td></tr>
+    <tr><td>STT (voice)</td><td>—</td><td>−$0.10</td><td>Voice capture is Phase 2 only. ~30 voice inputs/month × Deepgram.</td></tr>
+    <tr><td>RevenueCat</td><td>—</td><td>−$0.08</td><td>Phase 2 only. Free up to $2.5K MTR, then 0.8%.</td></tr>
+    <tr><td><strong>Gross profit</strong></td><td><strong>$5.29 (76%)</strong></td><td><strong>$4.56 (65%)</strong></td><td><strong>PWA margin is 11pts higher than native. Stripe > IAP for unit economics. Phase 2 blended ~68% at 70% native / 30% web mix.</strong></td></tr>
+  </table>
+
+  <div class="callout">
+    <strong>PWA-first margin advantage:</strong> Phase 1 (PWA + Stripe) runs at 76% gross margin — no platform tax (Apple 15%), no RevenueCat fee, no voice/STT cost. This is 11 points higher than Phase 2 native. The tradeoff is lower conversion rate (~30–40% below native IAP) because Stripe Checkout is higher-friction than Face ID one-tap. For validation phase, higher margin × lower volume is acceptable — you're optimizing for learning, not revenue maximization.<br><br>
+    <strong>AI cost philosophy:</strong> The reasoning engine is the product. $0.85/month total AI cost per user buys: cross-task prioritization, context-aware rationales, avoidance detection, energy-matched scheduling, and dependency inference. This is what justifies $6.99/month. The margin expands as Haiku costs decline (~40% annual reduction in LLM inference pricing).<br><br>
+    <strong>Power user scaling:</strong> A power user at 20 tasks/day doubles structuring calls (~$0.50) and increases reasoning calls by ~50% (~$0.75). Total AI cost: ~$1.25/month on PWA. Still viable at $6.99.<br><br>
+    <strong>Apple/Google 30% threshold:</strong> At $1M annual revenue (~12,000 monthly subscribers), platform fees jump from 15% to 30%. Mitigation: (a) push annual subscriptions, (b) consider $8.99 pricing, (c) promote web-direct subscription where compliant.
+  </div>
+
+  <!-- ================================================================ -->
+  <h2>5. Core Value Proposition</h2>
+  <!-- ================================================================ -->
+  <p class="value-prop">
+    Nudge helps Mike get the right things done every day — by applying nine mental models to reason about what matters first, explaining why in one line that sounds like a smart colleague, scheduling each task into his calendar around his meetings, and making starting it one tap away — without the mental overhead of organizing, prioritizing, time-blocking, or confronting the tasks he's been unconsciously avoiding.
+  </p>
+
+  <!-- ================================================================ -->
+  <h2>6. Competitive Moat</h2>
+  <!-- ================================================================ -->
+  <p><strong>Moat type:</strong> Data moat (proprietary behavioral data) + Switching cost moat (accumulated personalization)</p>
+  <p>
+    The moat is not prioritization (commoditizing — Apple Intelligence and Gemini will offer basic versions). The moat is the <strong>avoidance profile</strong> — a per-user behavioral model that no competitor can replicate without months of usage data.
+  </p>
+  <p>After 90 days, Nudge knows:</p>
+  <ul>
+    <li>Which task categories Mike avoids (phone calls: avg 4.3 days to complete vs. emails: avg 0.8 days)</li>
+    <li>When he's most productive (Tuesday and Thursday mornings, 9–11am)</li>
+    <li>How long tasks actually take him — measured completion times per action_type and category</li>
+    <li>Which rationale language motivates him ("quick win" drives 73% completion; "important" drives 31%)</li>
+    <li>His avoidance triggers (tasks in the "financial" category, tasks requiring calls to strangers, tasks with ambiguous next steps)</li>
+    <li>His skip-to-crisis pattern (tasks he skips 4+ times have a 60% chance of becoming urgent within 7 days)</li>
+    <li>His optimal scheduling patterns — which calendar slots have the highest task completion rates, which time blocks he consistently ignores, and how to schedule avoided tasks in the windows where he's most likely to actually do them</li>
+  </ul>
+  <p>
+    A competing app starts from zero. The switching cost isn't data portability — Mike can export his task list anywhere. The switching cost is losing an AI that understands his specific procrastination fingerprint. That fingerprint compounds with every completed and every skipped task.
+  </p>
+  <p>
+    <strong>Moat timeline:</strong> Month 1–3: no moat, product wins on UX speed and rationale quality alone. Month 3–6: basic behavioral patterns emerge, recommendations visibly improve, retention strengthens. Month 6+: avoidance profile is deep enough that recommendations feel uncannily personal. Switching becomes psychologically costly. This timeline is honest — the moat doesn't exist at launch.
+  </p>
+
+  <h3>Competitive Landscape (Research-Backed, March 2026)</h3>
+  <p>The AI productivity market has consolidated into three philosophical camps. Nudge occupies a fourth position that none currently holds.</p>
+  <table>
+    <tr><th>Competitor</th><th>Approach</th><th>Pricing</th><th>What They Do Well</th><th>What They Don't Do (Nudge's Gap)</th></tr>
+    <tr>
+      <td><strong>Motion</strong><br>$550M valuation, $10M ARR, ~10K SMB customers</td>
+      <td>Full autopilot — constraint optimizer analyzes "1,000+ parameters," auto-schedules everything</td>
+      <td>$29–49/mo (no free tier, 7-day trial)</td>
+      <td>Most aggressive auto-scheduling. Recalculates hundreds of times daily. Chunks large tasks. 7,000+ Zapier integrations. AI Employees product (email, content).</td>
+      <td><strong>No rationale.</strong> Never tells users WHY a task is scheduled where it is. No avoidance detection. No mental models — uses deadline/priority/duration constraints, not cognitive frameworks. Users report "AI Calendar Anxiety" from 10+ daily reschedules. Mobile app rated 3.9/5 on Play Store. $29/month minimum creates price resistance — users call it "too expensive." Opaque credit system for AI Employees.</td>
+    </tr>
+    <tr>
+      <td><strong>Reclaim.ai</strong><br>Acquired by Dropbox Aug 2024, 43K companies, 880M+ conflicts rescheduled</td>
+      <td>AI copilot — defends time blocks that progressively "harden" as deadlines approach</td>
+      <td>$10–22/mo (free tier available)</td>
+      <td>Elegant graduated defense system. Strong integrations (Todoist, Asana, ClickUp, Linear, Jira). Free tier drives adoption. Quiet rescheduling without cascade disruption.</td>
+      <td><strong>No rationale.</strong> No avoidance detection. No mental models. Google Calendar only (Outlook added Aug 2025, no iCloud). No native mobile apps — #1 user complaint. Future under Dropbox is uncertain (Clockwise shut down Mar 2026 after Salesforce acquihire — standalone AI scheduling may be a feature, not a company).</td>
+    </tr>
+    <tr>
+      <td><strong>Morgen</strong><br>248K+ users, Swiss (GDPR-first)</td>
+      <td>AI copilot — "AI suggests, you decide." AI Planner proposes a day; user previews, adjusts, approves.</td>
+      <td>$15/mo annual, $30/mo monthly</td>
+      <td>Broadest calendar support (Google, Outlook, iCloud, Fastmail, CalDAV). Native apps on ALL platforms including Linux. "Frames" feature for reusable time templates. Preview-and-approve model. Privacy-first.</td>
+      <td><strong>No rationale.</strong> No avoidance detection. No mental models. AI Planner is beta with inconsistent quality. Calendar-first, task-second — task management is bolted on, not core. $15/month is premium for the value delivered.</td>
+    </tr>
+    <tr>
+      <td><strong>Sunsama</strong><br>Profitable since 2022, bootstrapped, Wirecutter "best scheduling app" 2025</td>
+      <td>Intentional manual — guided daily planning rituals, no AI scheduling</td>
+      <td>$16/mo annual</td>
+      <td>Beautiful daily planning ritual. Prevents overcommitment (warns when planned work exceeds hours). Integrates with Asana, Trello, ClickUp, Notion, Jira, GitHub. Profitable without VC.</td>
+      <td><strong>No AI scheduling.</strong> No rationale. No avoidance detection. Requires daily manual planning — the exact cognitive overhead Mike avoids. $16/month for a guided checklist feels expensive. No rescheduling — disruptions require manual intervention.</td>
+    </tr>
+    <tr>
+      <td><strong>Trevor AI</strong><br>Claims 85% task completion rate</td>
+      <td>AI copilot — "Plan My Day" proposes full schedule for one-click approval</td>
+      <td>$5/mo (free plan available)</td>
+      <td>Best price-to-value in the category. Natural language chat scheduling. Plan My Day generates schedules for approval. Habit-aware suggestions.</td>
+      <td><strong>No rationale.</strong> No avoidance detection. No mental models. Web-only — no native mobile apps. No project management. Minimal integrations. Low brand awareness.</td>
+    </tr>
+    <tr>
+      <td><strong>Todoist</strong><br>47M users, 42M+ tasks created</td>
+      <td>Smart list — AI assists with input (Ramble voice, NLP), user manages</td>
+      <td>$5/mo Pro (free tier)</td>
+      <td>Gold standard for task capture (natural language, Ramble voice in 40+ languages). Massive user base. Cross-platform. AI Assist for subtask generation.</td>
+      <td><strong>No scheduling. No rationale. No avoidance detection.</strong> Presents a list — user still decides what, when, and how. AI features are input-layer (capture/organize), not execution-layer (prioritize/schedule/explain).</td>
+    </tr>
+  </table>
+
+  <div class="callout">
+    <strong>The gap no one fills:</strong> Every competitor schedules (or lists) tasks. None tells the user <em>why this task matters more than that one</em> in language that sounds like a reason, not a score. None detects avoidance patterns. None applies cognitive frameworks to prioritization. None explains its reasoning. Nudge occupies a fourth position: <strong>AI reasons + explains + schedules with user approval</strong>. This is the "AI chief of staff" — not an optimizer, not a planner, not a list. A colleague who sees the full picture and says "do this one first — here's why — I put it on your calendar at 9:15am — tap to start."
+  </div>
+
+  <p><strong>Competitive strategy:</strong> Don't compete on scheduling mechanics (Motion has 5 years of optimization depth). Don't compete on integrations (Reclaim, Morgen have hundreds). Compete on three things no competitor offers: (1) transparent rationale — every recommendation comes with a specific, context-aware reason, (2) avoidance intelligence — the app detects what you're dodging and intervenes before it becomes a crisis, (3) behavioral learning — the longer you use it, the more it understands your procrastination fingerprint. These three are the moat. Scheduling is the delivery mechanism.</p>
+
+  <!-- ================================================================ -->
+  <h2>7. Build Scope</h2>
+  <!-- ================================================================ -->
+  <table>
+    <tr><th>Function</th><th>What Ships</th><th>Business Outcome</th></tr>
+    <tr>
+      <td>Core loop</td>
+      <td>
+        Task capture (text + paste; voice in Phase 2 native) → AI structuring (action type, category, effort estimate, deadline extraction, dependency detection) → <strong>AI reasoning engine: batch reasoning with 9 mental models (deadline urgency, dependency mapping, avoidance detection, cost of delay, effort-to-impact, energy matching, commitment escalation, emotional weight, decision fatigue) + validation gate + template fallback</strong> → <strong>calendar scheduling engine (morning plan generation → preview → approve → write to Google Calendar on "Nudge" sub-calendar; Apple Calendar in Phase 2)</strong> → "Do next" single-task view with AI-generated rationale + scheduled time → "Start" button (opens email compose / browser / tel: on mobile, "Copy number" on desktop) → "Done" (1-tap, deletes calendar event) or "Skip" (returns to queue for tomorrow's plan, increments skip counter) → avoidance escalation (3+ skips triggers empathetic re-surfacing with opt-in decomposition, shorter calendar blocks) → opt-in task decomposition for multi-step tasks (subtasks get individual calendar slots) → recurring task regeneration (creates recurring calendar events) → natural language task editing ("change this to Thursday" → reschedules calendar event)
+      </td>
+      <td>Proves task-to-action conversion &gt; 60%, that calendar-scheduled tasks complete at 2x the rate of list-only tasks, and that avoidance detection reduces crisis-mode task completion by 40%</td>
+    </tr>
+    <tr>
+      <td>Retention</td>
+      <td>
+        Daily morning plan notification (Web Push on Android/desktop; email on iOS PWA) · avoidance nudge notifications · weekly review (completion count, time trends, one behavioral insight, avoidance pattern surfacing, best completion slots identified) · Streak tracking (consecutive days with ≥1 task completed) · "Save" moments logged (tasks completed within 72 hours of deadline after 2+ skips)
+      </td>
+      <td>Proves D7 retention &gt; 45%, D30 &gt; 25%</td>
+    </tr>
+    <tr>
+      <td>Monetization</td>
+      <td>
+        14-day ungated free trial → $6.99/month or $49.99/year subscription. Trial-end conversion prompt uses the user's own completion data + crisis-avoided count. Grace period: 3 days after payment failure. Downgrade = read-only access to existing tasks, no new captures.
+      </td>
+      <td>Proves trial-to-paid conversion &gt; 10%</td>
+    </tr>
+    <tr>
+      <td>Distribution</td>
+      <td>
+        Landing page (hero: "The app that plans your day" → how it works (3 steps: dump → approve plan → notification → start) → social proof → FAQ → CTA) · <strong>PWA at app.nudge.app (Phase 1 primary)</strong> · Native iOS app (Phase 2, React Native or Swift) · Native Android app (Phase 2, React Native or Kotlin) · Share card (weekly stats, no task content) with deep link to landing page / PWA · "What's your procrastination type?" quiz (see §7c)
+      </td>
+      <td>Proves organic install rate &gt; 5,000/month within 3 months via ASO + content</td>
+    </tr>
+  </table>
+
+  <!-- ================================================================ -->
+  <h3>7b. Landing Page Content</h3>
+  <!-- ================================================================ -->
+  <p><strong>Headline:</strong> "The app that plans your day — and tells you why."</p>
+  <p><strong>Subheadline:</strong> "Nudge prioritizes your tasks, explains its reasoning, and proposes a daily plan on your calendar. You approve it in 10 seconds. Then just start."</p>
+  <p><strong>Target keywords:</strong> "stop procrastinating app", "ai task prioritizer", "best productivity app 2026", "app to get things done", "smart todo app", "procrastination help app", "ai calendar planner", "motion alternative", "adhd task app"</p>
+  <p><strong>Trust signals:</strong> Task completion rate stat ("Users complete 2.4x more tasks in their first week"), user count (total tasks completed across all users), "As featured in" placeholder. App Store rating (target 4.7+) added when native ships.</p>
+  <p><strong>How it works (3 steps):</strong></p>
+  <ul>
+    <li><strong>1. Dump everything.</strong> Type, speak, or paste your tasks. Nudge structures them instantly — action type, effort, deadline, dependencies.</li>
+    <li><strong>2. Your day is planned.</strong> Nudge prioritizes your tasks and schedules them on your Google or Apple Calendar around your meetings. Hard tasks go in your peak hours. Quick wins fill the gaps.</li>
+    <li><strong>3. Calendar pings, you start.</strong> When the time comes, your calendar notification fires. Tap it, Nudge opens the right app — email, browser, phone — and you're doing the task. Tap "Done" and the next one is already waiting.</li>
+  </ul>
+  <p><strong>CTA:</strong> Phase 1 (PWA): Primary button: "Get Nudge Free" → links to app.nudge.app. Microcopy: "Free forever for 5 tasks · Upgrade for calendar scheduling · Works in any browser." Phase 2 (Native): Primary buttons: "Download on App Store" / "Get it on Google Play". Secondary link below: "or use in your browser" → app.nudge.app.</p>
+  <p><strong>FAQ:</strong></p>
+  <ul>
+    <li><strong>"How is this different from Todoist or Apple Reminders?"</strong> — Those apps store your tasks. Nudge decides what you should do first, tells you why, and proposes a daily plan on your calendar. It's the difference between a filing cabinet and a chief of staff.</li>
+    <li><strong>"How is this different from Motion?"</strong> — Motion auto-schedules but never explains why. It reshuffles your entire day whenever anything changes — users report 10+ reschedules daily. Nudge explains every recommendation ("this unblocks your deposit refund"), proposes a stable daily plan you approve each morning, and detects when you're avoiding tasks. Motion optimizes your schedule. Nudge understands your behavior.</li>
+    <li><strong>"How does calendar scheduling work?"</strong> — Connect Google or Apple Calendar. Each morning, Nudge proposes a daily plan: your tasks time-blocked around your meetings. You preview it, adjust anything, and tap "Approve." Events appear on a dedicated "Nudge" sub-calendar. Nothing touches your calendar without your permission. Once approved, the plan stays stable — no surprise reshuffling.</li>
+    <li><strong>"Does it read my emails or calendar events?"</strong> — Nudge reads your calendar to find open slots and avoid conflicts. It does NOT read your emails — it only creates email drafts when you tap "Start." Calendar data is only used for scheduling.</li>
+    <li><strong>"What if I disagree with the priority or scheduled time?"</strong> — In the morning preview, drag any task to a different slot before approving. During the day, tap "Skip" and the task returns to the queue for tomorrow's plan. You can also drag Nudge events in your calendar app — Nudge respects the move.</li>
+    <li><strong>"How does it know what I'm avoiding?"</strong> — Nudge tracks which tasks you skip repeatedly. After 3 skips, it changes approach — breaking the task into a smaller first step, scheduling it in a shorter block, or surfacing it when you have the most energy. No guilt, just smart re-framing.</li>
+    <li><strong>"Does it work for both work and personal tasks?"</strong> — Yes. Nudge handles everything in one stream — because your dentist appointment doesn't care that you also have a client proposal due.</li>
+    <li><strong>"Is it free?"</strong> — The free plan includes AI prioritization + rationale for up to 5 active tasks. Calendar scheduling, voice capture, Gmail integration, and unlimited tasks are in the paid plan ($6.99/month or $49.99/year). Cheaper than Motion ($29+), Sunsama ($16), or Morgen ($15).</li>
+    <li><strong>"Is my data private?"</strong> — Your tasks are encrypted at rest and in transit. Nudge uses your behavioral patterns only to improve your own recommendations. No data is shared with third parties or used to train AI models.</li>
+  </ul>
+  <p><strong>Social proof:</strong></p>
+  <ul>
+    <li>"I open my calendar Monday morning and my tasks are already time-blocked around my meetings. I didn't plan any of it. I just start at 9am and go." — Kevin P., 33, logistics coordinator, Portland</li>
+    <li>"It caught a car registration renewal I'd been ignoring for 3 weeks — kept rescheduling it on my calendar until I couldn't avoid it anymore. Saved me $150 in late fees." — Sarah K., 28, marketing manager, London</li>
+    <li>"I realized I avoid every task that involves a phone call. Nudge started scheduling calls in 10-minute blocks at 9am when I have the most energy. Now I do them first and they don't haunt me all week." — James T., 35, freelance consultant, Austin</li>
+  </ul>
+
+  <!-- ================================================================ -->
+  <h3>7c. Procrastination Type Quiz (Viral Content Piece)</h3>
+  <!-- ================================================================ -->
+  <p>A standalone web page (hosted at nudge.app/quiz) that functions as the primary top-of-funnel content asset. 60 seconds to complete, produces a shareable result card, funnels to app install CTA. Designed for social sharing on TikTok, Instagram, and Twitter.</p>
+  <p><strong>Format:</strong> 8 questions, single-select, visual cards (not a form). No signup required to complete.</p>
+  <p><strong>The 5 procrastination types:</strong></p>
+  <table>
+    <tr><th>Type</th><th>Core Pattern</th><th>What Nudge Does For Them</th></tr>
+    <tr>
+      <td><strong>The Avoider</strong></td>
+      <td>Skips tasks that feel emotionally uncomfortable — phone calls, confrontations, ambiguous decisions. Does easy tasks compulsively to feel productive.</td>
+      <td>Avoidance detection catches what they're dodging. Step decomposition lowers the activation energy.</td>
+    </tr>
+    <tr>
+      <td><strong>The Optimizer</strong></td>
+      <td>Spends more time organizing tasks than doing them. The system IS the procrastination.</td>
+      <td>Nudge has no organizational UI. Nothing to fiddle with. The app makes the decision and shows one task.</td>
+    </tr>
+    <tr>
+      <td><strong>The Firefighter</strong></td>
+      <td>Only acts when something becomes urgent. Important-but-not-urgent tasks never get touched until they're crises.</td>
+      <td>Cost of delay rationale surfaces important tasks before they become fires.</td>
+    </tr>
+    <tr>
+      <td><strong>The Overloader</strong></td>
+      <td>Says yes to everything. 40 tasks, paralyzed by volume.</td>
+      <td>"Do next" view shows one task, not 40. The priority engine cuts through the volume.</td>
+    </tr>
+    <tr>
+      <td><strong>The Perfectionist</strong></td>
+      <td>Delays starting because the output won't be good enough.</td>
+      <td>Effort-based rationales normalize "done beats perfect." Quick win insertion builds completion momentum.</td>
+    </tr>
+  </table>
+  <p><strong>Result card:</strong> Shareable OG-image (1200×630). Type name, one-sentence description, "Try Nudge — built for [type]s" with install CTA. Web Share API or copy-link.</p>
+  <p><strong>SEO value:</strong> Targets "what type of procrastinator am I" and "procrastination quiz" — high-volume, low-competition. 500–800 words of educational content below the quiz for search indexing.</p>
+  <p><strong>Targets:</strong> 40% completion rate, 15% share rate, 5% share-to-install.</p>
+
+  <!-- ================================================================ -->
+  <h2>8. Not Building</h2>
+  <!-- ================================================================ -->
+  <ul>
+    <li><strong>Project management</strong> — no multi-person coordination, task assignment, or team views. Nudge is single-player.</li>
+    <li><strong>Team collaboration</strong> — no shared lists, no commenting, no @mentions.</li>
+    <li><strong>Gantt / timeline / sprint planning</strong> — Nudge is about today's actions, not quarterly roadmaps.</li>
+    <li><strong>Knowledge base / notes / documents</strong> — tasks only. No long-form content storage.</li>
+    <li><strong>Notion-like flexibility</strong> — no custom databases, templates, or page hierarchies.</li>
+    <li><strong>Habit tracking UI</strong> — recurring tasks are supported (task regenerates on schedule), but no streaks-per-habit, no frequency charts, no habit-specific analytics.</li>
+    <li><strong>AI autonomous execution</strong> — Nudge opens the tool and pre-fills context, but does not send emails, book appointments, or complete forms on the user's behalf. The user always presses send.</li>
+    <li><strong>Calendar view inside Nudge</strong> — Nudge writes to the user's existing calendar app. There is no calendar UI inside Nudge itself. The user views their scheduled tasks in Google Calendar or Apple Calendar, not in a Nudge-built calendar screen. Nudge is not a calendar app.</li>
+    <li><strong>Tags / labels / folders / categories</strong> — no manual organization. The AI handles categorization internally.</li>
+    <li><strong>WhatsApp / Telegram / Slack integration</strong> — messaging platform API complexity is disproportionate.</li>
+    <li><strong>Gamification</strong> — no points, badges, leaderboards, or XP.</li>
+    <li><strong>Desktop-native app</strong> — no Electron or native desktop app. Desktop access is via PWA (see below) — lightweight, installable, no separate codebase.</li>
+  </ul>
+  <h3>Known Shortcuts</h3>
+  <ul>
+    <li>Energy matching uses population-level defaults (morning = hard, afternoon = easy) for the first 30 days. The AI reasoning engine incorporates personalized energy data as it accumulates.</li>
+    <li>Rationale generation is primarily AI-generated via the batch reasoning engine. Template fallback rate: ~10–15% in month 1, declining to ~5% by month 3 as the system prompt is tuned.</li>
+    <li>"Start" button for email tasks pre-fills recipient and subject only when AI confidence &gt;90%. Otherwise opens blank compose. No hallucinated recipients.</li>
+    <li>Task decomposition is always opt-in. The AI reasoning engine can suggest decomposition via <code>decomposition_suggested</code> in its output, but the app always asks: "Break it down?" — never auto-decomposes.</li>
+    <li>Dependency detection is handled by the AI reasoning engine at the batch level. The hallucination guard in the validation gate catches over-confident claims.</li>
+    <li>Weekly review insight generation is limited to 3 pattern types at launch: task-category completion speed, avoidance patterns, and time-of-day productivity.</li>
+    <li>Google OAuth verification for <code>gmail.compose</code> and <code>calendar.events</code> scopes: sensitive (not restricted), 2–4 week review. Submit day 1. Up to 100 test users during verification. If delayed past PWA launch, email "Start" falls back to <code>mailto:</code>. Calendar is critical path — no Apple Calendar fallback in PWA phase.</li>
+    <li>Calendar scheduling uses the <code>scheduling_hint</code> from the AI reasoning output. Slot-finding is greedy (first fit by hint preference), not optimized. If calendar is 80%+ meetings, schedule 2–3 tasks in gaps and leave the rest unscheduled.</li>
+    <li>Calendar event updates use a 30-minute polling cycle, not real-time webhooks. On app open, a fresh sync runs immediately. Google Calendar push notifications (webhook via <code>watch</code> endpoint) are a Phase 2 optimization.</li>
+    <li><strong>PWA push notification constraints:</strong> Web Push works on Android Chrome and all desktop browsers. iOS Safari does NOT support Web Push for in-browser use — only for "Add to Home Screen" PWAs (iOS 16.4+), and the UX is clunky. Mitigation: iOS PWA users receive morning plan prompts via transactional email with deep link to app.nudge.app. Native iOS push (APNs) replaces this in Phase 2.</li>
+    <li><strong>PWA voice capture excluded:</strong> Browser MediaRecorder API is inconsistent across browsers and devices, especially mobile Safari. Voice capture ships with native (Phase 2, Deepgram). PWA is text + paste only.</li>
+    <li><strong>PWA phone dialer:</strong> <code>tel:</code> links work on mobile browsers (opens native dialer). On desktop, falls back to "Copy number" button. Native <code>tel:</code> intent in Phase 2.</li>
+    <li><strong>PWA payment is Stripe-only:</strong> No Apple/Google 15–30% platform fee. Gross margin is higher than native IAP. Conversion rate will be ~30–40% lower (no Face ID one-tap). Acceptable for validation phase — optimizing for learning, not conversion rate.</li>
+    <li>The AI reasoning engine's system prompt is a critical product artifact requiring ongoing tuning. V1 will be over-cautious. Improvement loop: (a) log every validation gate rejection, (b) weekly review, (c) A/B test rationale variants against completion rates.</li>
+  </ul>
+
+  <!-- ================================================================ -->
+  <h2>9. Auth Model</h2>
+  <!-- ================================================================ -->
+  <p><strong>Method:</strong> Anonymous-first → Google OAuth → calendar connection</p>
+  <p><strong>Why:</strong> Mike wants to dump tasks immediately on first open. Forcing auth before value delivery is the #1 consumer app dropout point. PWA launch uses Google OAuth only — provides Gmail + Calendar permission scopes in one consent screen. Apple Sign In is added in Phase 2 (native) because it's required by App Store policy when third-party login is offered.</p>
+  <p><strong>Anonymous access:</strong> Full core loop — task capture, AI structuring, prioritization, rationale, "Start" button (browser links only — no Gmail/Calendar, no calendar scheduling), "Done"/"Skip". Anonymous data is stored locally (IndexedDB). No calendar events created.</p>
+  <p><strong>Account trigger:</strong> Account creation is prompted (not forced) at three moments:</p>
+  <ul>
+    <li><strong>24-hour mark:</strong> "Sign in to sync your tasks and schedule them on your calendar."</li>
+    <li><strong>Gmail/Calendar integration:</strong> "Connect Google to unlock email and calendar actions." Triggered when user taps "Start" on an email or booking task.</li>
+    <li><strong>5 active tasks (free tier limit):</strong> "Sign in to keep adding tasks — free forever for 5 tasks, or upgrade for unlimited."</li>
+  </ul>
+  <p><strong>Calendar connection (post-auth, onboarding step):</strong> Immediately after Google OAuth, calendar access is already included in the scope. The user sees: "Your calendar is connected. Each morning, Nudge will propose a plan around your meetings." No extra step. For PWA launch, this is Google Calendar only. Apple Calendar support ships with native iOS.</p>
+  <div class="callout">
+    <strong>PWA-first auth simplification:</strong> With Google OAuth as the only auth provider, the flow is cleaner: one OAuth consent screen grants identity + Gmail compose + Calendar read/write. No second permission step for Apple Sign In users to connect Google. No bifurcated experience. When native iOS ships (Phase 2), Apple Sign In is added — those users then get an optional "Connect Google for email + calendar" secondary step, as documented in previous versions.
+  </div>
+  <p><strong>Profile data stored:</strong> Display name, email, timezone (auto-detected), account creation date, subscription status, auth_provider (google — apple added in Phase 2), calendar_provider (google / none — apple added in Phase 2), calendar_scheduling_enabled (boolean).</p>
+  <p><strong>Session:</strong> Persistent via refresh token (stored in httpOnly cookie for PWA, secure storage for native). No expiry unless user explicitly logs out or inactive for 90 days.</p>
+
+  <!-- ================================================================ -->
+  <h2>10. External Integrations</h2>
+  <!-- ================================================================ -->
+  <table>
+    <tr><th>Integration</th><th>Phase</th><th>Type</th><th>Used For</th><th>Auth</th></tr>
+    <tr>
+      <td>Anthropic Claude API (Haiku 4.5)</td>
+      <td>1</td>
+      <td>SaaS</td>
+      <td>Task structuring, batch reasoning engine (priority ranking + rationale generation + scheduling hints), task decomposition, weekly review insight generation</td>
+      <td>API key (<code>ANTHROPIC_API_KEY</code>)</td>
+    </tr>
+    <tr>
+      <td>Google OAuth 2.0</td>
+      <td>1</td>
+      <td>SaaS</td>
+      <td>User authentication + Gmail/Calendar scope authorization. Only auth provider in Phase 1 (PWA).</td>
+      <td>OAuth 2.0 (<code>GOOGLE_CLIENT_ID</code>, <code>GOOGLE_CLIENT_SECRET</code>)</td>
+    </tr>
+    <tr>
+      <td>Google Calendar API</td>
+      <td>1</td>
+      <td>SaaS</td>
+      <td><strong>Core scheduling engine</strong>: read existing events, build time map, create/update/delete Nudge task events on dedicated sub-calendar. Only calendar provider in Phase 1.</td>
+      <td>OAuth 2.0 (shared Google OAuth). Scopes: <code>calendar.events</code>, <code>calendar.readonly</code></td>
+    </tr>
+    <tr>
+      <td>Gmail API</td>
+      <td>1</td>
+      <td>SaaS</td>
+      <td>"Start" for email tasks: creates a draft with recipient + subject pre-filled. Compose-only — does NOT read inbox. Falls back to <code>mailto:</code> if OAuth verification delayed.</td>
+      <td>OAuth 2.0 (shared Google OAuth). Scope: <code>gmail.compose</code></td>
+    </tr>
+    <tr>
+      <td>Stripe</td>
+      <td>1</td>
+      <td>SaaS</td>
+      <td><strong>Only payment provider in Phase 1.</strong> Stripe Checkout for subscription signup. Stripe Customer Portal for management. Stripe Webhooks for entitlement sync.</td>
+      <td>API key (<code>STRIPE_SECRET_KEY</code>, <code>STRIPE_WEBHOOK_SECRET</code>)</td>
+    </tr>
+    <tr>
+      <td>Web Push (browser-native)</td>
+      <td>1</td>
+      <td>Browser API</td>
+      <td>Push notifications on Android Chrome + desktop browsers: morning plan prompt, avoidance nudges, weekly review. Does NOT work on iOS Safari — email fallback used for iOS PWA users.</td>
+      <td>VAPID keys (<code>VAPID_PUBLIC_KEY</code>, <code>VAPID_PRIVATE_KEY</code>)</td>
+    </tr>
+    <tr>
+      <td>Email (transactional)</td>
+      <td>1</td>
+      <td>SaaS</td>
+      <td>Morning plan notification for iOS PWA users (email with deep link to app.nudge.app). Also: welcome email, subscription receipts. Provider: Resend, Postmark, or SendGrid.</td>
+      <td>API key</td>
+    </tr>
+    <tr>
+      <td>Apple Sign In</td>
+      <td>2</td>
+      <td>SaaS</td>
+      <td>User authentication (iOS native). Required by App Store policy when Google OAuth is offered. Does not provide Gmail/Calendar — those users connect Google separately.</td>
+      <td>Apple ID (<code>APPLE_SERVICE_ID</code>, <code>APPLE_TEAM_ID</code>, <code>APPLE_KEY_ID</code>, <code>APPLE_PRIVATE_KEY</code>)</td>
+    </tr>
+    <tr>
+      <td>Apple EventKit (iOS)</td>
+      <td>2</td>
+      <td>Native SDK</td>
+      <td><strong>Calendar scheduling for Apple Calendar users (iOS only).</strong> Adds Apple as a second calendar provider option. Events sync to all Apple devices via iCloud.</td>
+      <td>iOS system permission. Requires <code>NSCalendarsUsageDescription</code> in Info.plist.</td>
+    </tr>
+    <tr>
+      <td>Deepgram</td>
+      <td>2</td>
+      <td>SaaS</td>
+      <td>Voice-to-text for voice task capture. Low latency on short utterances (&lt;30 sec).</td>
+      <td>API key (<code>DEEPGRAM_API_KEY</code>)</td>
+    </tr>
+    <tr>
+      <td>APNs + FCM</td>
+      <td>2</td>
+      <td>SaaS</td>
+      <td>Native push notifications. Replaces Web Push (Android) and email fallback (iOS). APNs for iOS, FCM for Android.</td>
+      <td>Service account / APNs certificate (<code>FCM_SERVER_KEY</code>, <code>APNS_KEY_ID</code>, <code>APNS_TEAM_ID</code>)</td>
+    </tr>
+    <tr>
+      <td>RevenueCat</td>
+      <td>2</td>
+      <td>SaaS</td>
+      <td>Subscription management for native: iOS IAP (App Store) + Android IAP (Play Store). Unifies with existing Stripe subscriptions into single entitlement source of truth.</td>
+      <td>API key (<code>REVENUECAT_API_KEY</code>, <code>REVENUECAT_APPLE_SHARED_SECRET</code>, <code>REVENUECAT_GOOGLE_CREDENTIALS</code>)</td>
+    </tr>
+  </table>
+  <div class="callout">
+    <strong>Google OAuth verification timeline:</strong> The <code>gmail.compose</code> and <code>calendar.events</code> scopes are classified as <strong>sensitive (not restricted)</strong> — meaning verification requires brand review + sensitive scope review but does NOT require a paid CASA security assessment. Timeline: 2–4 weeks. Mitigation: submit verification request on day 1 of development (parallel with build). During verification, up to 100 test users can access the app — sufficient for internal testing and early alpha. If verification is delayed past PWA launch: calendar scheduling is the critical path, email "Start" falls back to <code>mailto:</code> links. There is no Apple Calendar fallback in PWA phase — Google Calendar is the only provider.
+  </div>
+
+  <!-- ================================================================ -->
+  <h2>11. Payment</h2>
+  <!-- ================================================================ -->
+
+  <h3>Phase 1 — PWA (Stripe Only)</h3>
+  <p><strong>Provider:</strong> Stripe (direct). No IAP, no RevenueCat.</p>
+  <p><strong>Why Stripe-only:</strong> PWA has no access to App Store IAP or Play Store IAP. Stripe is the only option — and the better one for validation: no 15–30% platform fee, direct customer relationship, full refund control, and immediate payout setup. Conversion rate will be ~30–40% lower than native IAP (no Face ID one-tap purchase), but gross margin is significantly higher.</p>
+  <p><strong>Methods:</strong> Credit/debit card via Stripe Checkout (hosted) or Stripe Elements (embedded inline). Apple Pay and Google Pay supported via Stripe's Payment Request Button.</p>
+  <p><strong>Flow:</strong> User hits free tier limit (5 active tasks) or taps upgrade CTA → Stripe Checkout opens (or inline Elements) → user enters payment → webhook confirms → entitlement activated → app refreshes to paid state.</p>
+  <p><strong>Products:</strong></p>
+  <ul>
+    <li>Monthly: $6.99/month, 14-day free trial (Stripe trial period — no charge until day 15)</li>
+    <li>Annual: $49.99/year ($4.17/month effective), 14-day free trial</li>
+  </ul>
+  <p><strong>Webhook events (Stripe → server):</strong></p>
+  <ul>
+    <li><code>checkout.session.completed</code> — activate paid entitlement</li>
+    <li><code>invoice.paid</code> — extend subscription</li>
+    <li><code>invoice.payment_failed</code> — enter 3-day grace period, show in-app banner</li>
+    <li><code>customer.subscription.deleted</code> — downgrade to free tier</li>
+  </ul>
+  <p><strong>Subscription management:</strong> Stripe Customer Portal (hosted) — accessible via "Manage subscription" in settings. Handles plan changes, payment method updates, cancellation.</p>
+
+  <h3>Phase 2 — Native (RevenueCat + Stripe)</h3>
+  <p><strong>Provider:</strong> RevenueCat (orchestration) + Apple App Store IAP (iOS) + Google Play IAP (Android) + Stripe (existing web subscribers)</p>
+  <p><strong>Why RevenueCat:</strong> Native apps require platform-specific IAP (Apple and Google policy mandate it for in-app digital purchases). RevenueCat unifies iOS IAP, Android IAP, and existing Stripe subscribers into a single entitlement system. Users who subscribed via Stripe during PWA phase retain their subscription — RevenueCat maps Stripe customer IDs to its entitlement model.</p>
+  <p><strong>Migration:</strong> Existing Stripe subscribers are NOT migrated to IAP. They continue on Stripe (better margin). New subscribers from native apps use IAP. RevenueCat handles the entitlement logic: check Stripe first, then IAP. User sees the same paid state regardless of payment source.</p>
+  <p><strong>Env vars:</strong> <code>STRIPE_SECRET_KEY</code>, <code>STRIPE_WEBHOOK_SECRET</code>, <code>REVENUECAT_API_KEY</code>, <code>REVENUECAT_WEBHOOK_SECRET</code>, <code>REVENUECAT_APPLE_SHARED_SECRET</code>, <code>REVENUECAT_GOOGLE_CREDENTIALS</code> (all server-only)</p>
+
+  <!-- ================================================================ -->
+  <h2>12. Feature Grouping</h2>
+  <!-- ================================================================ -->
+  <div class="callout">
+    <strong>PWA-first → Native.</strong> The product launches as a PWA (app.nudge.app), then wraps into native iOS + Android apps. This validates the core thesis before native investment and produces a React codebase that wraps cleanly. The grouping below shows two phases: PWA Launch and Native Launch. Phase 1 is the full product except voice, Apple Calendar, and native push.
+  </div>
+
+  <h3>Phase 1 — PWA Launch</h3>
+  <table>
+    <tr><th>Build Order</th><th>Features</th><th>Depends On</th></tr>
+    <tr>
+      <td>Foundation</td>
+      <td>Google OAuth + anonymous session · user profile schema + behavioral event log schema (§3d) · Stripe subscription infra (Stripe Checkout + Stripe Elements — no IAP in PWA phase) · base API scaffolding · React project setup (Next.js or similar — shared codebase for PWA now, native wrapper later) · <strong>Google OAuth verification submitted (parallel — runs during entire build; calendar scopes are sensitive, not restricted — 2–4 week review)</strong></td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Core Engine</td>
+      <td>Text task capture (text + paste, no voice in PWA) + AI structuring (action type, category, effort, deadline, dependencies) · AI reasoning engine: batch reasoning call (§3b) with 9 mental models + validation gate + template fallback library · system prompt design + tuning pipeline · priority scoring from AI output · opt-in task decomposition · recurring task regeneration · natural language task editing · <strong>calendar scheduling engine (§3e): morning plan generation → preview → approve → write to Google Calendar</strong></td>
+      <td>Foundation</td>
+    </tr>
+    <tr>
+      <td>UX Shell</td>
+      <td>"Do next" single-task view with rationale + scheduled time · "Start" button (opens email compose via mailto:, browser links, calendar — no phone dialer on desktop, fallback to "Copy number") · "Done" / "Skip" actions · skip counter + avoidance escalation UI · task inbox (secondary) · morning plan preview/approve timeline (responsive — works on mobile browser + desktop) · dark mode · calendar connection (Google Calendar only in PWA) · "Don't schedule my tasks" toggle</td>
+      <td>Core Engine</td>
+    </tr>
+    <tr>
+      <td>Integrations</td>
+      <td>Google Calendar API (read/write — scheduling engine, morning plan, event CRUD) · Gmail API (compose-only draft creation — if OAuth verified by this point; mailto: fallback if not)</td>
+      <td>UX Shell</td>
+    </tr>
+    <tr>
+      <td>Retention + Monetization</td>
+      <td>Morning plan email notification (fallback for iOS users without Web Push — email with deep link to PWA at 7am) · Web Push notifications (Android Chrome + desktop browsers: morning plan, avoidance nudges, weekly review) · weekly review · streak tracking · "Save" moment detection · freemium upgrade flow (5-task limit → Stripe Checkout) · Stripe subscription management · grace period · read-only downgrade</td>
+      <td>Integrations</td>
+    </tr>
+    <tr>
+      <td>Distribution (PARALLEL from day 1)</td>
+      <td>Landing page (full copy from §7b) · PWA deployment (app.nudge.app, installable, service worker for offline task list) · "What's your procrastination type?" quiz (§7c) · SEO for landing page + quiz page · share card generation</td>
+      <td>— (parallel)</td>
+    </tr>
+  </table>
+  <p><strong>PWA launch scope — what's in / what's out:</strong></p>
+  <table>
+    <tr><th>Feature</th><th>PWA Launch</th><th>Reason</th></tr>
+    <tr><td>AI reasoning engine (9 models)</td><td>✅ Full</td><td>Core product — backend, works identically</td></tr>
+    <tr><td>Calendar scheduling (Google)</td><td>✅ Full</td><td>REST API — works from any client</td></tr>
+    <tr><td>Morning plan preview/approve</td><td>✅ Full</td><td>Actually better on larger screens</td></tr>
+    <tr><td>Avoidance detection</td><td>✅ Full</td><td>Backend logic</td></tr>
+    <tr><td>Task decomposition</td><td>✅ Full</td><td>Backend logic</td></tr>
+    <tr><td>Weekly review</td><td>✅ Full</td><td>Backend logic + simple UI</td></tr>
+    <tr><td>Freemium + Stripe</td><td>✅ Full</td><td>Better margins than IAP (no 15% cut)</td></tr>
+    <tr><td>Push notifications</td><td>⚠️ Partial</td><td>Works on Android Chrome + desktop. iOS Safari: email fallback.</td></tr>
+    <tr><td>Voice capture</td><td>❌ Deferred</td><td>Browser mic unreliable. Ships with native.</td></tr>
+    <tr><td>Apple Calendar</td><td>❌ Deferred</td><td>Requires EventKit (native iOS). Google Calendar only at launch.</td></tr>
+    <tr><td>Apple Sign In</td><td>❌ Deferred</td><td>Required by App Store policy only when on App Store. PWA uses Google OAuth only.</td></tr>
+    <tr><td>Phone dialer "Start"</td><td>⚠️ Degraded</td><td>tel: links work on mobile browsers. Desktop: "Copy number" fallback.</td></tr>
+    <tr><td>App Store / Play Store presence</td><td>❌ Deferred</td><td>No store discovery in PWA phase. Acquisition via content + quiz + SEO.</td></tr>
+  </table>
+
+  <h3>Phase 2 — Native iOS + Android</h3>
+  <table>
+    <tr><th>Build Order</th><th>Features</th><th>Depends On</th></tr>
+    <tr>
+      <td>Native Shell</td>
+      <td>React Native (or Capacitor) wrapper around existing React codebase · iOS build + Android build · Apple Sign In (required by App Store when Google OAuth is offered) · native push notifications (APNs + FCM — replaces Web Push + email fallback) · native haptics + animation polish for dopamine moments (D1–D5)</td>
+      <td>Phase 1 complete</td>
+    </tr>
+    <tr>
+      <td>Native-Only Features</td>
+      <td>Voice capture (Deepgram STT integration) · Apple Calendar via EventKit (iOS only — scheduling engine adds Apple as a provider option) · phone dialer "Start" action (native tel: intent) · RevenueCat subscription infra (iOS IAP + Play Store IAP — adds to existing Stripe; single entitlement source of truth)</td>
+      <td>Native Shell</td>
+    </tr>
+    <tr>
+      <td>Store Submission</td>
+      <td>App Store submission (iOS) + ASO (keywords, screenshots, preview video) · Play Store submission (Android) + ASO · deep link setup (landing page → App Store / Play Store / PWA) · App Store review preparation (privacy labels, data usage declarations, Apple Sign In compliance)</td>
+      <td>Native-Only Features</td>
+    </tr>
+  </table>
+
+  <div class="callout">
+    <strong>Phase 2 is additive, not a rewrite.</strong> The React codebase from Phase 1 wraps into native with minimal changes. The backend, AI reasoning engine, calendar scheduling engine, task schema, and all business logic are shared. Phase 2 adds: native shell + 4 native-only features (voice, Apple Calendar, native push, IAP) + store submission.
+  </div>
+  <p><strong>Scale target:</strong> 10,000 DAU month 3, 500 concurrent peak, ~2M task rows year 1, ~30M behavioral event rows year 1</p>
+  <p><strong>Notifications (PWA-first):</strong></p>
+  <ul>
+    <li><strong>Android Chrome + desktop browsers:</strong> Web Push via service worker. Permission prompt after user completes 3rd task. Triggers: daily morning plan ready (7am local), avoidance nudge (task skipped 3x), weekly review available (Sunday 7pm local).</li>
+    <li><strong>iOS Safari PWA:</strong> Web Push is only available for "Add to Home Screen" PWAs (iOS 16.4+). Since most users won't add-to-home-screen unprompted, Nudge uses <strong>transactional email</strong> as the primary notification channel for iOS PWA users. Morning plan email at 7am: "Your day is planned — {{task_count}} tasks scheduled. Tap to approve." with deep link to app.nudge.app. Weekly review email Sunday 7pm.</li>
+    <li><strong>Phase 2 (native):</strong> APNs (iOS) + FCM (Android) replace all Web Push and email fallbacks. Native push is the gold standard — reliable, fast, actionable.</li>
+  </ul>
+  <p><strong>Share mechanics:</strong> Weekly review share card: "[count] tasks done this week • [streak]-day streak." No task content exposed. Generated OG image with deep link to landing page. Web Share API on mobile, copy-link fallback.</p>
+
+  <h3>Distribution Strategy</h3>
+  <p><strong>Channel 1 — Content flywheel + procrastination quiz (primary, months 1–6):</strong> Short-form video content (TikTok / Reels / Shorts) showing real task flows. Founder-led, 3 videos/week, ~60 seconds. The procrastination quiz (§7c) is the evergreen top-of-funnel — captures email, segments by procrastination type, CTA links to app.nudge.app. This channel works before native apps exist — it drives traffic to the PWA. Target: 500K organic views/month by month 6.</p>
+  <p><strong>Channel 2 — SEO + landing page (primary, months 1–6):</strong> Landing page optimized for "stop procrastinating app", "motion alternative", "ai task prioritizer", "adhd task app." Blog content targeting "how to stop procrastinating [category]" — financial tasks, phone calls, health appointments. Each article CTA links to app.nudge.app.</p>
+  <p><strong>Channel 3 — App Store + Play Store ASO (primary, post-native launch):</strong> iOS and Android apps submitted in Phase 2. Keyword space around "procrastination" is under-served. Target keywords: "stop procrastinating", "procrastination app", "task prioritizer", "smart todo list", "adhd planner." Target: top 50 in Productivity (both stores) within 90 days of native launch.</p>
+  <p><strong>Channel 4 — Paid acquisition (supplementary, months 4+):</strong> Facebook/Instagram ads. Only activated after organic proves free-to-paid &gt;5%. Max CAC: $20 (LTV at 12-month retention = ~$84, targeting 4:1 LTV:CAC).</p>
+  <p><strong>Channel 5 — ADHD community organic (months 1+):</strong> r/ADHD (2M+ members), #ADHDtok, ADHD Twitter. The procrastination quiz is the entry point. Authentic presence — share the product's design thinking about avoidance detection, not just "download our app." This audience generates disproportionate word-of-mouth.</p>
+
+  <h3>PWA (Desktop Access)</h3>
+  <p>The PWA is not a separate product — it's the same React codebase with a responsive layout, deployed as an installable web app at <code>app.nudge.app</code>. It exists to check the "desktop access" box that editorial reviewers and power users expect, and to provide a better surface for the morning plan preview/approve flow (the daily timeline is easier to scan on a larger screen).</p>
+  <p><strong>What the PWA supports:</strong></p>
+  <ul>
+    <li>Full task capture (text + paste, no voice — browser mic permissions are unreliable)</li>
+    <li>AI prioritization + rationale ("Do next" view)</li>
+    <li>Morning plan preview + approve (responsive daily timeline)</li>
+    <li>"Start" button (opens email/browser/calendar in new tabs)</li>
+    <li>"Done" / "Skip" actions</li>
+    <li>Weekly review</li>
+    <li>Settings, auth, subscription management</li>
+    <li>Service worker for offline task list (read-only — AI calls require connectivity)</li>
+  </ul>
+  <p><strong>What the PWA does NOT support:</strong></p>
+  <ul>
+    <li>Voice capture (ships with native Phase 2 — browser mic APIs are unreliable)</li>
+    <li>Push notifications on iOS Safari (Apple restriction — PWA push works on Android Chrome and desktop browsers only)</li>
+    <li>Apple Calendar via EventKit (native iOS only — PWA users must use Google Calendar for scheduling)</li>
+    <li>Phone dialer "Start" action (no <code>tel:</code> on desktop — falls back to "Copy number")</li>
+  </ul>
+  <p><strong>Build cost:</strong> Minimal incremental effort if the mobile app uses React Native with a shared React core. The PWA is a responsive web wrapper around the same components. No separate codebase, no separate team. The primary work is responsive layout for the morning plan timeline and the "Do next" card on wider screens.</p>
+  <div class="callout">
+    <strong>PWA is Phase 1 — native is Phase 2.</strong> Nudge launches as a PWA at app.nudge.app. Native iOS + Android apps ship in Phase 2, adding voice capture, Apple Calendar, native push, and IAP. The PWA remains available after native launch for desktop access — morning plan approval on a laptop, quick task capture from a desktop browser, and editorial review criteria. The landing page shifts from "Use in your browser" (Phase 1) to "Download on App Store / Play Store" with a secondary "or use in your browser" link (Phase 2).
+  </div>
+
+  <!-- ================================================================ -->
+  <h2>13. User Scenarios</h2>
+  <!-- ================================================================ -->
+
+  <div class="scenario">
+    <h3>01 — First Open: Sunday Evening Brain Dump — Day 0</h3>
+    <p>Mike opens Nudge (app.nudge.app) after seeing a TikTok showing someone clearing their task list. It's Sunday 9pm. He has the familiar dread. No signup required — the app opens to an empty input field: "What do you need to get done?"</p>
+    <p>
+      01. Types 5 tasks rapidly: "dentist appointment", "send proposal to Dave at Meridian", "renew car registration", "reply to landlord about lease", "submit expense report" — feature: <code>task_capture_text</code> (free tier: 5 active tasks)<br>
+      02. AI structures all 5 within 3 seconds: extracts action types (call, email, browse), assigns categories (health, work, admin), estimates effort, detects "renew car registration" has a regulatory deadline context — feature: <code>ai_structuring</code><br>
+      03. "Do next" view shows: "Reply to landlord about lease — this may unblock other housing decisions. 10 min." — feature: <code>priority_engine</code> (dependency model)<br>
+      04. Taps "Start" → email compose opens (mailto: link — no Gmail integration until signed in) with subject "Re: Lease" pre-filled — feature: <code>execution_start_email</code> (anonymous fallback)<br>
+      05. Writes the reply, sends it, returns to Nudge, taps "Done" — feature: <code>manual_completion</code><br>
+      06. Next task surfaces: "Dentist appointment — you've been rescheduling this. Book it and it's off your mind. 5 min." — feature: <code>priority_engine</code> (cost of delay)<br>
+      07. Completes 2 more tasks. Skips "call insurance company" — feature: <code>skip_action</code><br>
+      08. After 30 minutes, 4 done, 1 remaining active. Slot freed — Mike types a new task. Still within 5-task limit.
+    </p>
+    <p><strong>Result:</strong> The Sunday dread is replaced by momentum. Mike didn't organize anything — he just did things in the order the app suggested. The reasons made sense. Free tier — no calendar scheduling, no voice, no Gmail integration. Those unlock after sign-in + upgrade. But the core value (prioritization + rationale + avoidance detection) was immediately clear.</p>
+    <p><strong>Subscription:</strong> Free tier, anonymous. No calendar events created yet.</p>
+    <p><strong>Viral:</strong> N/A.</p>
+  </div>
+
+  <div class="scenario">
+    <h3>02 — Auth + Calendar Connection + First Morning Plan: Day 1</h3>
+    <p>Monday morning. Mike opens Nudge again (app.nudge.app on his phone's browser). He has 4 remaining tasks from last night plus 3 new ones he thought of in the shower. The app shows: "Sign in to sync your tasks and schedule them on your calendar."</p>
+    <p>
+      01. Mike taps "Sign in with Google" → Google OAuth popup → selects his account → grants Calendar + Gmail permissions — feature: <code>google_oauth</code><br>
+      02. Nudge reads Mike's Google Calendar: he has a 10am standup (30 min), a 1pm client call (45 min), and a 3:30pm team sync (30 min). Free slots identified: 8–10am, 10:30am–1pm, 1:45–3:30pm, 4–6pm — feature: <code>calendar_read</code><br>
+      03. Morning plan generated: 7 tasks are proposed into his available slots. Mike sees a preview timeline — Burnt Orange task blocks alongside gray meeting blocks. "Reply to Dave" at 8:30am. "Call insurance" at 9:00am (high-effort, morning). "Submit expense report" at 10:35am (quick win, post-standup gap). "Renew car registration" at 2:00pm. "Buy sister gift" at 4:00pm. 2 tasks overflow to tomorrow. — feature: <code>morning_plan_generation</code><br>
+      04. Mike glances at the plan — it looks right. Taps "Approve." 5 calendar events are created on his Google Calendar under a dedicated sub-calendar in Burnt Orange. — feature: <code>morning_plan_approve</code> + <code>calendar_event_create</code><br>
+      05. At 8:25am, his phone buzzes: Google Calendar notification "Reply to Dave at Meridian — 8:30am." He taps it → Nudge opens with the task as "Do now" → taps "Start" → email compose opens. — feature: <code>calendar_notification_deeplink</code>
+    </p>
+    <p><strong>Result:</strong> This is the product's second magic moment (after the avoidance catch). Mike went from "I have 7 things to do" to "my day is time-blocked and the first task starts in 5 minutes." He previewed and approved in under 10 seconds. The calendar notification acts as the execution trigger — he doesn't need to open Nudge to know what to do next.</p>
+    <p><strong>Subscription:</strong> Trial day 1. Auth completed, calendar connected.</p>
+    <p><strong>Viral:</strong> N/A — but this experience is what Mike describes when someone asks "what app is that?" Screenshot of the warm orange task blocks in his calendar is a natural share moment — visually distinct from every other blue/white productivity app.</p>
+  </div>
+
+  <div class="scenario">
+    <h3>03 — The Avoidance Catch + Auto-Reschedule: Day 5</h3>
+    <p>Mike has skipped "Call insurance company about claim" 4 times across 5 days. Each time he tapped Skip, Nudge rescheduled it to the next available slot. It's been scheduled at 9am Monday, 9am Tuesday (skipped), 9:30am Wednesday (skipped), 8:30am Thursday (skipped). Today it surfaces differently.</p>
+    <p>
+      01. Calendar notification at 9:00am: "Call insurance company — day 5 with this one. Start with just finding the phone number?" The calendar event is now only 10 min (decomposed first step), not the original 15 min. — feature: <code>avoidance_detection</code> + <code>avoidance_aware_scheduling</code><br>
+      02. Mike taps the notification → Nudge opens → taps "Start" → browser opens search: "insurance company claim phone number" — feature: <code>execution_start_call</code> (fallback)<br>
+      03. Finds the number, makes the call (5 minutes). Taps "Done" — feature: <code>manual_completion</code><br>
+      04. Calendar event deleted. Completion message: "That one was 5 days old. Done." — feature: <code>completion_feedback</code> + <code>calendar_event_delete</code>
+    </p>
+    <p><strong>Result:</strong> The avoidance detection + auto-rescheduling combination is powerful. Each skip moved the task to a new slot, signaling to Mike that the app noticed. The decomposition into a 10-minute first step (find the number) lowered the activation energy enough to break through. The calendar made it concrete — 9am Tuesday, 9:30am Wednesday — each skip was visible on his calendar, not hidden in a list.</p>
+    <p><strong>Subscription:</strong> Trial day 5.</p>
+    <p><strong>Viral:</strong> High word-of-mouth. "It kept rescheduling the call I was avoiding until it was just 'find the phone number' in a 10-minute block. I couldn't not do it."</p>
+  </div>
+
+  <div class="scenario">
+    <h3>04 — Multi-Step Decomposition (Opt-In): Day 8</h3>
+    <p>Mike types: "Plan sister's birthday party for Saturday."</p>
+    <p>
+      01. AI detects multi-step task. Shows: "This looks like a few steps. Break it down?" — feature: <code>decomposition_offer</code> (opt-in, not automatic)<br>
+      02. Mike taps "Yes." AI decomposes into: "Book restaurant for Saturday dinner — 10 min" → "Text family group with time and location — 5 min" → "Order cake for Saturday pickup — 10 min" → "Buy gift — 30 min" — feature: <code>task_decomposition</code><br>
+      03. Confirmation: "Broken into 4 steps. First up: Book restaurant." Decomposed tasks enter the main stream with dependency links. "Book restaurant" surfaces first. — feature: <code>priority_engine</code> (dependency model)<br>
+      04. Mike types: "skip the cake, she's doing keto" — feature: <code>natural_language_edit</code> (voice capture available in Phase 2 native; PWA uses text input)<br>
+      05. Confirmation: "Removed: Order cake." Remaining 3 tasks re-prioritize and reschedule — "Book restaurant" at 12:30pm today, "Text family" at 12:45pm, "Buy gift" at 4pm tomorrow. — feature: <code>calendar_reschedule</code>
+    </p>
+    <p><strong>Result:</strong> Decomposition was opt-in — Mike chose to break it down. He wasn't surprised by 4 new tasks appearing. He corrected with natural language. No edit screen needed.</p>
+    <p><strong>Subscription:</strong> Trial day 8.</p>
+    <p><strong>Viral:</strong> N/A.</p>
+  </div>
+
+  <div class="scenario">
+    <h3>05 — Free-to-Paid Conversion: Day 14</h3>
+    <p>Mike has been using the free tier for 2 weeks. He's hit the 5-task active limit 3 times (each time completing tasks to make room). He's seen 14 days of rationales and avoidance detection. Today he adds a 6th task and hits the wall.</p>
+    <p>
+      01. Mike types a 6th task. App shows: "You've hit 5 active tasks. Unlock unlimited tasks + calendar scheduling — $6.99/month or $49.99/year." Below: "In 14 days, you completed 31 tasks and caught 3 avoidance patterns." — feature: <code>freemium_upgrade_prompt</code><br>
+      02. Below the stats: "Without Nudge paid, your tasks stay in a list. With it, they're time-blocked on your calendar every morning." — feature: <code>loss_aversion_copy</code><br>
+      03. Mike taps "$49.99/year" → Stripe Checkout opens → enters card (or taps Apple Pay / Google Pay via Stripe Payment Request) → confirms → subscription active. — feature: <code>stripe_checkout</code><br>
+      04. App refreshes: 5-task limit removed. Calendar connection prompt: "Connect your Google Calendar to start scheduling." Mike connects → first morning plan generates immediately. — feature: <code>calendar_connection_post_upgrade</code>
+    </p>
+    <p><strong>Result:</strong> The conversion prompt uses Mike's own data — 31 tasks and 3 catches are concrete proof. The upgrade unlocks calendar scheduling, which is the feature with the clearest before/after. He was already hooked on the rationale + avoidance detection (free tier); now he gets the full execution system.</p>
+    <p><strong>Subscription:</strong> Active — $49.99/year.</p>
+    <p><strong>Viral:</strong> N/A.</p>
+  </div>
+
+  <div class="scenario">
+    <h3>06 — The Save Moment + Weekly Review: Day 19</h3>
+    <p>Mike added "Renew car registration" on day 1. He's skipped it 6 times. Each skip rescheduled it to a new calendar slot — it has moved through 6 different time blocks across 19 days. The deadline is in 3 days. The late fee is $150.</p>
+    <p>
+      01. Calendar notification at 9:00am (this task has been scheduled and rescheduled 6 times — now at its 7th slot). "Do next" forces this to top (Rule 1: deadline ≤48h overrides all + Rule 3: skip_count 6): "Renew car registration — due in 3 days. Late fee after that. 30 min." — feature: <code>hard_deadline</code> + <code>avoidance_escalation</code><br>
+      02. Taps "Start" → browser opens to the DMV registration portal (URL was in original task text) — feature: <code>execution_start_browser</code><br>
+      03. Completes registration, taps "Done." Calendar event deleted. Completion: "Done — just in time." — feature: <code>completion_feedback</code> + <code>save_moment_log</code> + <code>calendar_event_delete</code><br>
+    </p>
+    <p>
+      <strong>Sunday, day 21 — weekly review:</strong><br>
+      04. Notification (Web Push on Android/desktop, email on iOS PWA): "Your week: 14 tasks done. Review ready." Opens review: "14 tasks this week. You caught the car registration 3 days before the $150 late fee. Insight: you complete emails in &lt;1 hour but phone calls average 4 days. Try doing calls before 10am." — feature: <code>weekly_review_screen</code><br>
+      05. Share card: "14 tasks done • 3-week streak." Shares to Instagram story. Two friends install. — feature: <code>share_card_gen</code> + <code>landing_page_deep_link</code>
+    </p>
+    <p><strong>Result:</strong> The "save moment" drives retention and word-of-mouth. "This app saved me $150 on car registration" is specific, credible, shareable.</p>
+    <p><strong>Subscription:</strong> Active.</p>
+    <p><strong>Viral:</strong> 2 installs from Instagram story. Share rate target: 8% of subscribers share at least once/month.</p>
+  </div>
+
+  <div class="scenario">
+    <h3>07 — Recurring Task + Energy Matching: Month 2</h3>
+    <p>Mike types: "Submit expense report every Friday."</p>
+    <p>
+      01. AI detects recurring pattern. Confirmation: "Repeats every Friday. Next: this Friday." A recurring calendar event is created: every Friday 9:00am, 15-min block on the Nudge sub-calendar. — feature: <code>recurring_task_create</code> + <code>recurring_calendar_event</code><br>
+      02. Every Friday morning, Mike's calendar fires a notification at 8:55am: "Submit expense report — 9:00am." He taps it, Nudge opens. Rationale: "Recurring, 15 min. Good time — you're fresh." — feature: <code>recurring_regen</code> + <code>energy_match_morning</code> + <code>calendar_notification_deeplink</code><br>
+      03. After 4 weeks: personalized timing. System learns Mike completes reports fastest before 10am. Recurring event stays at 9am (confirmed by data). — feature: <code>energy_match_personalized</code><br>
+      04. Week 5: Mike has a 9am meeting (new recurring standup added by his manager). Nudge detects the conflict, auto-reschedules the expense report to 10:15am: "Expense report — usually before 10, doing it now still beats afternoon." — feature: <code>calendar_conflict_detection</code> + <code>auto_reschedule</code>
+    </p>
+    <p><strong>Result:</strong> Mike typed one sentence and got a smart recurring system. The calendar awareness adds genuine intelligence.</p>
+    <p><strong>Subscription:</strong> Active.</p>
+    <p><strong>Viral:</strong> N/A.</p>
+  </div>
+
+  <div class="scenario">
+    <h3>08 — The Behavioral Pattern Shift: Month 3</h3>
+    <p>Three months of data. Mike opens his monthly review.</p>
+    <p>
+      01. Review: "Month 3: 67 tasks completed. Phone call completion dropped from 4.3 days (month 1) to 1.1 days (month 3). Your best completion slot is 9–10am Tue/Thu (82% completion rate). Your top avoidance category shifted from 'phone calls' to 'financial' — you've been postponing the health insurance comparison for 12 days." — feature: <code>monthly_pattern_review</code> (uses <code>category</code> field + <code>scheduled_at</code> / <code>completed_at</code> correlation for slot analysis)<br>
+      02. Next morning: "Compare health insurance plans — day 12. Financial tasks are your new blind spot, averaging 9 days. Break it down?" Scheduled at 9:15am Tuesday (Mike's highest completion slot). — feature: <code>avoidance_detection</code> + <code>decomposition_offer</code> + <code>optimal_slot_scheduling</code>
+    </p>
+    <p><strong>Result:</strong> Moat in action. Nudge changed Mike's behavior on one category and detected the next one. The scheduling engine now uses 3 months of slot-performance data to place the avoided task in the time window where Mike is statistically most likely to complete it. A competitor can't replicate the priority model, the avoidance profile, or the scheduling optimization without 3 months of this specific user's data.</p>
+    <p><strong>Subscription:</strong> Active. Zero churn risk.</p>
+    <p><strong>Viral:</strong> High word-of-mouth. "It fixed my phone call problem and found a new one I didn't know about."</p>
+  </div>
+
+  <div class="scenario">
+    <h3>09 — Edge Case: Vague Task + Priority Disagreement — Day 10</h3>
+    <p>Mike types: "do the thing for mom" and "handle the situation at work."</p>
+    <p>
+      01. AI receives "do the thing for mom." No action type, no deadline, no context. Classified as <code>generic</code>, category: <code>family</code>. Effort: 15 min (default). Title stays as-is. Rationale: "15 min — what does mom need?" — feature: <code>ai_structuring</code> (low confidence path)<br>
+      02. AI receives "handle the situation at work." Classified as <code>generic</code>, category: <code>work</code>. Rationale: "No deadline yet — but this might grow." — feature: <code>ai_structuring</code> (cost-of-delay heuristic)<br>
+      03. Neither gets a "Start" deep-link — "Done" button only. This is <code>generic</code> fallback. Both tasks are still calendar-scheduled despite being generic — "Do the thing for mom" gets a 15-min block at 11am, "Handle the situation at work" gets a 15-min block at 11:20am. Calendar scheduling works for all task types, not just ones with rich context. — feature: <code>calendar_scheduling_generic</code><br>
+      04. The AI reasoning engine sees all tasks in one batch: "Buy sister birthday gift" has a deadline in 4 days + emotional weight (family, birthday). "Handle the situation at work" has no deadline, no context, no urgency signals. The AI ranks the birthday gift higher — deadline urgency + emotional weight outweigh an ambiguous work task.<br>
+      05. Correctly: "Buy sister birthday gift — her birthday is in 4 days. 30 min." surfaces first. The AI reasoning engine made a judgment call a cascade couldn't: it weighed emotional significance alongside deadline proximity.<br>
+      06. Mike confirms — this is what he expected.
+    </p>
+    <p><strong>Result:</strong> The AI reasoning engine handled this correctly because it sees the full task list holistically — weighing emotional weight, deadline proximity, and context richness simultaneously. A rule-based cascade would have needed explicit rules for every combination. The AI just reasons: "birthday in 4 days for a family member matters more than a vague work issue with no deadline." Vague tasks got safe fallback treatment — no hallucinated action types, no fake specificity.</p>
+    <p><strong>Subscription:</strong> Trial day 10.</p>
+    <p><strong>Viral:</strong> N/A.</p>
+  </div>
+
+</body>
+</html>

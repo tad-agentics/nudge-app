@@ -1,95 +1,241 @@
 ---
-description: Voice, tone, and copy rules — [App Name]. Auto-loads on all screen files.
-globs:
-  - src/**/*.tsx
+description: Brand voice and copy standards — auto-loads on all screen files
+globs: src/**/*.tsx
 alwaysApply: false
 ---
 
-> This file is the operational extract of `artifacts/docs/emotional-design-system.md`.
-> Populated during Phase 1 or by `/init` Step 4 from the EDS.
-> When EDS and this file diverge, update both — this file must never drift from the EDS.
+## Voice Identity
+Nudge sounds like a sharp, calm colleague who happens to know your entire task list. Not a coach (too preachy). Not a parent (too guilt-laden). Not a chatbot (too eager). Not a meditation app (too soft). A colleague who says "do this one first — here's why" and then gets out of the way.
 
 ## Copy Formula
-
-Formula: [Exact sequence — e.g. "[Result] + [Reason personalized to user] + [Specific guidance if needed]"]
-Length: [Max sentences for primary copy — e.g. "2 sentences. Reason: 1 sentence. Total ≤40 words per screen."]
-Structure:
-  - Sentence 1: [What goes first — e.g. "Specific result (date, time, direction, color)"]
-  - Sentence 2: [What goes second — e.g. "Reason tied to user's profile — must include at least 1 personalization token"]
-Tone: [adjective], [adjective] — never [anti-adjective], [anti-adjective]
-Person: [How to address user — e.g. "Use 'bạn'. Never 'bạn ấy' or 'người dùng'."]
+Formula: State what to do + give the reason. Two parts, one sentence.
+Reason must reference something specific to THIS task and THIS user's context. The AI reasoning engine generates rationales using 9 mental models — the rationale may reference: time ("5 min"), dependency ("unblocks your deposit refund"), deadline ("due in 3 days"), avoidance ("day 6 with this one"), effort-impact ("quick one"), energy fit ("good time for it"), commitment continuity ("you already booked the restaurant — send the details"), emotional weight ("her birthday is in 4 days"), or decision fatigue ("simple one — no decisions needed"). Two additional behavioral flavors: the 2-minute rule ("2 min, just do it now" — for near-zero effort tasks) and deep work framing ("you have a clear 2 hours — good time for the hard one" — when a long open block is available). Never a generic label ("high priority", "important"). Never an explanation of the engine's logic ("based on dependency mapping analysis").
+Length: 1 sentence. Rationale max 15 words. Completion max 10 words. Error max 15 words. Nudge max 20 words. Paywall headline max 20 words.
+Tone: Calm, direct, specific — never urgent, preachy, cheerful, or apologetic.
 
 ## Forbidden Opening Words
-
-Never start any copy string with: [word], [word], [word], [word], [word]
+Never start copy with: Hey, So, Well, Just, Actually, Basically, Honestly, Look, Remember, Don't forget, Great, Awesome, Amazing, Congrats, Welcome, Yay, Woohoo, Let's go, Ready to, Oops, Uh oh, Whoops
 
 ## Forbidden Words (anywhere in copy)
-
-Never use: [word], [word], [word], [word], [word]
+Never use: miracle, amazing, supercharge, optimize, unlock your potential, level up, crush it, slay, hustle, grind, hack, life-changing, game-changer, revolutionary, skyrocket, 10x, synergy, empower, journey, unleash, thrive, master, dominate, beast mode, incredible, awesome, fantastic, wonderful, exciting, oops, uh oh, whoops, yay, woohoo
 
 ## Screen-Context Copy Rules
 
-Each context type has its own emotional objective. When context type and base formula conflict, context type wins.
-
-### Decision / Choice Moment
-Emotional objective: [What feeling to create — e.g. "Reduce cognitive load. Help user choose, don't add things to consider."]
-Formula override: [How this differs from base — e.g. "Best result on top. Show only 1 reason. Don't list all factors."]
-Example: "[Real copy with {{variables}} — e.g. 'Thứ Ba {{result.date}} — Trực Thành, Hoàng Đạo, hợp mệnh {{user.menh}} của bạn.'"]
+### Decision / "Do Next" Moment
+Emotional objective: Confidence — the user feels the app has already thought about this so they don't have to. When calendar is connected, the scheduled time reinforces that this is the right moment.
+Rule: Always pair the task title with a one-line rationale. When calendar is connected, the scheduled time appears as metadata (not part of the rationale copy). Rationale is AI-generated — specific to this task, this user, this moment. Never generic priority labels. Never engine-explaining language.
+Example (deadline): "Send proposal to Dave — due Thursday. 10 min." [scheduled: 9:15am]
+Example (dependency): "Reply to landlord — this unblocks your deposit refund." [scheduled: 10:30am]
+Example (avoidance): "Call insurance — day 5. Start with just finding the number?" [scheduled: 9:00am]
+Example (cost of delay): "Respond to client — they've been waiting 3 days." [scheduled: 11:00am]
+Example (effort-to-impact): "Submit expense report — 5 min, quick one." [scheduled: 10:35am]
+Example (energy match): "Research laptops — light task, fits right now." [scheduled: 4:00pm]
+Example (commitment): "Text family the restaurant details — you already booked the venue." [scheduled: 12:45pm]
+Example (emotional weight): "Buy sister birthday gift — her birthday is in 4 days." [scheduled: 4:00pm]
+Example (decision fatigue): "Renew car registration — straightforward, no decisions needed." [scheduled: 2:00pm]
+Example (2-minute rule): "Confirm dentist appointment — 2 min, just do it now." [scheduled: 10:35am]
+Example (deep work): "Research health insurance plans — you have a clear 2 hours. Good time for the hard one." [scheduled: 9:00am]
+Example (no calendar): "Submit expense report — quick one, 5 min." [no scheduled time shown]
+Anti-example: "Send proposal to Dave — High Priority"
+Anti-example: "Based on dependency analysis, this task should be completed first"
+Anti-example: "Our AI determined this is your most important task"
 
 ### Confirmation / Completion
-Emotional objective: [e.g. "Close the decision loop. Confirm the result as settled, not still a suggestion."]
-Formula override: [e.g. "First sentence: result as fact. Second sentence (optional): next action."]
-Example: "[Real copy — e.g. 'Ngày {{result.date}} đã sẵn sàng — giờ {{result.best_hour}} là thời điểm tốt nhất theo mệnh của bạn.'"]
+Emotional objective: Warm acknowledgment — the user's effort is seen, not evaluated.
+Rule: Completion copy is 1–6 words. State the outcome. Never congratulate. Never use exclamation marks. The warmth comes from brevity and specificity, not enthusiasm.
+Example: "Done."
+Example: "Done — {{streak_count}} in a row."
+Example: "That one was {{days_old}} days old. Done."
+Example: "Done — just in time."
+Anti-example: "Amazing job! You're on fire! 🔥"
+Anti-example: "Great work completing that task!"
+Anti-example: "Awesome! Keep it up!"
+
+### Avoidance Detection / Escalation
+Emotional objective: Gentle confrontation — the app surfaces what the user is avoiding without guilt, shame, or urgency.
+Rule: Escalation increases specificity, not volume. Three levels:
+- Level 1 (skip count 3): Re-frame with effort. "This keeps sliding. {{effort}} and it's off your plate."
+- Level 2 (skip count 5+): Decompose into first step. "Day {{days_old}} with this one. Start with just {{first_step}}?"
+- Level 3 (weekly review pattern): Name the category. "{{category}} tasks are your blind spot — averaging {{avg_days}} days."
+Never: "You still haven't done this!", "This is overdue!", "Take action now!", "Don't let this slide!"
+
+### Cost of Delay (2–7 Day Deadlines)
+Emotional objective: Calm urgency — the user sees the approaching deadline without panic. The tone is "easier now" not "you're running out of time."
+Rule: Tasks with deadlines in 2–7 days get progressively stronger rationale. 6–7 days: mild ("Due next week — easier now than later"). 4–5 days: moderate ("Due in {{days_until}} days — easier now than later"). 2–3 days: strong ("Due in {{days_until}} days. {{effort}} to finish."). Under 48 hours: handled by the hard deadline rule (force to top), not this context.
+Example: "Due Thursday — easier now than later."
+Example: "Due in 4 days. 30 min to finish."
+Example: "This gets harder the longer it sits."
+Anti-example: "URGENT: Only 5 days left!"
+Anti-example: "You're running out of time!"
+Anti-example: "Don't miss this deadline!"
 
 ### Empty / Zero State
-Emotional objective: [e.g. "App is waiting to help, not empty and waiting to be filled."]
-Formula override: [e.g. "Positive invitation, specific about what app will do. Never 'Chưa có X. Hãy Y.'"]
-Example: "[Real copy — e.g. 'Cho biết ngày giờ sinh để mọi kết quả đều dành riêng cho bạn.'"]
+Emotional objective: Earned calm — the user cleared their list and the app respects the emptiness.
+Rule: When all tasks are done, acknowledge with one short sentence. Don't suggest adding tasks. Don't show tips. Don't fill the space.
+Example: "Nothing pending. Enjoy the quiet."
+Example first-open placeholder: "What do you need to get done?"
+Anti-example: "You have no tasks! Add some to get started."
+Anti-example: "Your list is empty. Here are some things you could add..."
+Anti-example: "All done! Why not plan ahead?"
 
 ### Error State
-Emotional objective: [e.g. "Maintain trust. Technical errors must not make user doubt result accuracy."]
-Formula override: [e.g. "Acknowledge briefly. Specific action user can take. No excessive apology."]
-Example: "[Real copy — e.g. 'Không tải được kết quả lúc này. Thử lại sau vài giây.'"]
+Emotional objective: Trust preservation — the user knows what went wrong and what to do, with no drama.
+Rule: State what failed + what to do next. Two parts, one sentence. No humor, no apology, no personality.
+Example: "Couldn't load right now. Try again in a few seconds."
+Example: "Gmail isn't responding. You can complete this manually."
+Example: "Didn't catch that. Try typing instead."
+Anti-example: "Oops! Something went wrong. We're working on it!"
+Anti-example: "Sorry about that! Please try again."
 
 ### Onboarding
-Emotional objective: [e.g. "App is learning about user, not user filling out a form."]
-Formula override: [e.g. "Each input field has micro-copy explaining purpose in 1 sentence. Don't use placeholder as label."]
-Example: "[Real copy — e.g. 'Ngày sinh của bạn — dùng để tính Can Chi và tìm ngày hợp tuổi.'"]
+Emotional objective: Instant utility — the user captures their first task within 10 seconds of opening the app.
+Rule: No welcome screen. No feature tour. No "let us show you around." The first screen is the input field with placeholder text. The product teaches through use, not through explanation.
+Example placeholder: "What do you need to get done?"
+Example after first task structured: (no copy — the AI structures the task and the "Do next" view appears. The product explains itself by working.)
+Anti-example: "Welcome to Nudge! Let's get you set up."
+Anti-example: "Here's how Nudge works: Step 1..."
 
 ### Background / Ambient
-Emotional objective: [e.g. "Calm, familiar tone for everyday UI. No excitement, no urgency."]
-Nav labels: [Pattern — e.g. "Nouns only, no verbs. 'Lịch' not 'Xem Lịch'. 'Lá số' not 'Lập Lá Số Của Bạn'."]
-Section headers: [Pattern — e.g. "Descriptive, not CTA. 'Ngày tốt tuần này' not 'Chọn ngày tốt tuần này!'"]
-Credit balance: [Pattern — e.g. "{{user.credits}} tín dụng — no 'Bạn còn X! Mua thêm ngay!'"]
+Emotional objective: Invisible infrastructure — labels are scanned in under 0.5 seconds, never read.
+Rule: Noun-first. No verbs. Max 2 words. Lowercase unless proper noun.
+Example nav labels: "Today", "All", "Review"
+Example section headers: "Completed", "Coming up", "This week"
+Anti-example: "Your Completed Tasks", "View All Tasks", "Check Your Review"
 
-### Paywall / Purchase Moment
-Emotional objective: [e.g. "User is at peak wanting-to-know. Don't interrupt that feeling. Paywall is a natural next step, not a gate."]
-Formula override: [e.g. "Show partial result first. Explain what is hidden, not why to buy. No urgency."]
-Example: "[Real copy — e.g. 'Xem lý do và giờ tốt cho ngày {{result.date}} — cần 5 tín dụng.'"]
+### Paywall / Trial Conversion
+Emotional objective: Fair exchange — the user's own data makes the argument, not sales copy.
+Rule: Lead with the user's completion count and save moments. State what they'd lose. State the price. No urgency, no scarcity, no countdown, no artificial pressure. The CTA is a verb, not a sales pitch.
+Example: "In 14 days, you completed {{completed_count}} tasks. {{saves}} close calls caught. Keep Nudge — {{price}}/month."
+Example CTA: "Keep Nudge"
+Example annual option: "{{annual_price}}/year ({{monthly_equiv}}/month)"
+Example microcopy: "Cancel anytime. Your tasks stay if you downgrade."
+Example loss framing: "Without Nudge, these go back to Notes."
+Anti-example: "Upgrade now to unlock your full potential!"
+Anti-example: "Limited time offer — 50% off!"
+Anti-example: "No thanks, I don't want to be productive" (confirm-shaming)
 
-## Forbidden Patterns
+### Weekly Review
+Emotional objective: Quiet self-awareness — the user sees their own patterns reflected, not evaluated.
+Rule: Lead with the completion count (animated). Follow with one behavioral insight — always referencing a specific pattern, never generic encouragement. If a save moment occurred, highlight it with specificity. Never compare the user to other users.
+Example: "17 tasks this week. You caught the registration renewal 2 days before the late fee."
+Example insight: "Emails: avg 0.8 days. Phone calls: avg 4.1 days. Try calls before 10am — you've got the energy then."
+Anti-example: "What an incredible week! You're crushing it!"
+Anti-example: "You completed more tasks than 80% of Nudge users!"
 
-- [Pattern name]: [What it is and why it's forbidden — e.g. "FALSE CERTAINTY: Copy promising outcomes. App provides information, not guarantees."]
-- [Pattern name]: [Description]
-- [Pattern name]: [Description]
-- [Pattern name]: [Description]
+### Push Notifications
+Emotional objective: Useful interruption — the notification earns its place on the lock screen by being immediately actionable.
+Rule: Notifications are task-specific or data-specific. Never motivational. Never generic. When calendar is connected, the morning digest references scheduled times. Calendar notifications (5-min reminders) are generated by the calendar app itself, not by Nudge — Nudge relies on the native calendar notification system as the primary execution trigger.
+Example morning digest (calendar): "5 tasks scheduled today. First up: reply to Dave at 9:15am."
+Example morning digest (no calendar): "3 things today. Start: reply to Dave (unblocks 2 others)."
+Example avoidance nudge: "Insurance call — day 5. Rescheduled to 9am. Just find the number?"
+Example weekly review: "Your week: {{count}} tasks done. Review ready."
+Example trial reminder: "Trial ends in 2 days. {{count}} tasks completed so far."
+Anti-example: "Good morning! Ready to be productive today? 💪"
+Anti-example: "Don't forget your tasks!"
+Anti-example: "You missed your 9am time block!" (guilt for skipping a scheduled slot)
+
+### Natural Language Editing
+Emotional objective: Effortless correction — the user speaks or types a change and it happens without a form. Calendar events update automatically.
+Rule: The system confirms the edit with a brief, specific statement. No confirmation modal. No "Are you sure?" If the edit changes the deadline or timing, the calendar event reschedules silently.
+Example user input: "Actually, change the dentist to Thursday"
+Example system response: "Moved to Thursday. Rescheduled." (inline, auto-dismisses after 2 seconds. Calendar event updates.)
+Example user input: "Skip the cake, she's doing keto"
+Example system response: "Removed: Order cake." (Calendar event deleted.)
+Example user input: "Make the insurance call 15 minutes, not 30"
+Example system response: "Updated to 15 min." (Calendar block shrinks.)
+Anti-example: "Are you sure you want to change this task?"
+Anti-example: "This will update your calendar event. Proceed?"
+
+### Generic / Vague Task (Low AI Confidence)
+Emotional objective: Graceful handling — the app doesn't pretend to understand what it can't parse. Honest humility preserves trust.
+Rule: When the AI can't extract action type, deadline, or context, the task gets a safe fallback treatment. Title stays as user typed it. No "Start" deep-link — only "Done" button. Rationale uses effort-based defaults or an honest open-ended prompt. Never fabricate specificity the AI doesn't have.
+Example rationale: "15 min — what needs to happen here?"
+Example rationale (aging): "No deadline yet — but this might grow."
+Example fallback: "Good one to tackle next." (used when no model applies, confidence < 0.7)
+Anti-example: "This is a high-priority task!" (generic label with false confidence)
+Anti-example: "Call mom about the thing" → auto-classifying as action_type: call with a phone dialer when the user said "do the thing for mom" (hallucinated action type)
+
+### Skip Action
+Emotional objective: Minimal feedback — the task reschedules and moves on. No judgment.
+Rule: When calendar is connected, skip triggers an auto-reschedule. Show a brief inline confirmation with the new time, auto-dismisses in 1.5 seconds. When calendar is NOT connected, skip is silent — no copy. The user should feel zero friction or judgment when skipping. Avoidance-related copy only appears after 3+ cumulative skips — never on the skip action itself.
+Example (calendar connected): "Rescheduled to 2pm." (auto-dismisses 1.5s)
+Example (calendar connected, tomorrow): "Rescheduled to tomorrow 9am." (auto-dismisses 1.5s)
+Example (calendar not connected): (No copy — task drops silently)
+Anti-example: "Skipped! You can come back to this later."
+Anti-example: "You missed your 9am slot." (guilt framing)
+
+### Calendar Connection
+Emotional objective: Simple exchange — the user understands what access you need and what they get.
+Rule: One sentence explaining the value. Offer both providers (Google Calendar, Apple Calendar) as equal options. No preference shown. If declined, accept gracefully — prompt once more after 5 task completions, then never again.
+Example prompt: "Connect your calendar so Nudge can schedule your tasks around your meetings."
+Example CTA (Google): "Connect Google Calendar"
+Example CTA (Apple): "Connect Apple Calendar"
+Example decline: "No problem. You can connect your calendar later in settings."
+Example re-prompt (after 5 completions): "Your tasks aren't on your calendar yet. People who schedule tasks complete 40% more."
+Anti-example: "You need to connect your calendar to use Nudge!"
+Anti-example: "Connect your calendar to unlock the full experience!"
+
+### Calendar Scheduling Feedback
+Emotional objective: Quiet confidence — the user sees their day structured without having to think about it.
+Rule: When tasks are scheduled onto the calendar, confirm with the count. When a single task is scheduled or rescheduled, confirm with the time. All confirmations are inline, brief, and auto-dismissing. Never explain the scheduling logic.
+Example (first calendar fill): "{{task_count}} tasks scheduled around your meetings."
+Example (single task): "Scheduled for {{scheduled_time}}."
+Example (overflow): "Not scheduled yet — your calendar is full this week."
+Example (calendar event description): "{{rationale_text}} · Open in Nudge"
+Anti-example: "I've optimized your schedule for maximum productivity!"
+Anti-example: "Your time blocks are set! Let's crush it!"
+Anti-example: "Based on your energy levels, I've scheduled this for..." (explaining the engine)
+
+### Auth Prompt
+Emotional objective: Fair trade — the user understands what they get in exchange for signing in. Calendar scheduling is the primary value proposition.
+Rule: State the benefit, not the requirement. One sentence. No urgency.
+Example (persistence + calendar): "Sign in to sync your tasks and schedule them on your calendar."
+Example (integration): "Connect Google to unlock email and calendar actions."
+Example (limit): "Sign in to keep adding tasks — your first 14 days are free."
+Anti-example: "Create an account to continue!"
+Anti-example: "Sign up now to unlock all features!"
+
+### Task Decomposition
+Emotional objective: Clarity — a complex task just became simple. The user feels lighter.
+Rule: Decomposition is ALWAYS opt-in. The AI offers, the user confirms. Never auto-decompose. Confirm the decomposition with the count and the first step. Don't list all steps — the main stream handles that. Auto-dismisses after 3 seconds.
+Example offer: "This looks like a few steps. Break it down?"
+Example confirmation: "Broken into 3 steps. First up: Book restaurant."
+Anti-example: "I've created 4 subtasks for you: 1. Book restaurant 2. Send WhatsApp..." (over-explaining)
+Anti-example: (Subtasks appearing without user confirmation — breaks the "show one thing" principle)
+
+### Recurring Task
+Emotional objective: Set-and-forget — the user typed a sentence and a system was created. No setup, no configuration.
+Rule: Confirm the recurrence pattern and next occurrence. One sentence. No explanation of how recurrence works.
+Example: "Repeats every Friday. Next: this Friday."
+Example when surfaced: "Submit expense report — recurring, 15 min."
+Anti-example: "I've set up a recurring task that will repeat every week on Friday. You can modify this in settings."
+
+## AI Rationale Handling
+Rationale copy for the "Do next" view is primarily generated by the AI reasoning engine — not hardcoded templates. The AI sees all tasks, the user's behavioral profile, and calendar context, then writes a specific, context-aware rationale for each task.
+
+**Frontend developer note:** The rationale arrives as the `rationale_text` field in the task object. The `rationale_tier` field indicates whether it was AI-generated ("ai_generated") or fell back to a template ("template_fallback"). Both types display identically — the user never knows which produced the rationale. The distinction exists for analytics and prompt tuning only.
+
+**What the validation gate catches (you won't need to handle these):** Rationale confidence below 0.6, forbidden words, hallucinated references (mentioning people or deadlines not in the task data), guilt language, exclamation marks, emoji, and rationale exceeding 15 words. All of these are caught server-side before the rationale reaches the client. If a rationale is rejected, a template fallback is substituted server-side.
+
+**What the frontend DOES need to handle:**
+- Display `rationale_text` exactly as received — no client-side manipulation
+- Display `scheduled_time` as metadata alongside the rationale (when calendar connected)
+- The `primary_model` field can be used for subtle UI accents (e.g., Avoidance color tint for avoidance rationales) but is not required for v1
 
 ## Copy Quality Test
-
-A string passes only if ALL five answer YES. Any NO → rewrite before shipping.
-
-1. [Binary question specific to this product — e.g. "Does this copy mention at least one personal element (mệnh, Dụng Thần, tuổi, Can Chi) — or is this an ambient/background screen that doesn't require personalization?"]
-2. [Binary question — e.g. "If read aloud, does it sound like a [age] year old [city] person talking to family — not like a translated text or system notification?"]
-3. [Binary question — e.g. "Does it end with an action or specific information the user can use immediately — not a sales pitch or open-ended question?"]
-4. [Binary question — e.g. "Is it free of every word in the Forbidden Words and Forbidden Opening Words lists?"]
-5. [Binary question — e.g. "If the user just paid credits to see this, does it feel like the question in their head has been answered — not explained at length or followed by more questions?"]
+A string passes only if all six answer yes:
+1. Does it reference something specific to this user's tasks, behavior, or data — not a generic motivational phrase?
+2. Is it one sentence or shorter?
+3. Would it feel natural coming from a calm, competent colleague — not a coach, parent, chatbot, or wellness app?
+4. Does it avoid every word and opening in the Forbidden lists?
+5. Does it move the user toward action or acknowledge completed action — never toward reflection, guilt, self-assessment, or self-improvement?
+6. Does it describe the reason without explaining the engine? ("Dave's been waiting 3 days" passes. "Based on cost-of-delay analysis" fails.)
 
 ## Hard Rules
-
-These apply regardless of the per-project voice and tone above.
-
-- All UI text uses real data variables — never lorem ipsum or placeholder strings
-- Copy slots defined in wireframe metadata must be populated before committing
-- Dynamic values use actual variable names: `{{user.display_name}}`, `{{item.title}}`
-- Error messages: state what failed + why + what to do next — three parts, one sentence
-- Copy written in [language] for [market] — follow locale conventions for punctuation, number formatting, and currency
+- All dynamic text uses real data variables — never lorem ipsum or placeholder strings
+- All copy slots defined in screen spec metadata must be populated before committing
+- Copy written in English for global market — plain, common English. No idioms, slang, or culturally specific references
+- Variable syntax: {{variable_name}} — e.g., {{streak_count}}, {{days_old}}, {{effort}}, {{first_step}}, {{completed_count}}, {{saves}}, {{price}}, {{annual_price}}, {{monthly_equiv}}, {{blocked_count}}, {{blocked_task}}, {{category}}, {{avg_days}}, {{count}}, {{task_title}}, {{days_before}}, {{when}}, {{days_until_deadline}}, {{insight_text}}, {{pattern_text}}, {{step_count}}, {{first_step_title}}, {{new_date}}, {{frequency}}, {{next_date}}, {{first_task}}, {{first_rationale_short}}, {{days_left}}, {{task_count}}, {{scheduled_time}}, {{new_time}}, {{rationale_text}}
+- Maximum copy lengths: rationale = 15 words, completion = 10 words, error = 15 words, nudge = 20 words, paywall headline = 20 words, push notification = 25 words, natural language edit confirmation = 5 words, decomposition confirm = 12 words, auth prompt = 15 words, recurring confirm = 10 words, calendar schedule confirm = 8 words, calendar reschedule confirm = 5 words, calendar connection prompt = 15 words
+- Exclamation marks: allowed only in error states ("Try again!") — never in completion, nudge, or paywall copy
+- Emoji: never. Not in UI copy, not in push notifications, not in share cards. The product communicates with words.
