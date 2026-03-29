@@ -1,0 +1,11 @@
+# Supabase local/config — link with `supabase link --project-ref <ref>`
+# See https://supabase.com/docs/guides/cli/config
+
+[api]
+enabled = true
+
+[db]
+major_version = 15
+
+[studio]
+enabled = true
