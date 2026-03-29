@@ -252,6 +252,15 @@ export function ProcrastinationQuiz() {
               criteria cut through feature parity and get you back to execution
               faster than another template or color-coded tag ever will.
             </p>
+            <p className="leading-relaxed">
+              Bookmark this page if you want to compare results over time. Many
+              users discover they shift between types during busy seasons — a
+              month of firefighting at work can hide an underlying perfectionism
+              on personal projects. Sharing your result helps friends recognize
+              their own pattern without a lecture. When you are ready to act on
+              it, the next step is not “more discipline,” it is a system that
+              removes decision fatigue so starting feels lighter than avoiding.
+            </p>
           </article>
         </div>
       </div>
