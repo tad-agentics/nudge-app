@@ -6,12 +6,12 @@
 - [x] Figma Make — Human builds prototype, copies code to `src/make-import/`
 - [x] Phase 4 — Tech Spec
 - [x] Setup — `project.mdc`, `build-plan.md`, SDK devDeps, MCP note
-- [ ] Foundation (implementation — first wave from `build-plan.md`)
+- [x] Foundation (implementation — first wave from `build-plan.md`)
 
 ## Foundation
 
-- [ ] Backend foundation        commit: —
-- [ ] Frontend: Make import + component inventory + Tailwind + landing + auth commit: —
+- [x] Backend foundation        commit: _(local — migrations, RLS, Edge stubs, `public/` SEO baseline if tracked)_ 
+- [x] Frontend: Make import + component inventory + Tailwind + landing + auth commit: _(pending `git commit — see below`)_
 
 ## Feature Workstreams
 
