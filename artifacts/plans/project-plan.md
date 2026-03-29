@@ -19,7 +19,7 @@
 | --- | --- | --- | --- | --- | --- |
 | Foundation | 0 | migrations, RLS, Edge stubs, seed | tokens, PWA, supabase client, api-types | — | — |
 | Distribution | 1 | optional public config (deferred) | Landing + Quiz polish, share, SEO | PASS | `275ab79` / `3095440` |
-| Auth & profile | 2 | anon + Google, profiles, credentials | AuthCallback, nudges, Settings profile | PASS | `f09e486` + screens commit |
+| Auth & profile | 2 | anon + Google, profiles, credentials | AuthCallback, nudges, Settings profile | PASS | `f09e486` / `a04363b` |
 | Core engine / Do next | 3 | llm-engine, tasks, behavioral_events | DoNextScreen + modals | — | — |
 | Calendar / morning | 4 | calendar-approve, Google API | MorningPlan, Interstitial | — | — |
 | Billing | 5 | stripe webhook, checkout, portal | UpgradeScreen | — | — |
