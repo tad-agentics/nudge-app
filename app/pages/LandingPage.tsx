@@ -5,6 +5,7 @@ import { ChevronDown } from "lucide-react";
 import { NudgeLogo } from "~/components/NudgeLogo";
 import { useInstallPrompt } from "~/hooks/useInstallPrompt";
 import { APP_START_PATH } from "~/lib/constants";
+import { getLandingTasksCompletedLabel } from "~/lib/site-config";
 import { faqItems, testimonials } from "~/data/mockData";
 
 function PrimaryCta({
@@ -47,6 +48,11 @@ export function LandingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const { canPromptInstall, promptInstall, isIOS, isStandalone } =
     useInstallPrompt();
+
+  const tasksCompletedLabel = useMemo(
+    () => getLandingTasksCompletedLabel(),
+    [],
+  );
 
   useEffect(() => {
     const handleScroll = () => setShowStickyBar(window.scrollY > 600);
@@ -134,6 +140,16 @@ export function LandingPage() {
               Free forever for 5 tasks · Upgrade for calendar scheduling · Works
               in any browser.
             </p>
+            <p className="mt-4 text-sm">
+              <Link
+                to="/quiz"
+                className="text-orange underline-offset-4 hover:underline"
+                style={{ fontWeight: 600 }}
+              >
+                What&apos;s your procrastination type?
+              </Link>{" "}
+              <span className="text-stone">— 60-second quiz, no signup.</span>
+            </p>
           </div>
 
           <figure className="space-y-4">
@@ -157,9 +173,11 @@ export function LandingPage() {
           <p className="mb-2 text-center text-lg text-espresso">
             Users complete 2.4x more tasks in their first week
           </p>
-          <p className="mb-6 text-center text-sm text-stone">
-            Join thousands of tasks planned and completed with Nudge.
-          </p>
+          {tasksCompletedLabel ? (
+            <p className="mb-6 text-center text-sm text-stone">
+              {tasksCompletedLabel}
+            </p>
+          ) : null}
           <p className="text-center text-xs font-medium uppercase tracking-wide text-stone">
             As featured in <span className="text-espresso/50">(coming soon)</span>
           </p>

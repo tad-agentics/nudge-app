@@ -192,26 +192,47 @@ export const quizQuestions = [
   },
 ];
 
-export const quizResults = {
-  perfectionist: {
-    name: "The Perfectionist",
-    description: "You delay starting because you want everything to be just right.",
-  },
-  overwhelmed: {
-    name: "The Overwhelmed",
-    description: "You have too much on your plate and don't know where to start.",
-  },
+/** Northstar §7c — five procrastination types (names + core pattern copy verbatim). */
+export type QuizTypeId =
+  | "avoider"
+  | "optimizer"
+  | "firefighter"
+  | "overloader"
+  | "perfectionist";
+
+export const quizResults: Record<
+  QuizTypeId,
+  { name: string; description: string; ctaPlural: string }
+> = {
   avoider: {
     name: "The Avoider",
-    description: "You put off tasks that feel unpleasant or boring.",
+    description:
+      "Skips tasks that feel emotionally uncomfortable — phone calls, confrontations, ambiguous decisions. Does easy tasks compulsively to feel productive.",
+    ctaPlural: "Avoiders",
   },
-  dreamer: {
-    name: "The Dreamer",
-    description: "You love planning but struggle with execution.",
+  optimizer: {
+    name: "The Optimizer",
+    description:
+      "Spends more time organizing tasks than doing them. The system IS the procrastination.",
+    ctaPlural: "Optimizers",
   },
-  busy: {
-    name: "The Too-Busy",
-    description: "You're constantly moving but never quite catching up.",
+  firefighter: {
+    name: "The Firefighter",
+    description:
+      "Only acts when something becomes urgent. Important-but-not-urgent tasks never get touched until they're crises.",
+    ctaPlural: "Firefighters",
+  },
+  overloader: {
+    name: "The Overloader",
+    description:
+      "Says yes to everything. 40 tasks, paralyzed by volume.",
+    ctaPlural: "Overloaders",
+  },
+  perfectionist: {
+    name: "The Perfectionist",
+    description:
+      "Delays starting because the output won't be good enough.",
+    ctaPlural: "Perfectionists",
   },
 };
 
