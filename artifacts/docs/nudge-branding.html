@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nudge — Brand Identity</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1A1A1A;
+    --cream: #F2E8DA;
+    --espresso: #2C1810;
+    --linen: #EDE4D8;
+    --stone: #8B7E74;
+    --parchment: #DDD4C8;
+    --orange: #D4763C;
+    --terra: #C44B3F;
+    --brown: #6B3A2E;
+    --success: #5C8A5E;
+    --white: #FEFCF9;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--espresso);
+    line-height: 1.6;
+  }
+
+  /* Header */
+  .header {
+    padding: 60px 40px 40px;
+    text-align: center;
+  }
+  .header h1 {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--stone);
+    margin-bottom: 8px;
+  }
+  .header h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--espresso);
+  }
+  .header p {
+    font-size: 0.9rem;
+    color: var(--stone);
+    margin-top: 8px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Section */
+  .section {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 40px;
+  }
+  .section-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--stone);
+    margin-bottom: 24px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--parchment);
+  }
+
+  /* ═══════════════════════════════════════ */
+  /* 01. PRIMARY WORDMARK                    */
+  /* ═══════════════════════════════════════ */
+  .wordmark-showcase {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    margin-bottom: 20px;
+  }
+  .wordmark-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .wordmark-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 64px;
+    border-radius: 20px;
+    min-width: 320px;
+  }
+  .wordmark-card.on-cream { background: var(--cream); border: 1px solid var(--parchment); }
+  .wordmark-card.on-dark { background: var(--ink); }
+  .wordmark-card.on-white { background: var(--white); border: 1px solid var(--parchment); }
+
+  .wordmark {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 800;
+    font-size: 3.5rem;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+  .wordmark .n-letter {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+  .wordmark .n-letter::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 0;
+    right: 0;
+    height: 5px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--orange), var(--terra), var(--brown));
+  }
+  .wordmark.dark { color: var(--espresso); }
+  .wordmark.light { color: var(--cream); }
+  .wordmark.light .n-letter::after {
+    background: linear-gradient(90deg, var(--orange), var(--terra));
+  }
+
+  .wordmark-note {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--stone);
+    margin-top: 4px;
+  }
+
+  /* ═══════════════════════════════════════ */
+  /* 02. LOGO MARK (Standalone N)            */
+  /* ═══════════════════════════════════════ */
+  .mark-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 24px;
+    margin-bottom: 20px;
+  }
+  .mark-card {
+    aspect-ratio: 1;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .mark-card .mark-label {
+    position: absolute;
+    bottom: 12px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .standalone-n {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 800;
+    font-size: 5rem;
+    position: relative;
+    display: inline-block;
+    line-height: 1;
+  }
+  .standalone-n::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+    right: 2px;
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--orange), var(--terra), var(--brown));
+  }
+
+  /* ═══════════════════════════════════════ */
+  /* 03. APP ICON                            */
+  /* ═══════════════════════════════════════ */
+  .icon-row {
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .icon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .app-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ink);
+    overflow: hidden;
+  }
+  .app-icon .stripe-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: row;
+  }
+  .app-icon .stripe-bar span {
+    flex: 1;
+    display: block;
+  }
+  .app-icon .icon-n {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 800;
+    color: var(--cream);
+    z-index: 1;
+    line-height: 1;
+    margin-top: -4%;
+  }
+  .icon-size-label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--stone);
+    text-align: center;
+  }
+
+  /* Icon sizes */
+  .icon-1024 { width: 200px; height: 200px; border-radius: 44px; }
+  .icon-1024 .icon-n { font-size: 7.5rem; }
+  .icon-1024 .stripe-bar { height: 18px; }
+  .icon-1024 .stripe-bar span:nth-child(1) { background: var(--orange); }
+  .icon-1024 .stripe-bar span:nth-child(2) { background: #C8603C; }
+  .icon-1024 .stripe-bar span:nth-child(3) { background: var(--terra); }
+  .icon-1024 .stripe-bar span:nth-child(4) { background: var(--brown); }
+
+  .icon-180 { width: 120px; height: 120px; border-radius: 27px; }
+  .icon-180 .icon-n { font-size: 4.5rem; }
+  .icon-180 .stripe-bar { height: 11px; }
+  .icon-180 .stripe-bar span:nth-child(1) { background: var(--orange); }
+  .icon-180 .stripe-bar span:nth-child(2) { background: #C8603C; }
+  .icon-180 .stripe-bar span:nth-child(3) { background: var(--terra); }
+  .icon-180 .stripe-bar span:nth-child(4) { background: var(--brown); }
+
+  .icon-60 { width: 60px; height: 60px; border-radius: 13px; }
+  .icon-60 .icon-n { font-size: 2.25rem; }
+  .icon-60 .stripe-bar { height: 5px; }
+  .icon-60 .stripe-bar span:nth-child(1) { background: var(--orange); }
+  .icon-60 .stripe-bar span:nth-child(2) { background: #C8603C; }
+  .icon-60 .stripe-bar span:nth-child(3) { background: var(--terra); }
+  .icon-60 .stripe-bar span:nth-child(4) { background: var(--brown); }
+
+  .icon-32 { width: 32px; height: 32px; border-radius: 7px; }
+  .icon-32 .icon-n { font-size: 1.2rem; }
+  .icon-32 .stripe-bar { height: 3px; }
+  .icon-32 .stripe-bar span:nth-child(1) { background: var(--orange); }
+  .icon-32 .stripe-bar span:nth-child(2) { background: var(--terra); }
+
+  .icon-16 { width: 16px; height: 16px; border-radius: 3px; }
+  .icon-16 .icon-n { font-size: 0.6rem; }
+  .icon-16 .stripe-bar { height: 2px; }
+  .icon-16 .stripe-bar span:nth-child(1) { background: var(--orange); }
+  .icon-16 .stripe-bar span:nth-child(2) { background: var(--terra); }
+
+  /* ═══════════════════════════════════════ */
+  /* 04. THE WARM STRIPE                     */
+  /* ═══════════════════════════════════════ */
+  .stripe-showcase {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 20px;
+  }
+  .stripe-demo {
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .stripe-full {
+    height: 32px;
+    display: flex;
+  }
+  .stripe-full span { flex: 1; }
+  .stripe-full span:nth-child(1) { background: var(--orange); }
+  .stripe-full span:nth-child(2) { background: #C8603C; }
+  .stripe-full span:nth-child(3) { background: var(--terra); }
+  .stripe-full span:nth-child(4) { background: var(--brown); }
+
+  .stripe-thin {
+    height: 4px;
+    display: flex;
+    border-radius: 2px;
+    overflow: hidden;
+    max-width: 300px;
+  }
+  .stripe-thin span { flex: 1; }
+  .stripe-thin span:nth-child(1) { background: var(--orange); }
+  .stripe-thin span:nth-child(2) { background: #C8603C; }
+  .stripe-thin span:nth-child(3) { background: var(--terra); }
+  .stripe-thin span:nth-child(4) { background: var(--brown); }
+
+  .stripe-usage-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .stripe-usage-item {
+    background: var(--linen);
+    border-radius: 12px;
+    padding: 16px 20px;
+    font-size: 0.8rem;
+    color: var(--espresso);
+  }
+  .stripe-usage-item strong { display: block; margin-bottom: 4px; font-weight: 600; }
+  .stripe-usage-item span { color: var(--stone); }
+
+  /* ═══════════════════════════════════════ */
+  /* 05. COLOR PALETTE                       */
+  /* ═══════════════════════════════════════ */
+  .palette-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .swatch {
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .swatch-color {
+    height: 80px;
+    display: flex;
+    align-items: end;
+    justify-content: start;
+    padding: 8px 12px;
+  }
+  .swatch-color .hex {
+    font-size: 0.7rem;
+    font-weight: 500;
+    font-family: 'DM Sans', monospace;
+    opacity: 0.7;
+  }
+  .swatch-info {
+    padding: 10px 12px;
+    background: var(--linen);
+  }
+  .swatch-name {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--espresso);
+  }
+  .swatch-role {
+    font-size: 0.65rem;
+    color: var(--stone);
+    margin-top: 2px;
+  }
+
+  /* ═══════════════════════════════════════ */
+  /* 06. USAGE EXAMPLES                      */
+  /* ═══════════════════════════════════════ */
+  .usage-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .usage-card {
+    background: var(--linen);
+    border-radius: 16px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .usage-card.dark-card {
+    background: var(--ink);
+  }
+  .usage-title {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--stone);
+  }
+  .dark-card .usage-title { color: var(--stone); }
+
+  /* Mock task card */
+  .mock-task {
+    background: var(--ink);
+    border-radius: 16px;
+    padding: 20px 24px;
+    color: var(--cream);
+  }
+  .mock-task-title {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 4px;
+  }
+  .mock-task-rationale {
+    font-size: 0.85rem;
+    color: var(--stone);
+  }
+  .mock-task-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+    font-size: 0.75rem;
+    color: var(--stone);
+  }
+  .mock-task-time {
+    background: rgba(212, 118, 60, 0.15);
+    color: var(--orange);
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.7rem;
+  }
+  .mock-start-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--cream);
+    color: var(--ink);
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-top: 16px;
+    cursor: pointer;
+  }
+
+  /* Mock morning plan */
+  .mock-plan {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .mock-plan-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .mock-plan-title { font-weight: 700; font-size: 1rem; color: var(--cream); }
+  .mock-plan-count { font-size: 0.75rem; color: var(--stone); }
+  .mock-plan-stripe {
+    height: 4px;
+    display: flex;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+  .mock-plan-stripe span { flex: 1; }
+  .mock-plan-stripe span:nth-child(1) { background: var(--orange); }
+  .mock-plan-stripe span:nth-child(2) { background: #C8603C; }
+  .mock-plan-stripe span:nth-child(3) { background: var(--terra); }
+  .mock-plan-stripe span:nth-child(4) { background: var(--brown); }
+  .mock-slot {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .mock-slot-time {
+    font-size: 0.7rem;
+    color: var(--stone);
+    width: 48px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .mock-slot-bar {
+    flex: 1;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+  .mock-slot-bar.task {
+    background: rgba(212, 118, 60, 0.15);
+    color: var(--cream);
+  }
+  .mock-slot-bar.meeting {
+    background: rgba(255,255,255,0.04);
+    color: var(--stone);
+  }
+  .mock-approve-btn {
+    background: var(--cream);
+    color: var(--ink);
+    border: none;
+    border-radius: 10px;
+    padding: 10px 24px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-top: 12px;
+    cursor: pointer;
+    align-self: stretch;
+    text-align: center;
+  }
+
+  /* Do / Don't */
+  .rules-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .rule-card {
+    background: var(--linen);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .rule-card h4 {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .rule-card.do h4 { color: var(--success); }
+  .rule-card.dont h4 { color: var(--terra); }
+  .rule-card ul {
+    list-style: none;
+    padding: 0;
+  }
+  .rule-card li {
+    font-size: 0.8rem;
+    color: var(--espresso);
+    padding: 4px 0;
+    padding-left: 16px;
+    position: relative;
+  }
+  .rule-card.do li::before { content: '✓'; position: absolute; left: 0; color: var(--success); font-weight: 700; }
+  .rule-card.dont li::before { content: '✕'; position: absolute; left: 0; color: var(--terra); font-weight: 700; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 40px;
+    font-size: 0.75rem;
+    color: var(--stone);
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <h1>Brand Identity</h1>
+  <h2>Nudge</h2>
+  <p>The app that plans your day — and tells you why.</p>
+</div>
+
+<!-- 01. WORDMARK -->
+<div class="section">
+  <div class="section-label">01 — Primary Wordmark</div>
+  <div class="wordmark-showcase">
+    <div class="wordmark-row">
+      <div>
+        <div class="wordmark-card on-cream">
+          <div class="wordmark dark"><span class="n-letter">N</span>udge</div>
+        </div>
+        <div class="wordmark-note">On Warm Cream (primary)</div>
+      </div>
+      <div>
+        <div class="wordmark-card on-dark">
+          <div class="wordmark light"><span class="n-letter">N</span>udge</div>
+        </div>
+        <div class="wordmark-note">On Ink Black (dark mode)</div>
+      </div>
+    </div>
+    <div class="wordmark-row">
+      <div>
+        <div class="wordmark-card on-white">
+          <div class="wordmark dark"><span class="n-letter">N</span>udge</div>
+        </div>
+        <div class="wordmark-note">On White (external use)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 02. LOGO MARK -->
+<div class="section">
+  <div class="section-label">02 — Logo Mark (Standalone)</div>
+  <div class="mark-grid">
+    <div class="mark-card" style="background: var(--ink);">
+      <div class="standalone-n" style="color: var(--cream);">N</div>
+      <div class="mark-label" style="color: var(--stone);">On dark</div>
+    </div>
+    <div class="mark-card" style="background: var(--cream); border: 1px solid var(--parchment);">
+      <div class="standalone-n" style="color: var(--espresso);">N</div>
+      <div class="mark-label" style="color: var(--stone);">On cream</div>
+    </div>
+    <div class="mark-card" style="background: var(--orange);">
+      <div class="standalone-n" style="color: var(--white);">N</div>
+      <div class="mark-label" style="color: rgba(255,255,255,0.7);">On accent</div>
+    </div>
+    <div class="mark-card" style="background: var(--white); border: 1px solid var(--parchment);">
+      <div class="standalone-n" style="color: var(--ink);">N</div>
+      <div class="mark-label" style="color: var(--stone);">On white</div>
+    </div>
+  </div>
+</div>
+
+<!-- 03. APP ICON -->
+<div class="section">
+  <div class="section-label">03 — App Icon & Favicon</div>
+  <div class="icon-row">
+    <div class="icon-container">
+      <div class="app-icon icon-1024">
+        <span class="icon-n">N</span>
+        <div class="stripe-bar"><span></span><span></span><span></span><span></span></div>
+      </div>
+      <div class="icon-size-label">1024 × 1024<br>App Store</div>
+    </div>
+    <div class="icon-container">
+      <div class="app-icon icon-180">
+        <span class="icon-n">N</span>
+        <div class="stripe-bar"><span></span><span></span><span></span><span></span></div>
+      </div>
+      <div class="icon-size-label">180 × 180<br>iOS Home</div>
+    </div>
+    <div class="icon-container">
+      <div class="app-icon icon-60">
+        <span class="icon-n">N</span>
+        <div class="stripe-bar"><span></span><span></span><span></span><span></span></div>
+      </div>
+      <div class="icon-size-label">60 × 60<br>Spotlight</div>
+    </div>
+    <div class="icon-container">
+      <div class="app-icon icon-32">
+        <span class="icon-n">N</span>
+        <div class="stripe-bar"><span></span><span></span></div>
+      </div>
+      <div class="icon-size-label">32 × 32<br>Favicon</div>
+    </div>
+    <div class="icon-container">
+      <div class="app-icon icon-16">
+        <span class="icon-n">N</span>
+        <div class="stripe-bar"><span></span><span></span></div>
+      </div>
+      <div class="icon-size-label">16 × 16<br>Favicon</div>
+    </div>
+  </div>
+</div>
+
+<!-- 04. WARM STRIPE -->
+<div class="section">
+  <div class="section-label">04 — The Warm Stripe (Signature Element)</div>
+  <div class="stripe-showcase">
+    <div class="stripe-demo">
+      <div class="stripe-full"><span></span><span></span><span></span><span></span></div>
+    </div>
+    <div>
+      <div class="stripe-thin"><span></span><span></span><span></span><span></span></div>
+      <div style="font-size: 0.75rem; color: var(--stone); margin-top: 8px;">4px variant — used on card headers and avoidance rationale borders</div>
+    </div>
+    <div class="stripe-usage-grid">
+      <div class="stripe-usage-item">
+        <strong>Morning plan card</strong>
+        <span>4px bar at top of the daily plan preview</span>
+      </div>
+      <div class="stripe-usage-item">
+        <strong>Avoidance rationale</strong>
+        <span>Top-bar accent on skip-escalated task cards</span>
+      </div>
+      <div class="stripe-usage-item">
+        <strong>Landing page hero</strong>
+        <span>Subtle decorative background element</span>
+      </div>
+      <div class="stripe-usage-item">
+        <strong>Share card</strong>
+        <span>Header bar on weekly review share cards</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 05. COLOR PALETTE -->
+<div class="section">
+  <div class="section-label">05 — Color Palette</div>
+  <div class="palette-grid">
+    <div class="swatch">
+      <div class="swatch-color" style="background: var(--ink);"><span class="hex" style="color: #999;">#1A1A1A</span></div>
+      <div class="swatch-info"><div class="swatch-name">Ink Black</div><div class="swatch-role">Primary action, CTAs</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: var(--cream);"><span class="hex" style="color: var(--stone);">#F2E8DA</span></div>
+      <div class="swatch-info"><div class="swatch-name">Warm Cream</div><div class="swatch-role">Page background</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: var(--espresso);"><span class="hex" style="color: #999;">#2C1810</span></div>
+      <div class="swatch-info"><div class="swatch-name">Dark Espresso</div><div class="swatch-role">Primary text</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: var(--linen);"><span class="hex" style="color: var(--stone);">#EDE4D8</span></div>
+      <div class="swatch-info"><div class="swatch-name">Linen</div><div class="swatch-role">Cards, surfaces</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: var(--stone);"><span class="hex" style="color: #ddd;">#8B7E74</span></div>
+      <div class="swatch-info"><div class="swatch-name">Warm Stone</div><div class="swatch-role">Secondary text</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: var(--orange);"><span class="hex" style="color: rgba(255,255,255,0.8);">#D4763C</span></div>
+      <div class="swatch-info"><div class="swatch-name">Burnt Orange</div><div class="swatch-role">Primary accent</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: var(--terra);"><span class="hex" style="color: rgba(255,255,255,0.8);">#C44B3F</span></div>
+      <div class="swatch-info"><div class="swatch-name">Terra Red</div><div class="swatch-role">Avoidance, urgency</div></div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background: var(--brown);"><span class="hex" style="color: rgba(255,255,255,0.7);">#6B3A2E</span></div>
+      <div class="swatch-info"><div class="swatch-name">Deep Brown</div><div class="swatch-role">Stripe anchor</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 06. IN CONTEXT -->
+<div class="section">
+  <div class="section-label">06 — In Context</div>
+  <div class="usage-grid">
+    <!-- Do Next card -->
+    <div class="usage-card">
+      <div class="usage-title">"Do Next" Task Card</div>
+      <div class="mock-task">
+        <div class="mock-task-title">Reply to landlord about lease</div>
+        <div class="mock-task-rationale">This unblocks your deposit refund. 10 min.</div>
+        <div class="mock-task-meta">
+          <span class="mock-task-time">9:15 AM</span>
+          <span>✉ Email</span>
+          <span>10 min</span>
+        </div>
+        <button class="mock-start-btn">Start →</button>
+      </div>
+    </div>
+
+    <!-- Morning Plan -->
+    <div class="usage-card dark-card">
+      <div class="usage-title">Morning Plan Preview</div>
+      <div class="mock-plan">
+        <div class="mock-plan-header">
+          <div class="mock-plan-title">Tuesday</div>
+          <div class="mock-plan-count">5 tasks</div>
+        </div>
+        <div class="mock-plan-stripe"><span></span><span></span><span></span><span></span></div>
+        <div class="mock-slot">
+          <div class="mock-slot-time">9:15</div>
+          <div class="mock-slot-bar task">Reply to landlord</div>
+        </div>
+        <div class="mock-slot">
+          <div class="mock-slot-time">9:30</div>
+          <div class="mock-slot-bar task">Submit expense report</div>
+        </div>
+        <div class="mock-slot">
+          <div class="mock-slot-time">10:00</div>
+          <div class="mock-slot-bar meeting">Standup</div>
+        </div>
+        <div class="mock-slot">
+          <div class="mock-slot-time">10:35</div>
+          <div class="mock-slot-bar task">Call insurance</div>
+        </div>
+        <div class="mock-slot">
+          <div class="mock-slot-time">1:00</div>
+          <div class="mock-slot-bar meeting">Client call</div>
+        </div>
+        <div class="mock-slot">
+          <div class="mock-slot-time">2:00</div>
+          <div class="mock-slot-bar task">Research insurance plans</div>
+        </div>
+        <button class="mock-approve-btn">Approve</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 07. USAGE RULES -->
+<div class="section">
+  <div class="section-label">07 — Usage Rules</div>
+  <div class="rules-grid">
+    <div class="rule-card do">
+      <h4>Do</h4>
+      <ul>
+        <li>Use the warm stripe as a top-bar accent (4px)</li>
+        <li>Maintain generous whitespace (24px min)</li>
+        <li>Use 16px border-radius on all cards</li>
+        <li>Use Ink Black for primary actions</li>
+        <li>Let the cream background breathe</li>
+        <li>Use the standalone N for small contexts</li>
+      </ul>
+    </div>
+    <div class="rule-card dont">
+      <h4>Don't</h4>
+      <ul>
+        <li>Use left-border accents on cards (AI design tell)</li>
+        <li>Use the stripe as a full background</li>
+        <li>Add gradients beyond the stripe</li>
+        <li>Use blue anywhere in the product</li>
+        <li>Add illustrations, mascots, or emoji</li>
+        <li>Use pure white (#FFF) as background</li>
+        <li>Animate the stripe or logo mark</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  Nudge Brand Identity v1.0 — March 2026
+</div>
+
+</body>
+</html>

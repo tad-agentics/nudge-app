@@ -72,8 +72,8 @@ The interface draws from physical warmth — cream paper, dark ink, the retro st
 
 ### The Warm Stripe
 The retro gradient stripe (Burnt Orange → Terra Red → Deep Brown) is the app's signature visual mark. It appears as:
-- A 4px decorative bar at the top of the morning plan preview card
-- The border-left accent on avoidance detection rationales (replacing the previous amber tint)
+- A **4px top-bar** decorative stripe at the top of the morning plan preview card
+- A **4px top-bar accent** on **avoidance-escalated task cards** (skip-escalation / avoidance-highlighted “Do next” state) — not a left edge treatment
 - A subtle background element on the landing page hero
 - The share card's visual identity (weekly review share card uses the stripe as a header bar)
 - Never as a full background. Never animated. Never more than 4 horizontal bands (orange, red-orange, terra red, deep brown).
@@ -89,6 +89,7 @@ The retro gradient stripe (Burnt Orange → Terra Red → Deep Brown) is the app
 ### Visual Register
 - **Warm analog, retro-modern** — the interface feels like a clean cream-paper notebook with a confident colleague's handwriting. Not a SaaS dashboard (too cold). Not a wellness app (too soft). Not a 1970s throwback (too literal). The retro warmth is subtle — it lives in the color temperature and the stripe accent, not in textures or illustrations.
 - In practice: generous whitespace (24px minimum between task cards), rounded corners at **16px** (large, confident — matching the Dessn aesthetic, not the cautious 8px of SaaS), subtle warm shadows (0 2px 8px rgba(44, 24, 16, 0.06)), no gradients except the stripe, no illustrations, no decorative blobs, no background patterns. Warmth comes from the cream background, the warm typography color, and the retro stripe — not from embellishment.
+- **Accent placement:** Use **top-bar accents** (4px warm stripe) or **background color differentiation** (Linen vs. Avoidance tint, active vs. inactive cards) to signal importance — **not** colored left edges on cards or panels.
 - **Active/inactive card states:** Active card = Ink Black background (#1A1A1A) with white text. Inactive card = Linen background (#EDE4D8) with Dark Espresso text. This two-state card system (from the Dessn reference) creates clear visual hierarchy without relying on color labels or badges.
 - **The "Do next" task card** uses the active (black) card treatment — it's the one card that demands attention. All other cards in the task list (if visible) use the inactive (linen) treatment.
 
@@ -153,7 +154,7 @@ The product's baseline tone is calm and low-energy. These are the 4 intentional 
 - Loading state (shown for 1.2 seconds even if data is already loaded — anticipation is intentional): "Counting your wins..." in Muted color, centered
 - Task count animates: 0 → {{count}} over 1.0 seconds (react-countup, easing: easeOutQuart). Count displayed in Burnt Orange (#D4763C), font-weight 700, 2rem
 - After count settles (300ms pause), insight text fades in below (300ms ease-in): one behavioral pattern in plain language
-- If a "save moment" occurred this week, it appears as a highlighted card below the insight with warm amber left border
+- If a "save moment" occurred this week, it appears as a highlighted card below the insight with the **warm stripe as a 4px top-bar** (same header treatment as share cards — not a left border)
 **Duration:** 2.8 seconds total animation sequence
 **After this moment:** User scrolls through the review at their own pace. Share card is below the fold — visible but not promoted. No "Share your results!" CTA. Just the card with a small share icon in the corner.
 
@@ -282,7 +283,8 @@ miracle, amazing, supercharge, optimize, unlock your potential, level up, crush 
 Hey, So, Well, Just, Actually, Basically, Honestly, Look, Remember, Don't forget, Great, Awesome, Amazing, Congrats, Welcome, Yay, Woohoo, Let's go, Ready to
 
 ### Forbidden Design Patterns
-- No gradient backgrounds — flat, warm-cream tones only. Exception: the warm stripe (Burnt Orange → Terra Red → Deep Brown) is the single permitted gradient and appears only as a thin decorative bar, never as a background fill.
+- **No left-border accents** (`border-left` color bars) on cards, panels, or list items — this pattern is universally read as AI-generated product UI. Use the **4px warm stripe top-bar** or background/tint shifts instead.
+- No gradient backgrounds — flat, warm-cream tones only. Exception: the warm stripe (Burnt Orange → Terra Red → Deep Brown) is the single permitted gradient and appears only as a thin **horizontal** decorative bar (top edge), never as a background fill.
 - No decorative illustrations, mascots, or characters — personality lives in copy
 - No confetti, particle effects, or celebration animations — completion moments are warm and brief, not noisy
 - No progress bars for daily task count — creates anxiety about an arbitrary number, not relief
@@ -294,6 +296,7 @@ Hey, So, Well, Just, Actually, Basically, Honestly, Look, Remember, Don't forget
 - No "smart suggestions" for tasks to add — the app reacts to what the user brings, it doesn't generate work
 
 ### Forbidden Behaviors
+- **LEFT-BORDER / LEFT-EDGE ACCENT CHROME:** No colored `border-left` (or equivalent) on cards, panels, or list items to mean “important” or “callout.” That pattern reads as generic AI-generated UI. Use the **4px warm stripe top-bar** or **background / tint** differentiation only (see Visual Register, The Warm Stripe, and Forbidden Design Patterns).
 - **FALSE URGENCY:** Manufacturing urgency the user didn't create. "Hurry!", "Don't miss out!", countdown timers on non-deadline tasks, red badges on the app icon for non-deadline items.
 - **GUILT LANGUAGE:** Making the user feel bad for skipping or not completing. "You still haven't done this", "This is overdue!", "Don't let this slide." Use neutral, specific language: "Day 6 with this one."
 - **PRODUCTIVITY JARGON:** Using framework names or methodology terms. "Deep work", "Eisenhower matrix", "time blocking", "eat the frog", "GTD", "Pomodoro." The user never needs to know the engine's vocabulary. Note: Nudge schedules tasks onto the calendar, which is functionally time-blocking — but the product never uses that term. The user sees "Scheduled for 9:15am", not "Time block created."
