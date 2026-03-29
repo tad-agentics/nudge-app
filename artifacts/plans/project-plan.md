@@ -18,7 +18,7 @@
 | Feature | Wave | Backend | Frontend | QA | Commit |
 | --- | --- | --- | --- | --- | --- |
 | Foundation | 0 | migrations, RLS, Edge stubs, seed | tokens, PWA, supabase client, api-types | — | — |
-| Distribution | 1 | optional public config | LandingPage, Quiz `/quiz`, SEO files | — | — |
+| Distribution | 1 | optional public config (deferred) | Landing + Quiz polish, share, SEO | PASS | `275ab79` / `3095440` |
 | Auth & profile | 2 | anon + Google, profiles, credentials | AuthCallback, nudges | — | — |
 | Core engine / Do next | 3 | llm-engine, tasks, behavioral_events | DoNextScreen + modals | — | — |
 | Calendar / morning | 4 | calendar-approve, Google API | MorningPlan, Interstitial | — | — |

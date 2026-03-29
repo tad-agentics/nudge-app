@@ -31,4 +31,5 @@ Generated during Foundation from Figma Make export in `src/make-import/`.
 
 ## Data
 
-- `app/data/mockData.ts` — quiz fixtures + **northstar §7b** FAQ & testimonials (verbatim).
+- `app/data/mockData.ts` — quiz fixtures + **northstar §7b** FAQ & testimonials (verbatim); quiz result types **northstar §7c** (`QuizTypeId` + `ctaPlural` for CTA grammar).
+- `app/data/quizScoring.ts` — deterministic mapping from 8 answers → type (tie-break order documented in file).
