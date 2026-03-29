@@ -39,7 +39,12 @@ LLM features are core: task structuring, batch prioritization + rationale + sche
 
 ## Key constraints
 
-[Any architectural or business constraints not covered by other rules. E.g. "All AI inference runs in Edge Functions — no API keys in the frontend bundle."]
+- **Secrets:** No `ANTHROPIC_API_KEY`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `RESEND_API_KEY`, Google OAuth secret, or VAPID private key in the Vite bundle — only `VITE_*` publishable values.
+- **Entitlements:** Subscription/paid state updates from **Stripe webhooks** (idempotent) + profile refetch on client — never from query params alone after Checkout.
+- **Calendar:** Phase 1 **Google Calendar only**; no meeting titles sent to the LLM (metadata/time slots only). **calendar_scheduling_enabled = false** ⇒ zero Calendar writes.
+- **Freemium:** Max **5 active** tasks when unpaid; weekly review and calendar scheduling are paid gates per northstar.
+- **Design fidelity:** Make import is **copy-then-edit** — preserve Tailwind/layout from `src/make-import/`; warm **4px top-bar stripe** only (no left-border accents per EDS).
+- **Design reference:** `artifacts/docs/emotional-design-system.md` (dopamine moments D1–D5, palette, copy register). No separate `design-system-spec.md` until Foundation catalog is written.
 
 ---
 
