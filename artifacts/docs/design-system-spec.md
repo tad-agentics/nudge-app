@@ -29,6 +29,12 @@ Generated during Foundation from Figma Make export in `src/make-import/`.
 | `app/hooks/useCredits.ts` | Free-tier task budget via React Query |
 | `app/hooks/useProfile.ts` | Profile read-through from `AuthProvider` |
 
+## Auth (Wave 2 — `auth-profile`)
+
+- `app/lib/auth.tsx` — `signInAnonymously` bootstrap, `linkIdentity({ provider: 'google' })` for anonymous users, `signOut` + fresh anonymous session.
+- `app/lib/persist-google-tokens.ts` — invokes Edge `store-google-tokens` when `session.provider_refresh_token` exists.
+- DoNext: modal overlays (24h sign-in nudge, Connect Google vs mailto, free-tier cap) use **verbatim** screen-spec copy slots.
+
 ## Data
 
 - `app/data/mockData.ts` — quiz fixtures + **northstar §7b** FAQ & testimonials (verbatim); quiz result types **northstar §7c** (`QuizTypeId` + `ctaPlural` for CTA grammar).

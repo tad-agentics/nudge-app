@@ -16,6 +16,7 @@ type AuthContextValue = {
   user: User | null;
   profile: ProfileRow | null;
   profileLoading: boolean;
+  authReady: boolean;
   signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
@@ -24,25 +25,33 @@ type AuthContextValue = {
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 async function fetchProfile(userId: string): Promise<ProfileRow | null> {
-  const { data, error } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", userId)
-    .maybeSingle();
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", userId)
+      .maybeSingle();
 
-  if (error) {
-    console.error("Nudge: profiles fetch failed", error.message);
-    return null;
+    if (error) {
+      console.error("Nudge: profiles fetch failed", error.message);
+      return null;
+    }
+
+    if (data) {
+      return data as ProfileRow;
+    }
+
+    await new Promise((r) => setTimeout(r, 250 * (attempt + 1)));
   }
 
-  return data as ProfileRow | null;
+  return null;
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<ProfileRow | null>(null);
   const [profileLoading, setProfileLoading] = useState(true);
-  const [initDone, setInitDone] = useState(false);
+  const [authReady, setAuthReady] = useState(false);
 
   const refreshProfile = useCallback(async () => {
     const uid = session?.user?.id;
@@ -58,34 +67,70 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [session?.user?.id]);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session: s } }) => {
-      setSession(s);
-      setInitDone(true);
-    });
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, s) => {
       setSession(s);
     });
+
+    void (async () => {
+      const {
+        data: { session: existing },
+      } = await supabase.auth.getSession();
+
+      if (existing) {
+        setSession(existing);
+        setAuthReady(true);
+        return;
+      }
+
+      const { error } = await supabase.auth.signInAnonymously();
+      if (error) {
+        console.error("Nudge: anonymous sign-in failed", error.message);
+      }
+
+      const {
+        data: { session: next },
+      } = await supabase.auth.getSession();
+      setSession(next);
+      setAuthReady(true);
+    })();
+
     return () => subscription.unsubscribe();
   }, []);
 
   useEffect(() => {
-    if (!initDone) return;
+    if (!authReady) return;
     void refreshProfile();
-  }, [initDone, session?.user?.id, refreshProfile]);
+  }, [authReady, session?.user?.id, refreshProfile]);
 
   const signInWithGoogle = useCallback(async () => {
     const redirectTo = `${window.location.origin}/app/auth/callback`;
-    await supabase.auth.signInWithOAuth({
+    const isAnon = session?.user?.is_anonymous === true;
+
+    if (isAnon) {
+      const { error } = await supabase.auth.linkIdentity({
+        provider: "google",
+        options: { redirectTo },
+      });
+      if (error) throw error;
+      return;
+    }
+
+    const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: { redirectTo },
     });
-  }, []);
+    if (error) throw error;
+  }, [session?.user?.is_anonymous]);
 
   const signOut = useCallback(async () => {
     await supabase.auth.signOut();
     setProfile(null);
+    const { error } = await supabase.auth.signInAnonymously();
+    if (error) {
+      console.error("Nudge: post-sign-out anonymous failed", error.message);
+    }
   }, []);
 
   const value = useMemo(
@@ -94,6 +139,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       user: session?.user ?? null,
       profile,
       profileLoading,
+      authReady,
       signInWithGoogle,
       signOut,
       refreshProfile,
@@ -102,6 +148,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       session,
       profile,
       profileLoading,
+      authReady,
       signInWithGoogle,
       signOut,
       refreshProfile,
