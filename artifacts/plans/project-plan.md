@@ -10,8 +10,8 @@
 
 ## Foundation
 
-- [x] Backend foundation        commit: _(local — migrations, RLS, Edge stubs, `public/` SEO baseline if tracked)_ 
-- [x] Frontend: Make import + component inventory + Tailwind + landing + auth commit: _(pending `git commit — see below`)_
+- [x] Backend foundation        commit: `87dd63a`
+- [x] Frontend: Make import + component inventory + Tailwind + landing + auth commit: `25b92ec`
 
 ## Feature Workstreams
 
