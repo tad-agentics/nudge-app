@@ -28,7 +28,7 @@
 
 | # | Screen Name | Purpose | Notes |
 |---|---|---|---|
-| 6 | SettingsScreen | Account, calendar, notifications preference surface, “Manage subscription” → Stripe Portal, dark mode, sign out | Single consolidated settings per anti-bloat |
+| 6 | SettingsScreen | Account, calendar (incl. **Don’t schedule my tasks**), notifications preference surface, “Manage subscription” → Stripe Portal, dark mode, sign out | Single consolidated settings per anti-bloat |
 | 7 | AuthCallbackScreen | Complete Google OAuth return, sync anonymous → server profile | Minimal UI: spinner + error retry |
 
 *Connect Google / free-tier prompts: overlay modals on `DoNextScreen` (see metadata + Modal sections).*
@@ -195,7 +195,7 @@ User lands on anonymous DoNext → dumps tasks → sees structured “Do next”
 
 **Components:**
 
-- `TaskCaptureInput` — always-visible input; placeholder first_open
+- `TaskCaptureInput` — always-visible input; placeholder first_open; also accepts **natural-language edits** to the surfaced task (e.g. “skip the cake, she’s doing keto”) → server/AI restructures; `edit_confirm_*` copy per copy-rules **Edit** slots
 - `DoNextCard` — active Ink treatment; **4px warm stripe top-bar** when `task.skip_count >= 3` (avoidance escalation) per EDS
 - `TaskRationale` — Warm Stone, single line
 - `ScheduledTimeChip` — when `tasks.scheduled_at` set and calendar connected
@@ -205,6 +205,8 @@ User lands on anonymous DoNext → dumps tasks → sees structured “Do next”
 - `ConnectGoogleModal` — auth + calendar copy from §9
 - `FreeLimitModal` — freemium gate
 - `SkipToast` — "Rescheduled to {{new_time}}." auto-dismiss 1.5s
+- `RecurringCreatedToast` or inline banner — e.g. "Repeats {{frequency}}. Next: {{next_date}}." after AI detects recurrence on capture
+- `PushPermissionPrompt` — **after 3rd task completed** (northstar): one-shot system permission + factual one line (no celebration); if denied, user can opt in later in Settings
 
 **Data:**
 
@@ -218,9 +220,12 @@ User lands on anonymous DoNext → dumps tasks → sees structured “Do next”
 | `tasks.action_type` | `tasks.action_type` | `generic` |
 | `tasks.action_target` | `tasks.action_target` | hide Start / show Done only for generic |
 | `tasks.status` | `tasks.status` | `active` |
+| `tasks.recurrence_rule` | `tasks.recurrence_rule` | null (if set after capture, show recurring confirm copy) |
 | `profile.subscription_status` | `profiles.subscription_status` | infer from anon |
+| `profile.subscription_phase` | `profiles.subscription_phase` or derived | `freemium` \| `trialing` \| `paid` \| `free_post_trial` — drives which upgrade **proof** copy applies |
 | `profile.calendar_scheduling_enabled` | `profiles.calendar_scheduling_enabled` | false |
 | `limits.active_task_count` | computed | 0 |
+| `limits.lifetime_completions` | computed or `profiles.stats` | 0 — used to trigger push prompt after **3** |
 
 **States:**
 
@@ -231,16 +236,20 @@ User lands on anonymous DoNext → dumps tasks → sees structured “Do next”
 **Interaction flow:**
 
 1. User sees capture input + either empty state or Do next card.
-2. User types task → debounce → AI structuring → new row in `tasks` → reasoning batch → top task surfaces.
-3. Tap **Start** → IF email AND NOT google: ConnectGoogleModal OR mailto fallback. IF generic: no Start.
-4. Tap **Done** → D1 / D2 / D4 sequence per skip_count and save_moment flags → next task after pause (1.5–2.5s).
-5. Tap **Skip** → skip_count++, reschedule, SkipToast; IF skip_count ≥ 3 → top-bar stripe on card next surface.
-6. IF active tasks ≥ 5 AND free tier → FreeLimitModal with upgrade path.
-7. Scroll → see inbox list of linen cards.
+2. User types task → debounce → AI structuring → new row in `tasks` (IndexedDB when anonymous; sync to Supabase after sign-in per migration rules) → reasoning batch → top task surfaces.
+3. IF capture classifies **recurring** → show **RecurringCreated** confirmation (EDS slot) before or inline with new task row.
+4. User may submit **natural-language edit** in capture (scoped to current task or explicit “edit” intent) → AI updates task → `edit_confirm_*` copy → reasoning rerun.
+5. Tap **Start** → IF email AND NOT google: ConnectGoogleModal OR mailto fallback. IF generic: no Start.
+6. Tap **Done** → D1 / D2 / D4 sequence per skip_count and save_moment flags → next task after pause (1.5–2.5s).
+7. After **3rd lifetime task completion** (count across sessions): IF Web Push not yet granted/denied → show **PushPermissionPrompt** once (skip if iOS PWA email-only path per northstar).
+8. Tap **Skip** → skip_count++, reschedule (if calendar scheduling on), SkipToast; IF skip_count ≥ 3 → top-bar stripe on card next surface.
+9. IF active tasks ≥ 5 AND free tier → FreeLimitModal with upgrade path.
+10. Scroll → see inbox list of linen cards.
+11. **Morning plan entry** (when paid + calendar connected + scheduling not opted out): from **`nav_plan` / “Plan”** in app chrome, **morning banner** (“Your plan is ready to approve.” tap), **push tap**, or **transactional email deep link** → `MorningPlanScreen`.
 
 **Navigation:**
 
-- Enters from: Landing, quiz, push deep link, calendar deep link
+- Enters from: Landing, quiz, push deep link, calendar deep link, Stripe **success/cancel** return URL (session refresh on `DoNextScreen`)
 - Exits to: `MorningPlanScreen`, `WeeklyReviewScreen`, `SettingsScreen`, `UpgradeScreen`, `AuthCallbackScreen`
 - Back: disabled at root of `/app` or exits PWA
 
@@ -260,6 +269,13 @@ User lands on anonymous DoNext → dumps tasks → sees structured “Do next”
 - decomposition_offer: "This sounds like a few steps. Break it down?" — Decision
 - calendar_connected_line: "Your calendar is connected. Each morning, Nudge will propose a plan around your meetings." — Ambient
 - free_limit_body: "You've hit 5 active tasks. Unlock unlimited tasks + calendar scheduling — $6.99/month or $49.99/year." — Paywall
+- nav_plan: "Plan" — Ambient (label for `MorningPlanScreen` entry; noun-first)
+- nav_review: "Review" — Ambient
+- nav_settings: "Settings" — Ambient
+- recurring_created: "Repeats {{frequency}}. Next: {{next_date}}." — Confirmation (EDS)
+- edit_confirm_remove: "Removed: {{task_title}}." — Confirmation
+- edit_confirm_change: "Updated." — Confirmation
+- push_permission_rationale: "Turn on notifications for morning plan and review reminders." — Ambient (flat; optional one line)
 
 **Edge cases:**
 
@@ -292,26 +308,27 @@ User lands on anonymous DoNext → dumps tasks → sees structured “Do next”
 
 **States:**
 
-- Loading: "Your plan is ready to approve." pulse or thin loader — no lorem
+- Loading: **neutral** only — e.g. "Building your plan…" pulse or thin loader (avoid implying plan is already approved-ready; reserve ready-state for post-load)
 - Error: "Couldn't load right now. Try again in a few seconds."
 - Empty: message calendar_full — "Not scheduled yet — your calendar is full this week."
 
 **Interaction flow:**
 
-1. User opens from morning notification or app entry.
+1. User opens from **`nav_plan`**, morning banner tap, morning notification/push, transactional **email deep link**, or `DoNextScreen` entry when routed by deep link.
 2. Sees timeline; drag to reorder slots (per northstar §7b FAQ).
 3. Tap **Approve** → write Google Calendar events → navigate `PlanApprovedInterstitial`.
 
 **Navigation:**
 
-- Enters from: DoNextScreen, push, email link
+- Enters from: **App nav “Plan”** (`nav_plan`), morning banner, push tap, email link, post-payment feature unlock return (if applicable)
 - Exits to: `PlanApprovedInterstitial`, back to `DoNextScreen`
+- **Scheduling opt-out:** If `profile.calendar_scheduling_enabled === false` (user chose **Don’t schedule my tasks** in Settings), do **not** show planning timeline — redirect or show factual empty: “Calendar scheduling is off — turn it on in Settings to get a morning plan.” with link to `SettingsScreen`.
 
 **Dopamine moment:** none (anticipation before D5)
 
 **Copy slots:**
 
-- morning_plan_ready: "Your day is planned. {{task_count}} tasks scheduled — review and approve." — Decision
+- morning_plan_ready: "Your day is planned. {{task_count}} tasks scheduled — review and approve." — Decision *(visible **after** load succeeds)*
 - approve_cta: "Approve" — Decision
 - calendar_full: "Not scheduled yet — your calendar is full this week." — Error
 
@@ -319,6 +336,7 @@ User lands on anonymous DoNext → dumps tasks → sees structured “Do next”
 
 - User not paid: redirect to UpgradeScreen if calendar feature gated.
 - OAuth incomplete: prompt ConnectGoogleModal.
+- **Don’t schedule:** same as `calendar_scheduling_enabled` false — no Writes; user still sees DoNext; morning plan entry resolves to factual copy + Settings link (see Navigation).
 
 **Credit cost:** N/A (paid feature gate only)
 
@@ -391,7 +409,9 @@ User lands on anonymous DoNext → dumps tasks → sees structured “Do next”
 
 - Loading: forced anticipation copy D3
 - Error: generic_retry
-- Empty: rare — show "Nothing pending. Enjoy the quiet." if week had zero completions (edge)
+- Empty — **distinguish:**
+  - **Zero completions this week:** use **neutral** weekly-empty copy (e.g. "No tasks completed this week." + optional one line "When you check things off, they show up here.") — **do not** reuse DoNext `no_tasks` earn-quiet line
+  - **Rare edge — no data / error-shaped empty:** generic_retry or factual “Couldn’t load review.”
 
 **Interaction flow:**
 
@@ -410,6 +430,7 @@ User lands on anonymous DoNext → dumps tasks → sees structured “Do next”
 - loading: "Counting your wins..." — Ambient
 - summary: "{{count}} tasks this week." — Confirmation
 - share_summary: "{{count}} tasks done • {{streak}}-day streak." — Ambient
+- weekly_empty_zero: "No tasks completed this week." — Ambient (distinct from DoNext earn-empty)
 
 **Credit cost:** N/A (paid weekly review per northstar free tier exclusion — gate if user free: show upgrade factual panel)
 
@@ -447,12 +468,14 @@ User lands on anonymous DoNext → dumps tasks → sees structured “Do next”
 
 1. User hits gate from FreeLimitModal or settings.
 2. Selects plan → Stripe Checkout new window / redirect.
-3. On return webhook entitlement → route `DoNextScreen`.
+3. **Entitlement:** **`checkout.session.completed`** (or equivalent) **webhook on server** sets `subscription_status` / Stripe customer in DB — **browser does not trust URL alone**.
+4. **Browser return:** success URL (`/app?checkout=success`) or cancel → client resumes `DoNextScreen`, **refetches session/profile** (or invalidates RQ cache) so UI reflects paid state without full reload when possible.
+5. If webhook lags: show **neutral** “Updating your account…” + short retry; avoid fake celebration until `subscription_status` confirms.
 
 **Navigation:**
 
 - Enters from: DoNextScreen modal, Settings
-- Exits to: Stripe (external) → `DoNextScreen`
+- Exits to: Stripe (external) → `DoNextScreen` (success or cancel return params)
 
 **Dopamine moment:** none
 
@@ -460,7 +483,9 @@ User lands on anonymous DoNext → dumps tasks → sees structured “Do next”
 
 - headline: "Unlock unlimited tasks + calendar scheduling — $6.99/month." — Paywall
 - annual: "$49.99/year ($4.17/month)" — Paywall
-- proof: "In 14 days, you completed {{completed_count}} tasks." — Paywall (when trial narrative applies)
+- proof_trial_window: "In 14 days, you completed {{completed_count}} tasks." — Paywall (when `subscription_phase === trialing` or post-trial proof applies)
+- proof_freemium_never_paid: "{{completed_count}} tasks completed so far — unlock unlimited + calendar." — Paywall (permanent free / never trialed; factual)
+- checkout_sync_pending: "Updating your account…" — Ambient (webhook lag / session refresh)
 
 **Credit cost:** N/A (cash subscription)
 
@@ -473,7 +498,7 @@ User lands on anonymous DoNext → dumps tasks → sees structured “Do next”
 **Components:**
 
 - `ProfileSection` — display name, email (read-only)
-- `CalendarSection` — connection status, reconnect
+- `CalendarSection` — connection status, reconnect; **Don’t schedule my tasks** toggle — inverted UX vs flag: toggle **on** ⇒ `calendar_scheduling_enabled` **false** (**no** calendar **writes** from morning plan or skip-based auto-scheduling); toggle **off** ⇒ **true** (writes allowed). Opt-out state for `MorningPlanScreen` per that screen’s Navigation.
 - `NotificationsSection` — push opt-in + iOS email fallback explanation
 - `AppearanceToggle` — dark mode
 - `SubscriptionRow` — Manage subscription → Stripe Portal
@@ -486,6 +511,7 @@ User lands on anonymous DoNext → dumps tasks → sees structured “Do next”
 | `profile.display_name` | `profiles.display_name` | "User" |
 | `profile.email` | `profiles.email` | — |
 | `profile.calendar_provider` | `profiles.calendar_provider` | `none` |
+| `profile.calendar_scheduling_enabled` | `profiles.calendar_scheduling_enabled` | false — **Don’t schedule my tasks** OFF = `true` (writes enabled); ON = `false` (no calendar writes from plan/skip) |
 | `profile.subscription_status` | `profiles.subscription_status` | `free` |
 
 **States:**
@@ -497,7 +523,8 @@ User lands on anonymous DoNext → dumps tasks → sees structured “Do next”
 **Interaction flow:**
 
 1. User edits toggles; calendar reconnect triggers OAuth.
-2. Manage subscription opens new tab Stripe Portal.
+2. **Don’t schedule my tasks:** when the toggle is **on**, set `calendar_scheduling_enabled` **false** (no morning-plan or skip-based **writes**); when **off**, **true**. `MorningPlanScreen` reflects opt-out per that screen’s spec.
+3. Manage subscription opens new tab Stripe Portal.
 
 **Navigation:**
 
