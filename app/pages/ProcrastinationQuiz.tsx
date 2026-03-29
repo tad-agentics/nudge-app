@@ -244,6 +244,14 @@ export function ProcrastinationQuiz() {
               before anything lands on your calendar — so notifications mean
               something, and “Do next” is a decision you can trust.
             </p>
+            <p className="leading-relaxed">
+              If you are comparing apps, look for three things: a single next
+              action (not an infinite inbox), explanations you can sanity-check
+              (not a black box), and calendar integration that respects your
+              attention (approve-before-write, not silent reshuffles). Those
+              criteria cut through feature parity and get you back to execution
+              faster than another template or color-coded tag ever will.
+            </p>
           </article>
         </div>
       </div>
