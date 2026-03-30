@@ -15,7 +15,7 @@ When two layers conflict in a design decision, higher priority wins.
 
 1. **Clarity** — The user never wonders what to do next. Every screen resolves to a single clear action with a specific reason. If a design choice adds options, it loses. If it removes a decision, it wins. Clarity is not simplicity — it's confidence. The app takes a position ("do this one") rather than presenting a balanced menu.
 
-2. **Momentum** — The user feels forward motion. The gap between "see task" and "doing task" is one tap — and the calendar makes it inevitable. Tasks aren't just listed; they're time-blocked. When a calendar notification fires, the user doesn't decide whether to do the task — they're already in the moment. The rhythm is: calendar notification → tap → Nudge opens → Start → do → Done → calendar event deleted → next task is already scheduled. Any friction that interrupts this flow — confirmations, modals, tooltips, interstitial screens — is eliminated unless legally required.
+2. **Momentum** — The user feels forward motion. The gap between "see task" and "doing task" is one tap — from whatever surface they're looking at. Tasks aren't just listed; they're delivered to the user's calendar, notifications, and widgets. When a calendar notification fires, the user taps and goes straight to the action — email compose, browser, phone dialer — not to the Nudge app. The rhythm is: notification fires → tap → doing the task → mark Done (via notification action button or app) → next task is already waiting on the next surface. Any friction that interrupts this flow — forcing app opens, confirmations, modals, tooltips, interstitial screens — is eliminated unless legally required.
 
 3. **Trust** — The user believes the app's judgment. Rationales are specific, grounded in the user's actual tasks, and honest about what the app knows and doesn't know. When the AI can't generate a specific reason, it falls back to effort-based defaults ("Quick one — 5 min") rather than fake precision. The app never guesses loudly, never uses vague motivational language, and never makes the user feel managed. Trust is fragile: one wrong priority ("buy birthday candles" before "reply to urgent client") can destroy it. The system errs toward safe, defensible recommendations.
 
@@ -73,7 +73,7 @@ The interface draws from physical warmth — cream paper, dark ink, the retro st
 ### The Warm Stripe
 The retro gradient stripe (Burnt Orange → Terra Red → Deep Brown) is the app's signature visual mark. It appears as:
 - A 4px decorative bar at the top of the morning plan preview card
-- The border-left accent on avoidance detection rationales (replacing the previous amber tint)
+- A 4px top-bar accent on avoidance-escalated task cards (the stripe sits above the card, not beside it — distinguishes from the generic AI left-border pattern)
 - A subtle background element on the landing page hero
 - The share card's visual identity (weekly review share card uses the stripe as a header bar)
 - Never as a full background. Never animated. Never more than 4 horizontal bands (orange, red-orange, terra red, deep brown).
@@ -88,7 +88,7 @@ The retro gradient stripe (Burnt Orange → Terra Red → Deep Brown) is the app
 
 ### Visual Register
 - **Warm analog, retro-modern** — the interface feels like a clean cream-paper notebook with a confident colleague's handwriting. Not a SaaS dashboard (too cold). Not a wellness app (too soft). Not a 1970s throwback (too literal). The retro warmth is subtle — it lives in the color temperature and the stripe accent, not in textures or illustrations.
-- In practice: generous whitespace (24px minimum between task cards), rounded corners at **16px** (large, confident — matching the Dessn aesthetic, not the cautious 8px of SaaS), subtle warm shadows (0 2px 8px rgba(44, 24, 16, 0.06)), no gradients except the stripe, no illustrations, no decorative blobs, no background patterns. Warmth comes from the cream background, the warm typography color, and the retro stripe — not from embellishment.
+- In practice: generous whitespace (24px minimum between task cards), rounded corners at **16px** (large, confident — matching the Dessn aesthetic, not the cautious 8px of SaaS), subtle warm shadows (0 2px 8px rgba(44, 24, 16, 0.06)), no gradients except the stripe, no illustrations, no decorative blobs, no background patterns, **no left-border accents on cards** (this pattern is now specifically identified as AI-generated design — use top-bar accents or background color differentiation instead). Warmth comes from the cream background, the warm typography color, and the retro stripe — not from embellishment.
 - **Active/inactive card states:** Active card = Ink Black background (#1A1A1A) with white text. Inactive card = Linen background (#EDE4D8) with Dark Espresso text. This two-state card system (from the Dessn reference) creates clear visual hierarchy without relying on color labels or badges.
 - **The "Do next" task card** uses the active (black) card treatment — it's the one card that demands attention. All other cards in the task list (if visible) use the inactive (linen) treatment.
 
@@ -153,7 +153,7 @@ The product's baseline tone is calm and low-energy. These are the 4 intentional 
 - Loading state (shown for 1.2 seconds even if data is already loaded — anticipation is intentional): "Counting your wins..." in Muted color, centered
 - Task count animates: 0 → {{count}} over 1.0 seconds (react-countup, easing: easeOutQuart). Count displayed in Burnt Orange (#D4763C), font-weight 700, 2rem
 - After count settles (300ms pause), insight text fades in below (300ms ease-in): one behavioral pattern in plain language
-- If a "save moment" occurred this week, it appears as a highlighted card below the insight with warm amber left border
+- If a "save moment" occurred this week, it appears as a highlighted card below the insight with a warm stripe top-bar (4px gradient bar above the card)
 **Duration:** 2.8 seconds total animation sequence
 **After this moment:** User scrolls through the review at their own pace. Share card is below the fold — visible but not promoted. No "Share your results!" CTA. Just the card with a small share icon in the corner.
 
@@ -283,6 +283,7 @@ Hey, So, Well, Just, Actually, Basically, Honestly, Look, Remember, Don't forget
 
 ### Forbidden Design Patterns
 - No gradient backgrounds — flat, warm-cream tones only. Exception: the warm stripe (Burnt Orange → Terra Red → Deep Brown) is the single permitted gradient and appears only as a thin decorative bar, never as a background fill.
+- **No left-border accents (border-left) on cards, panels, or list items.** This pattern is now universally identified as AI-generated design. Use top-bar accents (border-top with the warm stripe) or solid background color differentiation (Ink Black active card vs. Linen inactive card) instead.
 - No decorative illustrations, mascots, or characters — personality lives in copy
 - No confetti, particle effects, or celebration animations — completion moments are warm and brief, not noisy
 - No progress bars for daily task count — creates anxiety about an arbitrary number, not relief

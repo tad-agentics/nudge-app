@@ -1,15 +1,163 @@
+@import "@fontsource/dm-sans/400.css";
+@import "@fontsource/dm-sans/500.css";
+@import "@fontsource/dm-sans/600.css";
+@import "@fontsource/dm-sans/700.css";
+@import "@fontsource/dm-sans/800.css";
 @import "tailwindcss";
+@import "tw-animate-css";
 
-@theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Nudge Brand Colors */
+  --ink: #1a1a1a;
+  --cream: #f2e8da;
+  --espresso: #2c1810;
+  --linen: #ede4d8;
+  --stone: #8b7e74;
+  --parchment: #ddd4c8;
+  --orange: #d4763c;
+  --orange-mid: #c8603c;
+  --terra: #c44b3f;
+  --brown: #6b3a2e;
+  --success: #5c8a5e;
+  --white: #fefcf9;
+
+  /* Design System Mappings */
+  --background: var(--cream);
+  --foreground: var(--espresso);
+  --card: var(--linen);
+  --card-foreground: var(--espresso);
+  --popover: var(--white);
+  --popover-foreground: var(--espresso);
+  --primary: var(--ink);
+  --primary-foreground: var(--cream);
+  --secondary: var(--stone);
+  --secondary-foreground: var(--cream);
+  --muted: var(--linen);
+  --muted-foreground: var(--stone);
+  --accent: var(--orange);
+  --border: var(--parchment);
+  --input: transparent;
+  --input-background: var(--white);
+  --ring: var(--orange);
+
+  --radius: 1rem;
+
+  --font-family:
+    "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
 }
 
-html,
-body {
-  @apply bg-white dark:bg-gray-950;
+@theme inline {
+  --color-ink: var(--ink);
+  --color-cream: var(--cream);
+  --color-espresso: var(--espresso);
+  --color-linen: var(--linen);
+  --color-stone: var(--stone);
+  --color-parchment: var(--parchment);
+  --color-orange: var(--orange);
+  --color-orange-mid: var(--orange-mid);
+  --color-terra: var(--terra);
+  --color-brown: var(--brown);
+  --color-success: var(--success);
+  --color-white: var(--white);
 
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: var(--radius);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --font-sans: var(--font-family);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-normal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    font-size: 16px;
+  }
+
+  h1 {
+    font-weight: var(--font-weight-extrabold);
+    line-height: 1.2;
+  }
+
+  h2 {
+    font-weight: var(--font-weight-bold);
+    line-height: 1.3;
+  }
+
+  h3 {
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.4;
+  }
+
+  p {
+    line-height: 1.6;
+  }
+
+  button {
+    font-weight: var(--font-weight-medium);
+  }
+}
+
+.warm-stripe {
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    #d4763c 0%,
+    #d4763c 25%,
+    #c8603c 25%,
+    #c8603c 50%,
+    #c44b3f 50%,
+    #c44b3f 75%,
+    #6b3a2e 75%,
+    #6b3a2e 100%
+  );
+}
+
+.warm-stripe-full {
+  background: linear-gradient(
+    90deg,
+    #d4763c 0%,
+    #d4763c 25%,
+    #c8603c 25%,
+    #c8603c 50%,
+    #c44b3f 50%,
+    #c44b3f 75%,
+    #6b3a2e 75%,
+    #6b3a2e 100%
+  );
 }
