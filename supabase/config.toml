@@ -9,3 +9,24 @@ major_version = 15
 
 [studio]
 enabled = true
+
+[functions.calendar-plan-preview]
+verify_jwt = true
+
+[functions.calendar-approve-plan]
+verify_jwt = true
+
+[functions.stripe-webhook]
+verify_jwt = false
+
+[functions.stripe-create-checkout]
+verify_jwt = true
+
+[functions.stripe-create-portal]
+verify_jwt = true
+
+[functions.send-email]
+verify_jwt = false
+
+[functions.notifications-dispatch]
+verify_jwt = false
