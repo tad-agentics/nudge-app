@@ -1,6 +1,8 @@
 # Figma Make Brief — Nudge
 
-**Visual source of truth:** Open **`artifacts/docs/nudge-branding.html`** in a browser and keep it beside Figma Make while generating UI. That file is **Nudge Brand Identity v1.0 — March 2026**: wordmark, standalone **N**, app icon + stripe bar, warm stripe usage grid, full palette swatches, **In Context** mocks (Do Next card + Morning Plan), and **§07 Usage Rules** (Do / Don’t). This brief duplicates the decisions Make needs in markdown; **if anything conflicts, follow the branding HTML + EDS.**
+**Visual source of truth:** Open **`artifacts/docs/nudge-branding.html`** in a browser and keep it beside Figma Make while generating UI. That file is **Nudge Brand Identity v1.0 — March 2026**: wordmark, standalone **N**, app icon + stripe bar, warm stripe usage grid, full palette swatches, **In Context** mocks (Do Next card + Morning Plan), and **§07 Usage Rules** (Do / Don’t). This brief duplicates the decisions Make needs in markdown; **if anything conflicts, follow the branding HTML + `emotional-design-system.md` (v4) + northstar v4.**
+
+**Product source of truth:** **`artifacts/docs/northstar-nudge.html` (v4)** and **`CHANGELOG-compiled.md`** — freemium-first, preview→approve calendar, ambient execution *target* (Start / notifications → action surfaces where possible).
 
 ---
 
@@ -101,7 +103,7 @@ From **`nudge-branding.html`** — Usage Rules → **Don’t** (verbatim intent)
 - **No pure white `#FFF`** as the main app background (use Warm Cream; `#FEFCF9` only for external/wordmark-on-white if needed).  
 - **Do not animate** the stripe or logo mark.
 
-Also from EDS / `design-system.mdc`:
+Also from EDS / `.cursor/rules/copy-rules.mdc` (voice + forbidden words; not a separate `design-system.mdc`):
 
 - No purple/violet/indigo marketing gradients.  
 - No 3-column icon-in-circle feature grids on landing.  
@@ -129,7 +131,7 @@ Generate a **single React + Tailwind** prototype (mock data). Prefer **React Rou
 
 **Purpose:** Convert organic traffic; install / open PWA.  
 **Content hierarchy (top to bottom):**  
-1. Hero — §7b headline, subhead, product mockup (Do next + warm UI), **Get Nudge Free**, microcopy under CTA.  
+1. Hero — §7b headline, subhead, product mockup (Do next + warm UI), **Get Nudge Free**, microcopy under CTA (northstar v4: e.g. free tier limit + calendar upgrade line — no trial-scarcity unless product runs a timed trial).  
 2. Trust bar — 2.4x stat, optional task-count proof, “As featured in” placeholder.  
 3. Benefits — 3 short outcome blocks tied to §7b steps.  
 4. How it works — 3 steps (Dump / Planned / Calendar pings).  
@@ -193,17 +195,18 @@ Generate a **single React + Tailwind** prototype (mock data). Prefer **React Rou
 2. Big count “**14** tasks this week” (use count-up motion spec from EDS §6 D3).  
 3. One insight paragraph — plain language.  
 4. **Save moment** card if any — **warm stripe top-bar**, no left border.  
-5. Share area — stats only, no task titles.  
+5. Optional **calibration** line when behavioral data is thin (FR-31 / `weekly_calibration` — neutral, no coach tone).  
+6. Share area — stats only, no task titles.  
 **Mood:** Self-awareness, not cheerleading.
 
 ### 7. UpgradeScreen (`/app/upgrade`)
 
-**Purpose:** Stripe path for paid tier.  
+**Purpose:** Stripe path for paid tier (**freemium → paid** primary; optional trial only if configured).  
 **Content hierarchy:**  
 1. Flat factual headline — pricing from northstar ($6.99 / $49.99).  
 2. Two plan cards or toggle.  
 3. Primary: continue to checkout (external).  
-4. Optional proof line with {{completed_count}}.  
+4. Optional proof lines: **`proof_freemium_never_paid`** and/or **`proof_trial_window`** per screen spec — user data makes the argument (copy-rules § Paywall).  
 **Mood:** Transactional, flat (No-Dopamine zone).
 
 ### 8. SettingsScreen (`/app/settings`)
@@ -233,7 +236,7 @@ After Make: copy **all** exported code into **`src/make-import/`** (or project c
 
 - [ ] **`nudge-branding.html`** reviewed: wordmark, 4-band stripe, palette, §06 mocks, §07 Do/Don’t reflected in Make output.  
 - [ ] All 9 routes represented with working navigation between them (mock router OK).  
-- [ ] Landing FAQ items match northstar §7b verbatim.  
+- [ ] Landing FAQ + hero CTAs match **northstar v4 §7b** (freemium-first; **Get Nudge Free**).  
 - [ ] Warm stripe only as **horizontal top bar** (4px, four segments) — **no** left-border callout cards.  
 - [ ] Dopamine timings stubbed (CSS transitions) for completion + weekly count + plan approved.  
 - [ ] Dark mode toggle functional in prototype; wordmark/light treatments match branding §01 on dark surfaces.
