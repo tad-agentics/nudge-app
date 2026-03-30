@@ -44,6 +44,12 @@
 
 User lands on anonymous DoNext → dumps tasks → sees structured “Do next” with rationale → Start / Done / Skip; when signed in + paid + calendar, morning plan preview → Approve → calendar events written; weekly review reinforces retention; Stripe for upgrade.
 
+### Northstar v4 alignment (execution + scheduling)
+
+- **Ambient goal:** Prefer opening **action surfaces** (mailto, `https`, `tel`) from **Start** and, where the platform allows, from **calendar / push** taps — the PWA is for **capture**, **approve plan**, **review**, and **settings** (northstar §3).
+- **Stable calendar day:** After **Approve**, **written** events for that day follow northstar’s **stability-first** rules; **Do next** still **re-ranks** immediately when tasks change — the top card may differ from the next calendar block (northstar §3e).
+- **Future UI (FR-28–30):** **Do first** (`!` / toggle), **energy** header toggle, **drag reorder** of inbox — spec’d in `tech-spec.md`; ship in build-plan follow-on wave.
+
 ---
 
 ## Not Building
@@ -244,7 +250,7 @@ User lands on anonymous DoNext → dumps tasks → sees structured “Do next”
 7. After **3rd lifetime task completion** (count across sessions): IF Web Push not yet granted/denied → show **PushPermissionPrompt** once (skip if iOS PWA email-only path per northstar).
 8. Tap **Skip** → skip_count++, reschedule (if calendar scheduling on), SkipToast; IF skip_count ≥ 3 → top-bar stripe on card next surface.
 9. IF active tasks ≥ 5 AND free tier → FreeLimitModal with upgrade path.
-10. Scroll → see inbox list of linen cards.
+10. Scroll → see inbox list of linen cards (future: **drag-reorder** persistence per FR-30).
 11. **Morning plan entry** (when paid + calendar connected + scheduling not opted out): from **`nav_plan` / “Plan”** in app chrome, **morning banner** (“Your plan is ready to approve.” tap), **push tap**, or **transactional email deep link** → `MorningPlanScreen`.
 
 **Navigation:**
@@ -404,6 +410,7 @@ User lands on anonymous DoNext → dumps tasks → sees structured “Do next”
 | `review.insight_text` | LLM / rules | skip block if null |
 | `review.save_moment` | computed | hide card |
 | `review.streak_days` | computed | 0 |
+| `review.show_calibration_note` | heuristics (e.g. low completion / new account) | false — if true, show **cold-start** line per northstar §3b (FR-31) |
 
 **States:**
 
@@ -431,6 +438,7 @@ User lands on anonymous DoNext → dumps tasks → sees structured “Do next”
 - summary: "{{count}} tasks this week." — Confirmation
 - share_summary: "{{count}} tasks done • {{streak}}-day streak." — Ambient
 - weekly_empty_zero: "No tasks completed this week." — Ambient (distinct from DoNext earn-empty)
+- weekly_calibration: short neutral line (e.g. Nudge is **still learning your patterns**) — Ambient; **only** when `show_calibration_note`; no guilt, no coach tone (northstar cold-start callout)
 
 **Credit cost:** N/A (paid weekly review per northstar free tier exclusion — gate if user free: show upgrade factual panel)
 

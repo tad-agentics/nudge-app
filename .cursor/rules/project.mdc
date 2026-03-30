@@ -19,7 +19,7 @@ Stack: React Router v7 (Vite) · Supabase (DB + Auth + RLS + Edge Functions + St
 
 ## What this app does
 
-Nudge is a productivity PWA for people like Mike (31, overloaded coordinator types): AI reasons across the whole task list, shows one “do next” with a specific rationale, and (paid) time-blocks work onto Google Calendar after a morning preview/approve flow — with avoidance detection before tasks become crises.
+Nudge is a productivity PWA for people like Mike (31, overloaded coordinator types): AI **batch-reasons** across the full active list (**nine mental models** + validation gate per northstar §3b), shows one **Do next** with a specific rationale, and (paid) writes **preview → approve** plans to Google Calendar — with avoidance detection before tasks become crises. **Freemium-first** (5 active tasks free); paid unlocks calendar, weekly review, and related gates. **Ambient northstar:** execution should lean on **action surfaces** (calendar, mail, browser, phone); the app is the **admin shell** for capture, approve, review, settings (**northstar v4**, `CHANGELOG-compiled.md`).
 
 ## Not building (out of scope)
 

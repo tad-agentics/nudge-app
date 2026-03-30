@@ -1,13 +1,17 @@
 # Tech Spec — Nudge
 
-**Version:** 1.0  
-**Last updated:** 2026-03-29
+**Version:** 1.1  
+**Last updated:** 2026-03-30
 
 ---
 
 ## 1. Overview
 
-**Nudge** is a mobile-first PWA for **Mike**: an overwhelmed knowledge worker who needs one trusted “Do next” with human-sounding rationale, optional **Google Calendar** scheduling (approve-before-write), and gentle avoidance-aware nudges. Core differentiator is **batch AI reasoning** over the full task list plus a **deterministic validation gate**, not another static todo sort. Phase 1 is **PWA + Stripe + Google + Anthropic Haiku + Web Push / email fallback**, aligned with `artifacts/docs/northstar-nudge.html`.
+**Nudge** is a mobile-first PWA for **Mike**: an overwhelmed knowledge worker who needs one trusted “Do next” with human-sounding rationale, optional **Google Calendar** scheduling (**preview → approve → write**), and gentle avoidance-aware nudges. Core differentiator is **batch AI reasoning** across **nine mental models** (northstar §3b) plus a **deterministic validation gate** — not a static sort. Phase 1 is **PWA + Stripe + Google + Anthropic Haiku + Web Push / email fallback**, aligned with **`artifacts/docs/northstar-nudge.html` (v4)** and summarised in **`artifacts/docs/CHANGELOG-compiled.md`**.
+
+**Product shape (v4):** **Freemium-first** — free tier caps **5 active tasks** with structuring + “Do next”; **paid** unlocks unlimited tasks, Google Calendar scheduling, Gmail draft flows, weekly review, decomposition, and related gates (northstar §4). **Ambient execution** is the northstar: calendar notifications and (where supported) taps should prefer opening the **action surface** (mail, browser, dialer) over the Nudge shell; the app remains essential for **capture**, **morning plan approve**, **weekly review**, and **settings**. PWA Phase 1 may still use **`/app` deep links** where OS/web share targets require it — converge notification payloads toward action URLs over time.
+
+**Reasoning lifecycle:** Server-side **prompt + validation gate** is a living artifact — northstar documents a **six-stage prompt refinement loop** (log → correlate → review → edit → A/B → ship). Product telemetry: template fallback rate and **manual reorder frequency** (see §8b backlog fields).
 
 **FE–BE connection — quick reference**
 
@@ -65,11 +69,16 @@
 | **Weekly review & upgrade** |
 | FR-22 | Paid user | Open **weekly review** with stats + insight + save moment | Gated for free per northstar |
 | FR-23 | User | See **distinct empty state** when zero completions vs Do next empty | `weekly_empty_zero` copy |
-| FR-24 | User | Start **Stripe Checkout** from gates / Upgrade screen | Hosted Checkout; trial per §11 |
+| FR-24 | User | Start **Stripe Checkout** from gates / Upgrade screen | Hosted Checkout; **primary path is freemium → paid**; optional trial windows per northstar §11 / Stripe config |
 | FR-25 | User | Resume app after Checkout with **refreshed entitlement** | Client refetch; webhook is source of truth |
 | **Compliance / data** |
 | FR-26 | User | Have tasks and events scoped by **RLS** to my user | No cross-user reads/writes |
 | FR-27 | System | Log **behavioral events** for core interactions | Inserts for surfaced/completed/skipped/etc. |
+| **Overrides & control (northstar §3d — schedule in build-plan follow-on waves)** |
+| FR-28 | User | Mark **Do first** (`!` prefix and/or toggle) | Sets `tasks.user_priority_override`; validation gate forces rank **#1** for that task |
+| FR-29 | User | Set **energy** state (low / neutral / high) | `profiles.energy_override`; resets **null** at local midnight; biases batch reasoning per northstar |
+| FR-30 | User | **Drag-reorder** active task list | Persists `profiles.manual_rank_override` (task id order); respected for **current day**; cleared at next morning re-rank |
+| FR-31 | User | See **cold-start** honesty in review when applicable | Optional neutral line when behavioral data is thin per northstar §3b — copy from `emotional-design-system.md` / copy-rules |
 
 ---
 
@@ -134,6 +143,8 @@ export interface Task {
   scheduled_at: string | null;
   calendar_event_id: string | null;
   calendar_provider: 'google' | 'apple' | 'none';
+  /** Northstar v4 — Do first / "!" prefix; validation gate pins to rank 1 */
+  user_priority_override?: boolean;
 }
 
 export interface Profile {
@@ -152,6 +163,11 @@ export interface Profile {
   read_only_downgrade: boolean;
   lifetime_completions_count: number;
   nudge_calendar_id: string | null;
+  last_calendar_sync_at: string | null;
+  /** Northstar v4 — null = use time-of-day defaults; low/high bias reasoning */
+  energy_override: 'low' | 'high' | null;
+  /** Northstar v4 — user's drag order for today; null after morning re-rank */
+  manual_rank_override: string[] | null;
   created_at: string;
   updated_at: string;
 }
@@ -289,6 +305,12 @@ export interface PlanSlot {
 **Context:** northstar allows IndexedDB for anon; product requires merge on Google sign-in.  
 **Decision:** On first Google link, Edge `merge-anonymous-tasks` (or client batched insert with RLS) moves rows from anon device UUID **or** server stores anon cluster id in local storage and posts to Edge once authenticated — **exact merge algorithm in Foundation**; must not drop tasks.
 
+### TD-4: Morning plan lock + mid-day re-ranking (northstar §3e)
+
+**Context:** After the user **approves** the morning plan, **written** Google Calendar events for the day are **stable** — no autopilot reschedule storm (anti–“AI calendar anxiety”). **New** tasks still trigger immediate **full-list re-ranking**: the **Do next** card may show a task that is **not** on today’s calendar if the engine ranks it higher (user may still execute via **Start** or follow calendar order). **Exception:** same-day **hard-urgent** inserts use northstar’s **confirm** path (“Add it to your schedule?”) before mutating today’s grid.
+
+**Decision:** Implement in `calendar-approve-plan`, morning draft lifecycle, and client `useTasks` / plan state so UX and copy stay consistent with `emotional-design-system.md` (no guilt on reschedule).
+
 ---
 
 ## 8a. Data Invariants
@@ -328,6 +350,8 @@ export interface PlanSlot {
 | lifetime_completions_count | int | default 0 | push prompt |
 | nudge_calendar_id | text | | Google “Nudge” calendar id |
 | last_calendar_sync_at | timestamptz | | |
+| energy_override | text | nullable; check in ('low','high') if present | **Backlog (FR-29):** northstar v4; `null` = default energy heuristic |
+| manual_rank_override | uuid[] | nullable | **Backlog (FR-30):** ordering for current local day |
 | created_at | timestamptz | default now() | |
 | updated_at | timestamptz | default now() | |
 
@@ -366,6 +390,7 @@ export interface PlanSlot {
 | scheduled_at | timestamptz | | |
 | calendar_event_id | text | | |
 | calendar_provider | text | default 'none' | |
+| user_priority_override | boolean | default false | **Backlog (FR-28):** northstar v4 |
 
 **RLS:** CRUD where `user_id = auth.uid()`.
 
@@ -529,7 +554,7 @@ export interface PlanSlot {
 - **Method:** **Anonymous-first** + **Google OAuth** (Phase 1 only provider)  
 - **Anonymous:** Full Do next loop locally /-backed by anon Supabase user per implementation choice — if anon Supabase user: RLS uses real `user_id`; if pure IndexedDB: migration required at sign-in. **Decision for Foundation:** prefer **Supabase anonymous sign-in** to unify RLS.  
 - **Account nudges:** 24h, Google feature, 5-task ceiling  
-- **Profile fields:** display name, email, timezone, auth_provider, calendar_provider, calendar_scheduling_enabled, subscription fields  
+- **Profile fields:** display name, email, timezone, auth_provider, calendar_provider, calendar_scheduling_enabled, subscription fields; **when shipped:** `energy_override`, `manual_rank_override` per northstar §3d  
 - **Session:** Persistent refresh token (Supabase default)  
 - **OAuth scopes:** Calendar read/write + Gmail compose — configured in Google Cloud + Supabase provider settings per `google-oauth-calendar-gmail.md`  
 - **RLS:** All user tables policies enabled; integration secrets in `integration_credentials` service-only  
@@ -567,6 +592,9 @@ Set Edge secrets via `supabase secrets set`.
 | Decomposition | Yes | On user confirm | ~5 |
 | Weekly insight | Yes | Pattern narrative | ~4 |
 | Validation gate | No | Deterministic rules | — |
+| Prompt iteration | Ops | Six-stage loop in northstar §3b | Version prompts; log gate rejections |
+
+**Mental models** (batch reasoning, northstar §3b): deadline urgency, dependency mapping, avoidance, cost of delay, effort-to-impact, energy matching, commitment escalation, emotional weight, decision fatigue — plus **2-minute** / **deep-work** behavioral flavors inside prompts (not separate models).
 
 **Monthly cost ceiling:** align with northstar unit economics (~$0.85/user AI budget); monitor via Anthropic usage dashboards.
 
@@ -606,6 +634,8 @@ Implement via **Supabase pg_cron** invoking Edge Functions (service role) per RA
 | Cron weekly | `weekly_review` | paid users | `/app/review` |
 | Sign-up (optional) | `welcome` | new user | |
 | Push-capable users | Web Push payload | subscription endpoint | Not email |
+
+**Northstar v4 target:** payloads and calendar event descriptions should steer users to the **work surface** (and deep links that open **mailto / https / tel**) where feasible. **Phase 1 PWA** may still route via `/app/plan`, `/app/review`, or task anchors when the platform cannot target an action URL directly — document per-template behavior in `artifacts/integrations/web-push.md` as implementations tighten.
 
 ---
 
@@ -655,8 +685,9 @@ Copied from northstar §8:
 ## Quality checklist (internal)
 
 - [x] Invariants + schema + RLS + indexes  
-- [x] FR coverage for screen spec + northstar  
+- [x] FR coverage for screen spec + northstar **v4** (incl. FR-28–31 backlog)  
 - [x] Edge contracts for Stripe, LLM, Calendar, email  
 - [x] Not Building copied  
 - [x] Phase 1 integrations referenced  
 - [x] SEO/PWA adapted for EN + DM Sans  
+- [ ] DDL migrations for `user_priority_override`, `energy_override`, `manual_rank_override` when FR-28–30 ship  

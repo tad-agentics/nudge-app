@@ -5,7 +5,8 @@ Generated during Foundation from Figma Make export in `src/make-import/`.
 ## Source of truth
 
 - Tokens & warm stripe: `app/app.css` (merged from Make `theme.css` + DM Sans via `@fontsource/dm-sans`).
-- Brand reference: `artifacts/docs/emotional-design-system.md`, `artifacts/docs/northstar-nudge.html`.
+- Brand + behavior reference: **`artifacts/docs/emotional-design-system.md` (v4.0)** — palette, D1–D5, forbidden patterns (no left-border card accents; 4px **top** stripe only).
+- Product reference: **`artifacts/docs/northstar-nudge.html` (v4)** + delta log **`artifacts/docs/CHANGELOG-compiled.md`**.
 
 ## Components from Make (in `app/`)
 
