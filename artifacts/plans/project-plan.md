@@ -23,7 +23,7 @@
 | Core engine / Do next | 3 | llm-engine, tasks, behavioral_events | DoNextScreen + modals | — | — |
 | Calendar / morning | 4 | calendar-approve, Google API | MorningPlan, Interstitial | — | — |
 | Billing | 5 | stripe webhook, checkout, portal | UpgradeScreen | — | — |
-| Retention | 6 | cron, push, Resend, weekly insight | WeeklyReview | — | — |
+| Retention | 6 | cron, push, Resend, weekly insight | WeeklyReview | PASS | `86eaf7b` / `6eff0e1` |
 | Settings | 7 | portal prefs | SettingsScreen | — | — |
 
 ## Post-Build
