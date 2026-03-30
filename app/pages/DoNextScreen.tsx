@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import {
   Mail,
@@ -14,16 +14,29 @@ import { motion } from "motion/react";
 import { toast } from "sonner";
 
 import { WarmStripe } from "~/components/WarmStripe";
-import { mockTasks } from "~/data/mockData";
-import type { Task } from "~/data/mockData";
+import type { DoNextTaskCard } from "~/lib/task-ui";
+import { taskRowToCard } from "~/lib/task-ui";
 import { useAuth } from "~/lib/auth";
+import { logBehavioralEvent } from "~/lib/behavior";
 import { FREE_ACTIVE_TASK_LIMIT } from "~/lib/constants";
+import { LlmEngineError } from "~/lib/functions/llm-engine";
+import { supabase } from "~/lib/supabase";
+import { useTasks } from "~/hooks/useTasks";
 
 export function DoNextScreen() {
   const { user, profile, authReady, signInWithGoogle } = useAuth();
-  const [tasks, setTasks] = useState(
-    mockTasks.filter((t) => t.status === "active"),
-  );
+  const {
+    tasks: taskRows,
+    isLoading: tasksLoading,
+    addTask,
+    addTaskPending,
+    completeTask,
+    completeTaskPending,
+    skipTask,
+    skipTaskPending,
+  } = useTasks();
+  const tasks = taskRows.map(taskRowToCard);
+  const surfacedRef = useRef<string | null>(null);
   const [input, setInput] = useState("");
   const [showDone, setShowDone] = useState(false);
   const [completedTaskTitle, setCompletedTaskTitle] = useState("");
@@ -31,7 +44,8 @@ export function DoNextScreen() {
   const [showAuth24h, setShowAuth24h] = useState(false);
   const [showConnectGoogle, setShowConnectGoogle] = useState(false);
   const [showFreeLimit, setShowFreeLimit] = useState(false);
-  const [pendingEmailTask, setPendingEmailTask] = useState<Task | null>(null);
+  const [pendingEmailTask, setPendingEmailTask] =
+    useState<DoNextTaskCard | null>(null);
 
   const isPaid =
     profile?.subscription_status === "paid" ||
@@ -53,13 +67,35 @@ export function DoNextScreen() {
   const topTask = tasks[0];
   const upcomingTasks = tasks.slice(1);
 
-  const openMailto = (task: Task) => {
+  useEffect(() => {
+    if (!authReady || !user?.id) return;
+    if (!topTask) {
+      surfacedRef.current = null;
+      return;
+    }
+    if (surfacedRef.current === topTask.id) return;
+    surfacedRef.current = topTask.id;
+    const now = new Date().toISOString();
+    void supabase
+      .from("tasks")
+      .update({ last_surfaced_at: now })
+      .eq("id", topTask.id)
+      .eq("user_id", user.id);
+    void logBehavioralEvent(user.id, "task_surfaced", topTask.id, {});
+  }, [authReady, user?.id, topTask?.id]);
+
+  const openMailto = (task: DoNextTaskCard) => {
     if (task.actionTarget) {
       window.location.href = `mailto:${task.actionTarget}`;
     }
   };
 
-  const handleStart = (task: Task) => {
+  const handleStart = (task: DoNextTaskCard) => {
+    if (user?.id) {
+      void logBehavioralEvent(user.id, "task_started", task.id, {
+        action_type: task.actionType,
+      });
+    }
     if (task.actionType === "email" && task.actionTarget) {
       if (user?.is_anonymous === true) {
         setPendingEmailTask(task);
@@ -74,44 +110,45 @@ export function DoNextScreen() {
     }
   };
 
-  const handleDone = (taskId: string) => {
+  const handleDone = async (taskId: string) => {
     const task = tasks.find((t) => t.id === taskId);
     if (!task) return;
 
     setCompletedTaskTitle(task.title);
 
     if (task.skipCount >= 3) {
-      setCompletionMessage(`That one was ${task.skipCount} days old. Done.`);
+      setCompletionMessage(`That one was ${task.skipCount} skips. Done.`);
     } else {
       setCompletionMessage("Done.");
     }
 
     setShowDone(true);
 
+    try {
+      await completeTask(taskId);
+    } catch {
+      toast.error("Could not mark done.");
+      setShowDone(false);
+      return;
+    }
+
     setTimeout(() => {
-      setTasks(tasks.filter((t) => t.id !== taskId));
       setShowDone(false);
       setCompletedTaskTitle("");
       setCompletionMessage("Done.");
     }, 2000);
   };
 
-  const handleSkip = (taskId: string) => {
-    setTasks((prev) =>
-      prev
-        .map((t) =>
-          t.id === taskId ? { ...t, skipCount: t.skipCount + 1 } : t,
-        )
-        .sort((a, b) => {
-          if (a.id === taskId) return 1;
-          if (b.id === taskId) return -1;
-          return 0;
-        }),
-    );
-    toast("Rescheduled to later today.");
+  const handleSkip = async (taskId: string) => {
+    try {
+      await skipTask(taskId);
+      toast("Rescheduled to later today.");
+    } catch {
+      toast.error("Could not skip task.");
+    }
   };
 
-  const handleAddTask = (e: React.FormEvent) => {
+  const handleAddTask = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
 
@@ -120,21 +157,31 @@ export function DoNextScreen() {
       return;
     }
 
-    const newTask: Task = {
-      id: Date.now().toString(),
-      title: input,
-      rationaleText: "Added just now. You'll tackle this soon.",
-      skipCount: 0,
-      actionType: "generic",
-      status: "active",
-    };
-
-    setTasks([...tasks, newTask]);
+    const raw = input;
     setInput("");
-    toast("Task added");
+
+    try {
+      await addTask(raw);
+      toast("Task added");
+    } catch (err) {
+      if (
+        err instanceof LlmEngineError &&
+        err.code === "FREE_ACTIVE_TASK_LIMIT"
+      ) {
+        setShowFreeLimit(true);
+        return;
+      }
+      if (
+        err instanceof LlmEngineError &&
+        err.code === "READ_ONLY_DOWNGRADE"
+      ) {
+        toast.error("Your plan is read-only. Upgrade to add tasks.");
+        return;
+      }
+    }
   };
 
-  if (!authReady) {
+  if (!authReady || (tasksLoading && tasks.length === 0)) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-cream">
         <div className="h-12 w-12 animate-spin rounded-full border-4 border-stone/30 border-t-orange" />
@@ -200,13 +247,14 @@ export function DoNextScreen() {
       </nav>
 
       <div className="mx-auto max-w-4xl px-6 py-8">
-        <form onSubmit={handleAddTask} className="mb-12">
+        <form onSubmit={(e) => void handleAddTask(e)} className="mb-12">
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="What do you need to get done?"
             rows={3}
-            className="w-full resize-none rounded-2xl border-2 border-parchment bg-white px-6 py-4 outline-none transition-colors focus:border-orange"
+            disabled={addTaskPending}
+            className="w-full resize-none rounded-2xl border-2 border-parchment bg-white px-6 py-4 outline-none transition-colors focus:border-orange disabled:opacity-60"
           />
         </form>
 
@@ -262,8 +310,9 @@ export function DoNextScreen() {
                     )}
                     <button
                       type="button"
-                      onClick={() => handleDone(topTask.id)}
-                      className="flex items-center gap-2 rounded-full bg-cream/20 px-6 py-3 text-cream transition-colors hover:bg-cream/30"
+                      disabled={completeTaskPending}
+                      onClick={() => void handleDone(topTask.id)}
+                      className="flex items-center gap-2 rounded-full bg-cream/20 px-6 py-3 text-cream transition-colors hover:bg-cream/30 disabled:opacity-50"
                       style={{ fontWeight: 600 }}
                     >
                       <Check className="h-4 w-4" />
@@ -271,8 +320,9 @@ export function DoNextScreen() {
                     </button>
                     <button
                       type="button"
-                      onClick={() => handleSkip(topTask.id)}
-                      className="flex items-center gap-2 rounded-full bg-cream/10 px-6 py-3 text-cream/70 transition-colors hover:bg-cream/20"
+                      disabled={skipTaskPending}
+                      onClick={() => void handleSkip(topTask.id)}
+                      className="flex items-center gap-2 rounded-full bg-cream/10 px-6 py-3 text-cream/70 transition-colors hover:bg-cream/20 disabled:opacity-50"
                     >
                       <SkipForward className="h-4 w-4" />
                       Skip

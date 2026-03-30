@@ -1,53 +1,144 @@
-import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useCallback, useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router";
 import { Check } from "lucide-react";
+
+import { useAuth } from "~/lib/auth";
+import {
+  invokeStripeCheckout,
+  StripeInvokeError,
+} from "~/lib/functions/stripe";
+import { supabase } from "~/lib/supabase";
 
 export function UpgradeScreen() {
   const navigate = useNavigate();
-  const [selectedPlan, setSelectedPlan] = useState<"monthly" | "annual">("monthly");
+  const [params] = useSearchParams();
+  const { session, user, profile, refreshProfile, signInWithGoogle } =
+    useAuth();
+  const [selectedPlan, setSelectedPlan] = useState<"monthly" | "annual">(
+    "monthly",
+  );
+  const [ctaLoading, setCtaLoading] = useState(false);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
+  const [syncPending, setSyncPending] = useState(false);
 
-  const handleCheckout = () => {
-    // In real app, would open Stripe Checkout
-    alert("This would open Stripe Checkout in production");
-    navigate("/app");
+  const completed =
+    profile?.lifetime_completions_count ?? 0;
+  const phase = profile?.subscription_phase ?? "freemium";
+
+  const proofLine =
+    phase === "trialing"
+      ? `In 14 days, you completed ${completed} tasks.`
+      : `${completed} tasks completed so far — unlock unlimited + calendar.`;
+
+  const isCheckoutSuccess = params.get("checkout") === "success";
+
+  const pollUntilPaid = useCallback(async () => {
+    if (!user?.id) return;
+    setSyncPending(true);
+    for (let i = 0; i < 30; i++) {
+      const { data } = await supabase
+        .from("profiles")
+        .select("subscription_status")
+        .eq("id", user.id)
+        .maybeSingle();
+      const st = data?.subscription_status as string | undefined;
+      if (st === "paid" || st === "trialing") {
+        await refreshProfile();
+        setSyncPending(false);
+        navigate("/app", { replace: true });
+        return;
+      }
+      await new Promise((r) => setTimeout(r, 1200));
+      await refreshProfile();
+    }
+    setSyncPending(false);
+  }, [user?.id, refreshProfile, navigate]);
+
+  useEffect(() => {
+    if (!isCheckoutSuccess || !user?.id) return;
+    void pollUntilPaid();
+  }, [isCheckoutSuccess, user?.id, pollUntilPaid]);
+
+  const handleCheckout = async () => {
+    setCheckoutError(null);
+    if (user?.is_anonymous === true) {
+      await signInWithGoogle();
+      return;
+    }
+    setCtaLoading(true);
+    try {
+      const origin = window.location.origin;
+      const { url } = await invokeStripeCheckout(session, {
+        price_key: selectedPlan,
+        success_url: `${origin}/app/upgrade?checkout=success`,
+        cancel_url: `${origin}/app/upgrade?checkout=cancel`,
+      });
+      window.location.href = url;
+    } catch (e) {
+      if (e instanceof StripeInvokeError) {
+        setCheckoutError(
+          e.code === "SERVER_CONFIG"
+            ? "Checkout isn’t configured yet."
+            : "Couldn’t start checkout. Try again in a few seconds.",
+        );
+      } else {
+        setCheckoutError(
+          "Couldn’t start checkout. Try again in a few seconds.",
+        );
+      }
+    } finally {
+      setCtaLoading(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-cream">
-      <div className="max-w-2xl mx-auto px-6 py-8">
+      <div className="mx-auto max-w-2xl px-6 py-8">
         <button
+          type="button"
           onClick={() => navigate("/app")}
-          className="text-stone hover:text-espresso transition-colors mb-8"
+          className="mb-8 text-stone transition-colors hover:text-espresso"
         >
           ← Back
         </button>
 
-        <h1 className="text-4xl mb-4" style={{ fontWeight: 700 }}>
-          Unlock unlimited tasks + calendar scheduling
+        {syncPending && (
+          <p className="mb-6 rounded-2xl bg-linen px-4 py-3 text-sm text-stone">
+            Updating your account…
+          </p>
+        )}
+
+        <h1 className="mb-4 text-4xl" style={{ fontWeight: 700 }}>
+          Unlock unlimited tasks + calendar scheduling — $6.99/month.
         </h1>
-        <p className="text-stone mb-12">
-          You've completed 12 tasks so far — unlock unlimited + calendar.
+        <p className="mb-4 text-stone leading-relaxed">{proofLine}</p>
+        <p className="mb-12 text-sm text-stone leading-relaxed">
+          $49.99/year ($4.17/month) — start with a 14-day trial.
         </p>
 
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
-          {/* Monthly Plan */}
+        {checkoutError && (
+          <p className="mb-6 text-sm text-orange">{checkoutError}</p>
+        )}
+
+        <div className="mb-8 grid gap-6 md:grid-cols-2">
           <button
+            type="button"
             onClick={() => setSelectedPlan("monthly")}
-            className={`bg-linen rounded-2xl p-8 text-left border-2 transition-all ${
+            className={`rounded-2xl border-2 bg-linen p-8 text-left transition-all ${
               selectedPlan === "monthly"
                 ? "border-orange shadow-lg"
                 : "border-transparent hover:border-parchment"
             }`}
           >
             {selectedPlan === "monthly" && (
-              <div className="flex justify-end mb-2">
-                <Check className="w-6 h-6 text-orange" />
+              <div className="mb-2 flex justify-end">
+                <Check className="h-6 w-6 text-orange" />
               </div>
             )}
-            <h3 className="text-2xl mb-2" style={{ fontWeight: 700 }}>
+            <h3 className="mb-2 text-2xl" style={{ fontWeight: 700 }}>
               Monthly
             </h3>
-            <p className="text-4xl mb-4" style={{ fontWeight: 700 }}>
+            <p className="mb-4 text-4xl" style={{ fontWeight: 700 }}>
               $6.99<span className="text-lg text-stone">/month</span>
             </p>
             <ul className="space-y-2 text-sm text-stone">
@@ -57,30 +148,30 @@ export function UpgradeScreen() {
             </ul>
           </button>
 
-          {/* Annual Plan */}
           <button
+            type="button"
             onClick={() => setSelectedPlan("annual")}
-            className={`bg-linen rounded-2xl p-8 text-left border-2 transition-all relative ${
+            className={`relative rounded-2xl border-2 bg-linen p-8 text-left transition-all ${
               selectedPlan === "annual"
                 ? "border-orange shadow-lg"
                 : "border-transparent hover:border-parchment"
             }`}
           >
-            <div className="absolute -top-3 right-4 bg-orange text-white text-xs px-3 py-1 rounded-full">
+            <div className="absolute -top-3 right-4 rounded-full bg-orange px-3 py-1 text-xs text-white">
               Save 29%
             </div>
             {selectedPlan === "annual" && (
-              <div className="flex justify-end mb-2">
-                <Check className="w-6 h-6 text-orange" />
+              <div className="mb-2 flex justify-end">
+                <Check className="h-6 w-6 text-orange" />
               </div>
             )}
-            <h3 className="text-2xl mb-2" style={{ fontWeight: 700 }}>
+            <h3 className="mb-2 text-2xl" style={{ fontWeight: 700 }}>
               Annual
             </h3>
-            <p className="text-4xl mb-4" style={{ fontWeight: 700 }}>
+            <p className="mb-4 text-4xl" style={{ fontWeight: 700 }}>
               $49.99<span className="text-lg text-stone">/year</span>
             </p>
-            <p className="text-sm text-stone mb-4">($4.17/month)</p>
+            <p className="mb-4 text-sm text-stone">($4.17/month)</p>
             <ul className="space-y-2 text-sm text-stone">
               <li>✓ Unlimited tasks</li>
               <li>✓ Calendar scheduling</li>
@@ -90,11 +181,17 @@ export function UpgradeScreen() {
         </div>
 
         <button
-          onClick={handleCheckout}
-          className="w-full px-6 py-4 bg-ink text-cream rounded-2xl hover:opacity-90 transition-opacity mb-4"
+          type="button"
+          disabled={ctaLoading || syncPending}
+          onClick={() => void handleCheckout()}
+          className="mb-4 w-full rounded-2xl bg-ink px-6 py-4 text-cream transition-opacity hover:opacity-90 disabled:opacity-50"
           style={{ fontWeight: 600 }}
         >
-          Continue to Checkout
+          {user?.is_anonymous === true
+            ? "Sign in with Google to continue"
+            : ctaLoading
+              ? "Redirecting…"
+              : "Continue to Checkout"}
         </button>
 
         <p className="text-center text-sm text-stone">

@@ -1,1 +1,1 @@
-export type { ProfileRow } from "~/lib/database.types";
+export type { ProfileRow, TaskInsert, TaskRow } from "~/lib/database.types";

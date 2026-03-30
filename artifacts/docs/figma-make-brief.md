@@ -1,28 +1,74 @@
 # Figma Make Brief — Nudge
 
+**Visual source of truth:** Open **`artifacts/docs/nudge-branding.html`** in a browser and keep it beside Figma Make while generating UI. That file is **Nudge Brand Identity v1.0 — March 2026**: wordmark, standalone **N**, app icon + stripe bar, warm stripe usage grid, full palette swatches, **In Context** mocks (Do Next card + Morning Plan), and **§07 Usage Rules** (Do / Don’t). This brief duplicates the decisions Make needs in markdown; **if anything conflicts, follow the branding HTML + EDS.**
+
+---
+
 ## Brand Context (paste into Figma Make custom rules)
 
+### Identity
+
 - **App name:** Nudge  
-- **Tagline (external):** The app that plans your day — and tells you why.  
-- **Visual register:** Warm analog, retro-modern — cream “paper” surfaces, **Ink Black** as primary action (not blue), confident **16px** corner radius on cards, generous whitespace (24px minimum between cards). Feels like a notebook + calm colleague, not a cold SaaS dashboard.  
-- **Signature mark:** **Warm stripe** — horizontal gradient bar **Burnt Orange → Terra Red → Deep Brown** (4px height on cards/headers). **Bottom of app icon** uses the same stripe family; wordmark may use gradient underline on “N”. Reference: `artifacts/docs/nudge-branding.html`.  
-- **Brand colors (hex):**  
-  - Ink Black `#1A1A1A` — primary buttons, active “Do next” card background with white text  
-  - Warm Cream `#F2E8DA` — page background  
-  - Dark Espresso `#2C1810` — primary text on light  
-  - Linen `#EDE4D8` — inactive cards, panels  
-  - Warm Stone `#8B7E74` — rationale, metadata, secondary text  
-  - Parchment `#DDD4C8` — dividers  
-  - Burnt Orange `#D4763C`, Terra Red `#C44B3F`, Deep Brown `#6B3A2E` — stripe + accents  
-  - Success `#5C8A5E` or `#5C8A5E` / EDS forest green for Done states  
-- **Typography:** **DM Sans** (Google Font) — weights 400–700; task titles 600; rationale **not italic**, 0.875rem Muted/Stone color. No Inter as primary.  
-- **Iconography:** Lucide-style line icons, 1.5px stroke, ~20px; functional only (check, arrow-right, clock, skip, mail, phone, calendar, link). **No emoji** in UI.  
-- **Platform:** Mobile-first **PWA**, **375px** baseline; responsive through morning plan timeline (desktop gets wider timeline).  
-- **Dark mode:** Yes v1 — warm dark surfaces per EDS § Dark Mode; stripe colors stay recognizable.
+- **Wordmark:** `DM Sans`, weight **800**, tight letter-spacing (~`-0.02em`). First letter **N** may carry a **horizontal gradient rule** under the baseline: `linear-gradient(90deg, #D4763C, #C44B3F, #6B3A2E)` (on cream/light: full Nudge wordmark in Espresso; on ink: wordmark in cream, underline can omit Deep Brown or use orange→terra only per brand sheet dark variant).  
+- **Standalone N:** Same weight and **N**-underline treatment for favicon / small mark contexts (see branding §02).  
+- **Tagline (marketing):** The app that plans your day — and tells you why.  
+
+### Design tokens (from `nudge-branding.html` `:root`)
+
+Use these names/hex in Tailwind `@theme` or CSS variables so Make output maps cleanly to the repo:
+
+| Token | Hex | Role |
+|---|---|---|
+| `--ink` | `#1A1A1A` | Primary actions, CTAs, app icon ground, active Do-next card |
+| `--cream` | `#F2E8DA` | Page background |
+| `--espresso` | `#2C1810` | Primary text on light |
+| `--linen` | `#EDE4D8` | Cards, panels, inactive list rows |
+| `--stone` | `#8B7E74` | Secondary text, rationale line on **dark** cards (use muted contrast) |
+| `--parchment` | `#DDD4C8` | Dividers, subtle borders |
+| `--orange` | `#D4763C` | Burnt Orange — accent, time chip tint, stripe band 1 |
+| *(mid)* | `#C8603C` | Optional **second band** in 4-segment stripe (matches branding app icon) |
+| `--terra` | `#C44B3F` | Terra Red — stripe band, urgency |
+| `--brown` | `#6B3A2E` | Deep Brown — stripe anchor |
+| `--success` | `#5C8A5E` | Completion / Done tone |
+| `--white` | `#FEFCF9` | **External / marketing** wordmark on white only — not the main app page fill |
+
+**Visual register:** Warm analog, retro-modern — notebook-like cream surfaces, **Ink** as the action color (not blue). **16px `border-radius` on cards** (per branding §07). **Minimum 24px** whitespace between major blocks.
+
+### Warm stripe (signature) — from branding §04
+
+- **Default UI accent:** **4px-high** horizontal bar, **four segments** left→right: `#D4763C` · `#C8603C` · `#C44B3F` · `#6B3A2E`.  
+- **Larger hero / showcase:** Same four colors as proportional bands (see `.stripe-full` in HTML).  
+- **Where it appears in-product** (usage grid in branding file):  
+  1. **Morning plan card** — 4px bar at **top** of daily plan preview.  
+  2. **Avoidance / skip-escalated task** — 4px **top-bar** on the active task card (not a left border).  
+  3. **Landing hero** — subtle decorative stripe element (not a full background).  
+  4. **Share card** — header bar on weekly review share cards.  
+- **App icon:** Ink field, cream **N**, **stripe at bottom** of icon (4 bands at large sizes; 2 bands at 32/16px per branding §03).  
+- **Never:** full-screen stripe background; animated stripe; more than four horizontal bands in one stripe.
+
+### Typography & icons
+
+- **Font:** **DM Sans** only (Google Fonts import as in branding HTML). Weights 300–800 available; **800** for wordmark / strong headlines, **600** for task titles, **400–500** for body.  
+- **Rationale line:** Same family, **not italic**, smaller size, stone/muted color on light **or** on dark card per EDS.  
+- **Icons:** Lucide-style **line** icons (~20px, ~1.5px stroke). **No emoji** in UI (the branding HTML mock shows a mail glyph — replace with a **Mail** icon in Make).
+
+### Platform
+
+- Mobile-first **PWA**, **375px** baseline; morning plan timeline can breathe on wider viewports.  
+- **Dark mode:** Implement per **EDS** (warm dark surfaces); keep stripe hues recognizable; wordmark on dark uses **light** treatment from branding §01.
+
+### “In Context” reference mocks (branding §06)
+
+Recreate the **structure** (not new layouts):
+
+1. **Do Next:** Ink card, cream title text, rationale in muted tone, **time pill** (orange-tinted fill), meta row (icon + duration), **Start →** as cream pill on ink.  
+2. **Morning Plan:** Dark header surface optional; **title + task count**; **4px stripe** under header row; **time column + task/meeting rows** (task rows: warm tinted bar; meetings: subdued bar); **Approve** as cream primary button full-width.
+
+---
 
 ## Design Principles (negative constraints for Make)
 
-From EDS §4 — enforce as hard rules:
+From **EDS §4** — enforce together with branding **§07 Do** list:
 
 - **One task first:** Default view is a single **Do next** card (active/black treatment). Full list is below the fold — never lead with a grid of tasks.  
 - **Reason on every recommendation:** Every top task shows a one-line rationale + title; no “High priority” labels.  
@@ -32,23 +78,39 @@ From EDS §4 — enforce as hard rules:
 - **Earned empty:** All-done state is minimal — no tips, no “add more” CTA.  
 - **Top-bar accents only:** Use **4px warm stripe** on top of card/preview for emphasis (morning plan, avoidance-escalated task, save-moment card, share card header). **Do not** use colored `border-left` on cards — treated as off-brand / AI slop (see Anti-patterns).
 
-## Anti-patterns (never generate these)
+## Brand sheet §07 — Do (paste or enforce)
 
-From EDS §8 Forbidden Patterns + brand sheet §07 Don’t + `design-system.mdc` Slop Guard:
+From **`nudge-branding.html`** — Usage Rules → **Do**:
 
-- **No colored left-border accent bars** on cards, panels, or list rows (`border-left` emphasis). Use **top stripe** or background/tint instead.  
-- No purple/violet/indigo gradient backgrounds.  
-- No 3-column icon-in-circle “feature” grids on landing.  
-- No centered wall-of-text heroes; no “Unlock the power of…”, “Game-changing…”, “Revolutionize…”.  
-- No confetti, particles, or mascot illustrations.  
+- Use the warm stripe as a **top-bar accent (4px)**.  
+- Maintain **generous whitespace (24px min)**.  
+- Use **16px border-radius** on all cards.  
+- Use **Ink Black** for primary actions.  
+- Let the **cream** background breathe.  
+- Use the **standalone N** for small contexts (favicon, nav compact).
+
+## Anti-patterns — Don’t (from brand §07 + EDS + Slop Guard)
+
+From **`nudge-branding.html`** — Usage Rules → **Don’t** (verbatim intent):
+
+- **No left-border accents on cards** (called out in brand sheet as an AI-design tell). Use top stripe or surface color instead.  
+- **No** stripe as a **full** background.  
+- **No** gradients **beyond** the warm stripe.  
+- **No blue** anywhere in the product.  
+- **No** illustrations, mascots, or **emoji**.  
+- **No pure white `#FFF`** as the main app background (use Warm Cream; `#FEFCF9` only for external/wordmark-on-white if needed).  
+- **Do not animate** the stripe or logo mark.
+
+Also from EDS / `design-system.mdc`:
+
+- No purple/violet/indigo marketing gradients.  
+- No 3-column icon-in-circle feature grids on landing.  
+- No generic hero copy (“Unlock the power…”, “Revolutionize…”).  
+- No confetti or particle celebrations.  
 - No habit XP, badges, leaderboards.  
-- No onboarding carousel or “Welcome to Nudge” full-screen — first app screen is the capture field.  
-- No modal stacks for trivial confirms; modals only where northstar requires (decomposition confirm, connect Google, paywall gate).  
-- No FAB; capture is top **always**.  
-- No raw blue UI chrome for primary actions — **black/cream** system.  
-- No animating the warm stripe or logo.  
-- No pure `#FFFFFF` page background — use Warm Cream.  
-- No calendar month grid inside Nudge — timeline preview only (Nudge is not a calendar app).
+- No onboarding carousel — first app screen = capture input.  
+- No FAB — input stays visible at top.  
+- No calendar **month** view inside Nudge — timeline preview only.
 
 ## Mock Data Guidance
 
@@ -169,8 +231,9 @@ After Make: copy **all** exported code into **`src/make-import/`** (or project c
 
 ## Completion checklist
 
+- [ ] **`nudge-branding.html`** reviewed: wordmark, 4-band stripe, palette, §06 mocks, §07 Do/Don’t reflected in Make output.  
 - [ ] All 9 routes represented with working navigation between them (mock router OK).  
 - [ ] Landing FAQ items match northstar §7b verbatim.  
-- [ ] Warm stripe only as **horizontal top bar** — no left-border callout cards.  
+- [ ] Warm stripe only as **horizontal top bar** (4px, four segments) — **no** left-border callout cards.  
 - [ ] Dopamine timings stubbed (CSS transitions) for completion + weekly count + plan approved.  
-- [ ] Dark mode toggle functional in prototype.
+- [ ] Dark mode toggle functional in prototype; wordmark/light treatments match branding §01 on dark surfaces.

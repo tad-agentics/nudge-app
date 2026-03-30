@@ -2,10 +2,23 @@ import { useNavigate } from "react-router";
 import { Calendar, Bell, CreditCard, LogOut } from "lucide-react";
 
 import { useAuth } from "~/lib/auth";
+import {
+  invokeStripePortal,
+  StripeInvokeError,
+} from "~/lib/functions/stripe";
+import { supabase } from "~/lib/supabase";
 
 export function SettingsScreen() {
   const navigate = useNavigate();
-  const { profile, profileLoading, user, signOut } = useAuth();
+  const {
+    session,
+    profile,
+    profileLoading,
+    user,
+    signOut,
+    refreshProfile,
+    signInWithGoogle,
+  } = useAuth();
 
   const displayName = profile?.display_name ?? user?.user_metadata?.full_name ?? "—";
   const email = profile?.email ?? user?.email ?? "—";
@@ -14,6 +27,34 @@ export function SettingsScreen() {
     profile?.subscription_status === "trialing"
       ? "Paid"
       : "Free";
+
+  const dontSchedule =
+    profile != null && profile.calendar_scheduling_enabled === false;
+
+  const handleDontScheduleChange = async (checked: boolean) => {
+    if (!user?.id) return;
+    const { error } = await supabase
+      .from("profiles")
+      .update({ calendar_scheduling_enabled: !checked })
+      .eq("id", user.id);
+    if (!error) await refreshProfile();
+  };
+
+  const handleManageSubscription = async () => {
+    try {
+      const { url } = await invokeStripePortal(
+        session,
+        `${window.location.origin}/app/settings`,
+      );
+      window.location.href = url;
+    } catch (e) {
+      const msg =
+        e instanceof StripeInvokeError && e.code === "NO_CUSTOMER"
+          ? "Subscribe once from Upgrade, then you can manage billing here."
+          : "Couldn’t open billing portal. Try again.";
+      window.alert(msg);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-cream">
@@ -63,6 +104,7 @@ export function SettingsScreen() {
           <div className="divide-y divide-parchment rounded-2xl bg-linen">
             <button
               type="button"
+              onClick={() => void signInWithGoogle()}
               className="flex w-full items-center justify-between p-6 text-left transition-colors hover:bg-parchment/50"
             >
               <div className="flex items-center gap-3">
@@ -71,7 +113,7 @@ export function SettingsScreen() {
                   <p style={{ fontWeight: 600 }}>Connect Google Calendar</p>
                   <p className="text-sm text-stone">
                     {profile?.calendar_provider === "google"
-                      ? "Connected"
+                      ? "Connected — tap to re-link if something broke"
                       : "Not connected"}
                   </p>
                 </div>
@@ -85,7 +127,13 @@ export function SettingsScreen() {
                 </p>
               </div>
               <label className="relative inline-block h-6 w-12">
-                <input type="checkbox" className="peer sr-only" />
+                <input
+                  type="checkbox"
+                  className="peer sr-only"
+                  checked={dontSchedule}
+                  onChange={(e) => void handleDontScheduleChange(e.target.checked)}
+                  disabled={profileLoading || !user?.id}
+                />
                 <div className="h-full w-full cursor-pointer rounded-full bg-stone/30 transition-colors peer-checked:bg-orange" />
                 <div className="absolute left-0.5 top-0.5 h-5 w-5 cursor-pointer rounded-full bg-white transition-transform peer-checked:translate-x-6" />
               </label>
@@ -115,22 +163,43 @@ export function SettingsScreen() {
 
         <div className="mb-8">
           <h2 className="mb-3 ml-1 text-sm text-stone">Subscription</h2>
-          <button
-            type="button"
-            onClick={() => navigate("/app/upgrade")}
-            className="flex w-full items-center justify-between rounded-2xl bg-linen p-6 text-left transition-colors hover:bg-parchment/50"
-          >
-            <div className="flex items-center gap-3">
-              <CreditCard className="h-5 w-5 text-stone" />
-              <div>
-                <p style={{ fontWeight: 600 }}>Upgrade to Paid</p>
-                <p className="text-sm text-stone">
-                  {planLabel} · {planLabel === "Free" ? "5 tasks limit" : "Subscriber"}
-                </p>
-              </div>
-            </div>
-            <span className="text-stone">→</span>
-          </button>
+          <div className="space-y-3">
+            {planLabel === "Paid" ? (
+              <button
+                type="button"
+                onClick={() => void handleManageSubscription()}
+                className="flex w-full items-center justify-between rounded-2xl bg-linen p-6 text-left transition-colors hover:bg-parchment/50"
+              >
+                <div className="flex items-center gap-3">
+                  <CreditCard className="h-5 w-5 text-stone" />
+                  <div>
+                    <p style={{ fontWeight: 600 }}>Manage subscription</p>
+                    <p className="text-sm text-stone">
+                      Billing, payment method, cancel — via Stripe
+                    </p>
+                  </div>
+                </div>
+                <span className="text-stone">→</span>
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => navigate("/app/upgrade")}
+                className="flex w-full items-center justify-between rounded-2xl bg-linen p-6 text-left transition-colors hover:bg-parchment/50"
+              >
+                <div className="flex items-center gap-3">
+                  <CreditCard className="h-5 w-5 text-stone" />
+                  <div>
+                    <p style={{ fontWeight: 600 }}>Upgrade to Paid</p>
+                    <p className="text-sm text-stone">
+                      {planLabel} · 5 tasks limit
+                    </p>
+                  </div>
+                </div>
+                <span className="text-stone">→</span>
+              </button>
+            )}
+          </div>
         </div>
 
         <button
